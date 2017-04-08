@@ -8,12 +8,12 @@ type Uint32 struct {
 	value *uint32
 }
 
-// Of wraps the value in an Optional.
-func OfUint32(value uint32) Uint32 {
+// For wraps the value in an Optional.
+func ForUint32(value uint32) Uint32 {
 	return Uint32{&value}
 }
 
-func OfNilableUint32(ptr *uint32) Uint32 {
+func ForUint32Ptr(ptr *uint32) Uint32 {
 	return Uint32{ptr}
 }
 

@@ -8,12 +8,12 @@ type Int8 struct {
 	value *int8
 }
 
-// Of wraps the value in an Optional.
-func OfInt8(value int8) Int8 {
+// For wraps the value in an Optional.
+func ForInt8(value int8) Int8 {
 	return Int8{&value}
 }
 
-func OfNilableInt8(ptr *int8) Int8 {
+func ForInt8Ptr(ptr *int8) Int8 {
 	return Int8{ptr}
 }
 

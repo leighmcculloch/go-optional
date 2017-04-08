@@ -8,12 +8,12 @@ type String struct {
 	value *string
 }
 
-// Of wraps the value in an Optional.
-func OfString(value string) String {
+// For wraps the value in an Optional.
+func ForString(value string) String {
 	return String{&value}
 }
 
-func OfNilableString(ptr *string) String {
+func ForStringPtr(ptr *string) String {
 	return String{ptr}
 }
 

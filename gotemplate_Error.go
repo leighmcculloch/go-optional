@@ -8,12 +8,12 @@ type Error struct {
 	value *error
 }
 
-// Of wraps the value in an Optional.
-func OfError(value error) Error {
+// For wraps the value in an Optional.
+func ForError(value error) Error {
 	return Error{&value}
 }
 
-func OfNilableError(ptr *error) Error {
+func ForErrorPtr(ptr *error) Error {
 	return Error{ptr}
 }
 

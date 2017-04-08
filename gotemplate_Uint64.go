@@ -8,12 +8,12 @@ type Uint64 struct {
 	value *uint64
 }
 
-// Of wraps the value in an Optional.
-func OfUint64(value uint64) Uint64 {
+// For wraps the value in an Optional.
+func ForUint64(value uint64) Uint64 {
 	return Uint64{&value}
 }
 
-func OfNilableUint64(ptr *uint64) Uint64 {
+func ForUint64Ptr(ptr *uint64) Uint64 {
 	return Uint64{ptr}
 }
 

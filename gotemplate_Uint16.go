@@ -8,12 +8,12 @@ type Uint16 struct {
 	value *uint16
 }
 
-// Of wraps the value in an Optional.
-func OfUint16(value uint16) Uint16 {
+// For wraps the value in an Optional.
+func ForUint16(value uint16) Uint16 {
 	return Uint16{&value}
 }
 
-func OfNilableUint16(ptr *uint16) Uint16 {
+func ForUint16Ptr(ptr *uint16) Uint16 {
 	return Uint16{ptr}
 }
 

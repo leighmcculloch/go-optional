@@ -8,12 +8,12 @@ type Float64 struct {
 	value *float64
 }
 
-// Of wraps the value in an Optional.
-func OfFloat64(value float64) Float64 {
+// For wraps the value in an Optional.
+func ForFloat64(value float64) Float64 {
 	return Float64{&value}
 }
 
-func OfNilableFloat64(ptr *float64) Float64 {
+func ForFloat64Ptr(ptr *float64) Float64 {
 	return Float64{ptr}
 }
 

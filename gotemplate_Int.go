@@ -8,12 +8,12 @@ type Int struct {
 	value *int
 }
 
-// Of wraps the value in an Optional.
-func OfInt(value int) Int {
+// For wraps the value in an Optional.
+func ForInt(value int) Int {
 	return Int{&value}
 }
 
-func OfNilableInt(ptr *int) Int {
+func ForIntPtr(ptr *int) Int {
 	return Int{ptr}
 }
 

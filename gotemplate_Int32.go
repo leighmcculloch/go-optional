@@ -8,12 +8,12 @@ type Int32 struct {
 	value *int32
 }
 
-// Of wraps the value in an Optional.
-func OfInt32(value int32) Int32 {
+// For wraps the value in an Optional.
+func ForInt32(value int32) Int32 {
 	return Int32{&value}
 }
 
-func OfNilableInt32(ptr *int32) Int32 {
+func ForInt32Ptr(ptr *int32) Int32 {
 	return Int32{ptr}
 }
 

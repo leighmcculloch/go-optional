@@ -8,12 +8,12 @@ type Complex128 struct {
 	value *complex128
 }
 
-// Of wraps the value in an Optional.
-func OfComplex128(value complex128) Complex128 {
+// For wraps the value in an Optional.
+func ForComplex128(value complex128) Complex128 {
 	return Complex128{&value}
 }
 
-func OfNilableComplex128(ptr *complex128) Complex128 {
+func ForComplex128Ptr(ptr *complex128) Complex128 {
 	return Complex128{ptr}
 }
 
