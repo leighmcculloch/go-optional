@@ -7,7 +7,7 @@ Perform operations only if the optional is not empty:
 
 	values := []optional.Int{
 		optional.EmptyInt(),
-		optional.ForInt(2017),
+		optional.OfInt(2017),
 	}
 
 	for _, v := range values {
@@ -23,7 +23,7 @@ Perform operations using an optional with a default:
 
 	values := []optional.Int{
 		optional.EmptyInt(),
-		optional.ForInt(2017),
+		optional.OfInt(2016),
 	}
 
 	for _, v := range values {

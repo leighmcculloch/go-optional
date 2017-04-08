@@ -8,12 +8,12 @@ type Complex64 struct {
 	value *complex64
 }
 
-// For wraps the value in an Optional.
-func ForComplex64(value complex64) Complex64 {
+// Of wraps the value in an Optional.
+func OfComplex64(value complex64) Complex64 {
 	return Complex64{&value}
 }
 
-func ForComplex64Ptr(ptr *complex64) Complex64 {
+func OfComplex64Ptr(ptr *complex64) Complex64 {
 	return Complex64{ptr}
 }
 

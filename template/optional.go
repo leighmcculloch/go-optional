@@ -10,12 +10,12 @@ type Optional struct {
 	value *T
 }
 
-// For wraps the value in an Optional.
-func For(value T) Optional {
+// Of wraps the value in an Optional.
+func Of(value T) Optional {
 	return Optional{&value}
 }
 
-func ForOptionalPtr(ptr *T) Optional {
+func OfOptionalPtr(ptr *T) Optional {
 	return Optional{ptr}
 }
 

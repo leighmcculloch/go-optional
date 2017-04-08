@@ -8,12 +8,12 @@ type Float32 struct {
 	value *float32
 }
 
-// For wraps the value in an Optional.
-func ForFloat32(value float32) Float32 {
+// Of wraps the value in an Optional.
+func OfFloat32(value float32) Float32 {
 	return Float32{&value}
 }
 
-func ForFloat32Ptr(ptr *float32) Float32 {
+func OfFloat32Ptr(ptr *float32) Float32 {
 	return Float32{ptr}
 }
 

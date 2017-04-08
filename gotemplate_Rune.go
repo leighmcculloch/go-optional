@@ -8,12 +8,12 @@ type Rune struct {
 	value *rune
 }
 
-// For wraps the value in an Optional.
-func ForRune(value rune) Rune {
+// Of wraps the value in an Optional.
+func OfRune(value rune) Rune {
 	return Rune{&value}
 }
 
-func ForRunePtr(ptr *rune) Rune {
+func OfRunePtr(ptr *rune) Rune {
 	return Rune{ptr}
 }
 

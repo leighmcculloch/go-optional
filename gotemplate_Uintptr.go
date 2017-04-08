@@ -8,12 +8,12 @@ type Uintptr struct {
 	value *uintptr
 }
 
-// For wraps the value in an Optional.
-func ForUintptr(value uintptr) Uintptr {
+// Of wraps the value in an Optional.
+func OfUintptr(value uintptr) Uintptr {
 	return Uintptr{&value}
 }
 
-func ForUintptrPtr(ptr *uintptr) Uintptr {
+func OfUintptrPtr(ptr *uintptr) Uintptr {
 	return Uintptr{ptr}
 }
 

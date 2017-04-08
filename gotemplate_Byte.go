@@ -8,12 +8,12 @@ type Byte struct {
 	value *byte
 }
 
-// For wraps the value in an Optional.
-func ForByte(value byte) Byte {
+// Of wraps the value in an Optional.
+func OfByte(value byte) Byte {
 	return Byte{&value}
 }
 
-func ForBytePtr(ptr *byte) Byte {
+func OfBytePtr(ptr *byte) Byte {
 	return Byte{ptr}
 }
 

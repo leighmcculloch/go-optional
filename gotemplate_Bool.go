@@ -8,12 +8,12 @@ type Bool struct {
 	value *bool
 }
 
-// For wraps the value in an Optional.
-func ForBool(value bool) Bool {
+// Of wraps the value in an Optional.
+func OfBool(value bool) Bool {
 	return Bool{&value}
 }
 
-func ForBoolPtr(ptr *bool) Bool {
+func OfBoolPtr(ptr *bool) Bool {
 	return Bool{ptr}
 }
 

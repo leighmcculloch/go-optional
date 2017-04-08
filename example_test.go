@@ -9,7 +9,7 @@ import (
 func ExampleInt_IfPresent_present() {
 	values := []optional.Int{
 		optional.EmptyInt(),
-		optional.ForInt(2017),
+		optional.OfInt(2017),
 	}
 
 	for _, v := range values {
@@ -25,7 +25,7 @@ func ExampleInt_IfPresent_present() {
 func ExampleInt_OrElse() {
 	values := []optional.Int{
 		optional.EmptyInt(),
-		optional.ForInt(2017),
+		optional.OfInt(2017),
 	}
 
 	for _, v := range values {

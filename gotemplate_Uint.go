@@ -8,12 +8,12 @@ type Uint struct {
 	value *uint
 }
 
-// For wraps the value in an Optional.
-func ForUint(value uint) Uint {
+// Of wraps the value in an Optional.
+func OfUint(value uint) Uint {
 	return Uint{&value}
 }
 
-func ForUintPtr(ptr *uint) Uint {
+func OfUintPtr(ptr *uint) Uint {
 	return Uint{ptr}
 }
 

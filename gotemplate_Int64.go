@@ -8,12 +8,12 @@ type Int64 struct {
 	value *int64
 }
 
-// For wraps the value in an Optional.
-func ForInt64(value int64) Int64 {
+// Of wraps the value in an Optional.
+func OfInt64(value int64) Int64 {
 	return Int64{&value}
 }
 
-func ForInt64Ptr(ptr *int64) Int64 {
+func OfInt64Ptr(ptr *int64) Int64 {
 	return Int64{ptr}
 }
 

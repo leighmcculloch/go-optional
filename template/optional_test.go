@@ -18,10 +18,10 @@ func TestIsPresent(t *testing.T) {
 		ExpectedIsPresent bool
 	}{
 		{Empty(), false},
-		{For(""), true},
-		{For("string"), true},
-		{ForOptionalPtr((*T)(nil)), false},
-		{ForOptionalPtr((*T)(&s)), true},
+		{Of(""), true},
+		{Of("string"), true},
+		{OfOptionalPtr((*T)(nil)), false},
+		{OfOptionalPtr((*T)(&s)), true},
 	}
 
 	for _, test := range tests {
@@ -40,10 +40,10 @@ func TestIfPresent(t *testing.T) {
 		ExpectedCalled bool
 	}{
 		{Empty(), false},
-		{For(""), true},
-		{For("string"), true},
-		{ForOptionalPtr((*T)(nil)), false},
-		{ForOptionalPtr((*T)(&s)), true},
+		{Of(""), true},
+		{Of("string"), true},
+		{OfOptionalPtr((*T)(nil)), false},
+		{OfOptionalPtr((*T)(&s)), true},
 	}
 
 	for _, test := range tests {
@@ -69,10 +69,10 @@ func TestOrElse(t *testing.T) {
 		ExpectedResult T
 	}{
 		{Empty(), orElse},
-		{For(""), ""},
-		{For("string"), "string"},
-		{ForOptionalPtr((*T)(nil)), orElse},
-		{ForOptionalPtr((*T)(&s)), "ptr to string"},
+		{Of(""), ""},
+		{Of("string"), "string"},
+		{OfOptionalPtr((*T)(nil)), orElse},
+		{OfOptionalPtr((*T)(&s)), "ptr to string"},
 	}
 
 	for _, test := range tests {
