@@ -66,6 +66,7 @@ func (o Uintptr) Else(elseValue uintptr) (value uintptr) {
 	return o.ElseFunc(func() uintptr { return elseValue })
 }
 
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Uintptr) String() string {
 	if o.IsPresent() {
 		var value uintptr

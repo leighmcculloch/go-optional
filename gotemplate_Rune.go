@@ -66,6 +66,7 @@ func (o Rune) Else(elseValue rune) (value rune) {
 	return o.ElseFunc(func() rune { return elseValue })
 }
 
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Rune) String() string {
 	if o.IsPresent() {
 		var value rune

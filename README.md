@@ -26,7 +26,7 @@ Take a pointer to something and make it an optional to force code you share it w
 		// use i here
 	})
 
-Support XML, JSON and other encoding packages out of the box, including omitempty:
+Support XML, JSON and other encoding packages out of the box, including omitempty without needing to use pointers:
 
 
 	s := struct {
@@ -297,6 +297,8 @@ Then adding a go generate comment for your type.
 #### <a name="pkg-examples">Examples</a>
 * [Int.Else](#example_Int_Else)
 * [Int.If (Present)](#example_Int_If_present)
+* [Int (XmlMarshal)](#example_Int_xmlMarshal)
+* [Int (XmlUnmarshal)](#example_Int_xmlUnmarshal)
 
 #### <a name="pkg-files">Package files</a>
 [doc.go](/src/github.com/leighmcculloch/optional/doc.go) [gotemplate_Bool.go](/src/github.com/leighmcculloch/optional/gotemplate_Bool.go) [gotemplate_Byte.go](/src/github.com/leighmcculloch/optional/gotemplate_Byte.go) [gotemplate_Complex128.go](/src/github.com/leighmcculloch/optional/gotemplate_Complex128.go) [gotemplate_Complex64.go](/src/github.com/leighmcculloch/optional/gotemplate_Complex64.go) [gotemplate_Error.go](/src/github.com/leighmcculloch/optional/gotemplate_Error.go) [gotemplate_Float32.go](/src/github.com/leighmcculloch/optional/gotemplate_Float32.go) [gotemplate_Float64.go](/src/github.com/leighmcculloch/optional/gotemplate_Float64.go) [gotemplate_Int.go](/src/github.com/leighmcculloch/optional/gotemplate_Int.go) [gotemplate_Int16.go](/src/github.com/leighmcculloch/optional/gotemplate_Int16.go) [gotemplate_Int32.go](/src/github.com/leighmcculloch/optional/gotemplate_Int32.go) [gotemplate_Int64.go](/src/github.com/leighmcculloch/optional/gotemplate_Int64.go) [gotemplate_Int8.go](/src/github.com/leighmcculloch/optional/gotemplate_Int8.go) [gotemplate_Rune.go](/src/github.com/leighmcculloch/optional/gotemplate_Rune.go) [gotemplate_String.go](/src/github.com/leighmcculloch/optional/gotemplate_String.go) [gotemplate_Uint.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint.go) [gotemplate_Uint16.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint16.go) [gotemplate_Uint32.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint32.go) [gotemplate_Uint64.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint64.go) [gotemplate_Uint8.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint8.go) [gotemplate_Uintptr.go](/src/github.com/leighmcculloch/optional/gotemplate_Uintptr.go) [marshal_Bool.go](/src/github.com/leighmcculloch/optional/marshal_Bool.go) [types.go](/src/github.com/leighmcculloch/optional/types.go) 
@@ -385,10 +387,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Bool.String">func</a> (Bool) [String](/src/target/gotemplate_Bool.go?s=1366:1395#L59)
+### <a name="Bool.String">func</a> (Bool) [String](/src/target/gotemplate_Bool.go?s=1475:1504#L60)
 ``` go
 func (o Bool) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -471,10 +475,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Byte.String">func</a> (Byte) [String](/src/target/gotemplate_Byte.go?s=1366:1395#L59)
+### <a name="Byte.String">func</a> (Byte) [String](/src/target/gotemplate_Byte.go?s=1475:1504#L60)
 ``` go
 func (o Byte) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -557,10 +563,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Complex128.String">func</a> (Complex128) [String](/src/target/gotemplate_Complex128.go?s=1552:1587#L59)
+### <a name="Complex128.String">func</a> (Complex128) [String](/src/target/gotemplate_Complex128.go?s=1661:1696#L60)
 ``` go
 func (o Complex128) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -643,10 +651,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Complex64.String">func</a> (Complex64) [String](/src/target/gotemplate_Complex64.go?s=1521:1555#L59)
+### <a name="Complex64.String">func</a> (Complex64) [String](/src/target/gotemplate_Complex64.go?s=1630:1664#L60)
 ``` go
 func (o Complex64) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -729,10 +739,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Error.String">func</a> (Error) [String](/src/target/gotemplate_Error.go?s=1397:1427#L59)
+### <a name="Error.String">func</a> (Error) [String](/src/target/gotemplate_Error.go?s=1506:1536#L60)
 ``` go
 func (o Error) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -815,10 +827,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Float32.String">func</a> (Float32) [String](/src/target/gotemplate_Float32.go?s=1459:1491#L59)
+### <a name="Float32.String">func</a> (Float32) [String](/src/target/gotemplate_Float32.go?s=1568:1600#L60)
 ``` go
 func (o Float32) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -901,10 +915,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Float64.String">func</a> (Float64) [String](/src/target/gotemplate_Float64.go?s=1459:1491#L59)
+### <a name="Float64.String">func</a> (Float64) [String](/src/target/gotemplate_Float64.go?s=1568:1600#L60)
 ``` go
 func (o Float64) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -996,10 +1012,12 @@ MarshalText returns text for marshaling this Int.
 
 
 
-### <a name="Int.String">func</a> (Int) [String](/src/target/gotemplate_Int.go?s=1335:1363#L59)
+### <a name="Int.String">func</a> (Int) [String](/src/target/gotemplate_Int.go?s=1444:1472#L60)
 ``` go
 func (o Int) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1091,10 +1109,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int16.String">func</a> (Int16) [String](/src/target/gotemplate_Int16.go?s=1397:1427#L59)
+### <a name="Int16.String">func</a> (Int16) [String](/src/target/gotemplate_Int16.go?s=1506:1536#L60)
 ``` go
 func (o Int16) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1177,10 +1197,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int32.String">func</a> (Int32) [String](/src/target/gotemplate_Int32.go?s=1397:1427#L59)
+### <a name="Int32.String">func</a> (Int32) [String](/src/target/gotemplate_Int32.go?s=1506:1536#L60)
 ``` go
 func (o Int32) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1263,10 +1285,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int64.String">func</a> (Int64) [String](/src/target/gotemplate_Int64.go?s=1397:1427#L59)
+### <a name="Int64.String">func</a> (Int64) [String](/src/target/gotemplate_Int64.go?s=1506:1536#L60)
 ``` go
 func (o Int64) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1349,10 +1373,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int8.String">func</a> (Int8) [String](/src/target/gotemplate_Int8.go?s=1366:1395#L59)
+### <a name="Int8.String">func</a> (Int8) [String](/src/target/gotemplate_Int8.go?s=1475:1504#L60)
 ``` go
 func (o Int8) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1435,10 +1461,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Rune.String">func</a> (Rune) [String](/src/target/gotemplate_Rune.go?s=1366:1395#L59)
+### <a name="Rune.String">func</a> (Rune) [String](/src/target/gotemplate_Rune.go?s=1475:1504#L60)
 ``` go
 func (o Rune) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1521,10 +1549,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="String.String">func</a> (String) [String](/src/target/gotemplate_String.go?s=1428:1459#L59)
+### <a name="String.String">func</a> (String) [String](/src/target/gotemplate_String.go?s=1537:1568#L60)
 ``` go
 func (o String) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1607,10 +1637,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint.String">func</a> (Uint) [String](/src/target/gotemplate_Uint.go?s=1366:1395#L59)
+### <a name="Uint.String">func</a> (Uint) [String](/src/target/gotemplate_Uint.go?s=1475:1504#L60)
 ``` go
 func (o Uint) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1693,10 +1725,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint16.String">func</a> (Uint16) [String](/src/target/gotemplate_Uint16.go?s=1428:1459#L59)
+### <a name="Uint16.String">func</a> (Uint16) [String](/src/target/gotemplate_Uint16.go?s=1537:1568#L60)
 ``` go
 func (o Uint16) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1779,10 +1813,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint32.String">func</a> (Uint32) [String](/src/target/gotemplate_Uint32.go?s=1428:1459#L59)
+### <a name="Uint32.String">func</a> (Uint32) [String](/src/target/gotemplate_Uint32.go?s=1537:1568#L60)
 ``` go
 func (o Uint32) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1865,10 +1901,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint64.String">func</a> (Uint64) [String](/src/target/gotemplate_Uint64.go?s=1428:1459#L59)
+### <a name="Uint64.String">func</a> (Uint64) [String](/src/target/gotemplate_Uint64.go?s=1537:1568#L60)
 ``` go
 func (o Uint64) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -1951,10 +1989,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint8.String">func</a> (Uint8) [String](/src/target/gotemplate_Uint8.go?s=1397:1427#L59)
+### <a name="Uint8.String">func</a> (Uint8) [String](/src/target/gotemplate_Uint8.go?s=1506:1536#L60)
 ``` go
 func (o Uint8) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 
@@ -2037,10 +2077,12 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uintptr.String">func</a> (Uintptr) [String](/src/target/gotemplate_Uintptr.go?s=1459:1491#L59)
+### <a name="Uintptr.String">func</a> (Uintptr) [String](/src/target/gotemplate_Uintptr.go?s=1568:1600#L60)
 ``` go
 func (o Uintptr) String() string
 ```
+String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
 
 
 

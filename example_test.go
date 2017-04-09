@@ -47,7 +47,7 @@ func ExampleInt_Else() {
 	// 1001
 }
 
-func ExampleInt_xml_marshal() {
+func ExampleInt_xmlMarshal() {
 	s := struct {
 		XMLName xml.Name     `xml:"s"`
 		F1      optional.Int `xml:"f1,omitempty"`
@@ -68,7 +68,7 @@ func ExampleInt_xml_marshal() {
 	// </s>
 }
 
-func ExampleInt_xml_unmarshal() {
+func ExampleInt_xmlUnmarshal() {
 	s := struct {
 		XMLName xml.Name     `xml:"s"`
 		F1      optional.Int `xml:"f1,omitempty"`

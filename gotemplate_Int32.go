@@ -66,6 +66,7 @@ func (o Int32) Else(elseValue int32) (value int32) {
 	return o.ElseFunc(func() int32 { return elseValue })
 }
 
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Int32) String() string {
 	if o.IsPresent() {
 		var value int32

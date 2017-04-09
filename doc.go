@@ -16,7 +16,7 @@ Take a pointer to something and make it an optional to force code you share it w
 		// use i here
 	})
 
-Support XML, JSON and other encoding packages out of the box, including omitempty:
+Support XML, JSON and other encoding packages out of the box, including omitempty without needing to use pointers:
 
 	s := struct {
 		F1      optional.Int `xml:"f1,omitempty"`

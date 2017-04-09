@@ -66,6 +66,7 @@ func (o Float64) Else(elseValue float64) (value float64) {
 	return o.ElseFunc(func() float64 { return elseValue })
 }
 
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Float64) String() string {
 	if o.IsPresent() {
 		var value float64

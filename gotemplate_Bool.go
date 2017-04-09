@@ -66,6 +66,7 @@ func (o Bool) Else(elseValue bool) (value bool) {
 	return o.ElseFunc(func() bool { return elseValue })
 }
 
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Bool) String() string {
 	if o.IsPresent() {
 		var value bool

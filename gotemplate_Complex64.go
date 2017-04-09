@@ -66,6 +66,7 @@ func (o Complex64) Else(elseValue complex64) (value complex64) {
 	return o.ElseFunc(func() complex64 { return elseValue })
 }
 
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Complex64) String() string {
 	if o.IsPresent() {
 		var value complex64

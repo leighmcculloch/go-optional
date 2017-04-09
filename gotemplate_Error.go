@@ -66,6 +66,7 @@ func (o Error) Else(elseValue error) (value error) {
 	return o.ElseFunc(func() error { return elseValue })
 }
 
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Error) String() string {
 	if o.IsPresent() {
 		var value error

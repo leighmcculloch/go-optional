@@ -66,6 +66,7 @@ func (o Byte) Else(elseValue byte) (value byte) {
 	return o.ElseFunc(func() byte { return elseValue })
 }
 
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Byte) String() string {
 	if o.IsPresent() {
 		var value byte
