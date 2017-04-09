@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type String map[keyString]*string
+type String map[keyString]string
 
 type keyString int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfString(value string) String {
-	return String{valueKeyString: &value}
+	return String{valueKeyString: value}
 }
 
 func OfStringPtr(ptr *string) String {
@@ -48,7 +48,7 @@ func (o String) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o String) If(f func(value string)) {
 	if o.IsPresent() {
-		f(*o[valueKeyString])
+		f(o[valueKeyString])
 	}
 }
 

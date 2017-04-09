@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Uint32 map[keyUint32]*uint32
+type Uint32 map[keyUint32]uint32
 
 type keyUint32 int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfUint32(value uint32) Uint32 {
-	return Uint32{valueKeyUint32: &value}
+	return Uint32{valueKeyUint32: value}
 }
 
 func OfUint32Ptr(ptr *uint32) Uint32 {
@@ -48,7 +48,7 @@ func (o Uint32) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Uint32) If(f func(value uint32)) {
 	if o.IsPresent() {
-		f(*o[valueKeyUint32])
+		f(o[valueKeyUint32])
 	}
 }
 

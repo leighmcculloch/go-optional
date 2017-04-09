@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Uintptr map[keyUintptr]*uintptr
+type Uintptr map[keyUintptr]uintptr
 
 type keyUintptr int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfUintptr(value uintptr) Uintptr {
-	return Uintptr{valueKeyUintptr: &value}
+	return Uintptr{valueKeyUintptr: value}
 }
 
 func OfUintptrPtr(ptr *uintptr) Uintptr {
@@ -48,7 +48,7 @@ func (o Uintptr) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Uintptr) If(f func(value uintptr)) {
 	if o.IsPresent() {
-		f(*o[valueKeyUintptr])
+		f(o[valueKeyUintptr])
 	}
 }
 

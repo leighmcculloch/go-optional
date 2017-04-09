@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Complex64 map[keyComplex64]*complex64
+type Complex64 map[keyComplex64]complex64
 
 type keyComplex64 int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfComplex64(value complex64) Complex64 {
-	return Complex64{valueKeyComplex64: &value}
+	return Complex64{valueKeyComplex64: value}
 }
 
 func OfComplex64Ptr(ptr *complex64) Complex64 {
@@ -48,7 +48,7 @@ func (o Complex64) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Complex64) If(f func(value complex64)) {
 	if o.IsPresent() {
-		f(*o[valueKeyComplex64])
+		f(o[valueKeyComplex64])
 	}
 }
 

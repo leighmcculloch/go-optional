@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Rune map[keyRune]*rune
+type Rune map[keyRune]rune
 
 type keyRune int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfRune(value rune) Rune {
-	return Rune{valueKeyRune: &value}
+	return Rune{valueKeyRune: value}
 }
 
 func OfRunePtr(ptr *rune) Rune {
@@ -48,7 +48,7 @@ func (o Rune) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Rune) If(f func(value rune)) {
 	if o.IsPresent() {
-		f(*o[valueKeyRune])
+		f(o[valueKeyRune])
 	}
 }
 

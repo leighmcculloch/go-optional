@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Bool map[keyBool]*bool
+type Bool map[keyBool]bool
 
 type keyBool int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfBool(value bool) Bool {
-	return Bool{valueKeyBool: &value}
+	return Bool{valueKeyBool: value}
 }
 
 func OfBoolPtr(ptr *bool) Bool {
@@ -48,7 +48,7 @@ func (o Bool) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Bool) If(f func(value bool)) {
 	if o.IsPresent() {
-		f(*o[valueKeyBool])
+		f(o[valueKeyBool])
 	}
 }
 

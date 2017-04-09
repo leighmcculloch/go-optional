@@ -16,6 +16,10 @@ Take a pointer to something and make it an optional to force users to only use i
 		// use i here
 	})
 
+Support XML, JSON and other encoding packages out of the box:
+
+
+
 Perform operations only if the optional is not empty:
 
 	values := []optional.Int{

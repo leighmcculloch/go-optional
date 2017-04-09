@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Error map[keyError]*error
+type Error map[keyError]error
 
 type keyError int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfError(value error) Error {
-	return Error{valueKeyError: &value}
+	return Error{valueKeyError: value}
 }
 
 func OfErrorPtr(ptr *error) Error {
@@ -48,7 +48,7 @@ func (o Error) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Error) If(f func(value error)) {
 	if o.IsPresent() {
-		f(*o[valueKeyError])
+		f(o[valueKeyError])
 	}
 }
 

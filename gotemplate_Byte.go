@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Byte map[keyByte]*byte
+type Byte map[keyByte]byte
 
 type keyByte int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfByte(value byte) Byte {
-	return Byte{valueKeyByte: &value}
+	return Byte{valueKeyByte: value}
 }
 
 func OfBytePtr(ptr *byte) Byte {
@@ -48,7 +48,7 @@ func (o Byte) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Byte) If(f func(value byte)) {
 	if o.IsPresent() {
-		f(*o[valueKeyByte])
+		f(o[valueKeyByte])
 	}
 }
 

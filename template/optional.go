@@ -11,7 +11,7 @@ type T string
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Optional map[key]*T
+type Optional map[key]T
 
 type key int
 
@@ -21,7 +21,7 @@ const (
 
 // Of wraps the value in an Optional.
 func Of(value T) Optional {
-	return Optional{valueKey: &value}
+	return Optional{valueKey: value}
 }
 
 func OfOptionalPtr(ptr *T) Optional {
@@ -50,7 +50,7 @@ func (o Optional) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Optional) If(f func(value T)) {
 	if o.IsPresent() {
-		f(*o[valueKey])
+		f(o[valueKey])
 	}
 }
 

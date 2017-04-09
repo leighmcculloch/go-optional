@@ -9,7 +9,7 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Int16 map[keyInt16]*int16
+type Int16 map[keyInt16]int16
 
 type keyInt16 int
 
@@ -19,7 +19,7 @@ const (
 
 // Of wraps the value in an Optional.
 func OfInt16(value int16) Int16 {
-	return Int16{valueKeyInt16: &value}
+	return Int16{valueKeyInt16: value}
 }
 
 func OfInt16Ptr(ptr *int16) Int16 {
@@ -48,7 +48,7 @@ func (o Int16) IsPresent() bool {
 // If calls the function if there is a value wrapped by this Optional.
 func (o Int16) If(f func(value int16)) {
 	if o.IsPresent() {
-		f(*o[valueKeyInt16])
+		f(o[valueKeyInt16])
 	}
 }
 
