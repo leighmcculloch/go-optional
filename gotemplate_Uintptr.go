@@ -1,45 +1,86 @@
 package optional
 
+import (
+	"reflect"
+	"strconv"
+)
+
 // template type Optional(T)
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Uintptr struct {
-	value *uintptr
-}
+type Uintptr map[keyUintptr]*uintptr
+
+type keyUintptr int
+
+const (
+	valueKeyUintptr keyUintptr = iota
+)
 
 // Of wraps the value in an Optional.
 func OfUintptr(value uintptr) Uintptr {
-	return Uintptr{&value}
+	return Uintptr{valueKeyUintptr: &value}
 }
 
 func OfUintptrPtr(ptr *uintptr) Uintptr {
-	return Uintptr{ptr}
+	if ptr == nil {
+		return EmptyUintptr()
+	} else {
+		return OfUintptr(*ptr)
+	}
 }
 
 // Empty returns an empty Optional.
 func EmptyUintptr() Uintptr {
-	return Uintptr{}
+	return nil
 }
 
-// IsPresent returns whether there is a value wrapped by this Optional.
+// IsEmpty returns true if there there is no value wrapped by this Optional.
+func (o Uintptr) IsEmpty() bool {
+	return o == nil
+}
+
+// IsPresent returns true if there is a value wrapped by this Optional.
 func (o Uintptr) IsPresent() bool {
-	return o.value != nil
+	return !o.IsEmpty()
 }
 
-// IfPresent calls the function if there is a value wrapped by this Optional.
-func (o Uintptr) IfPresent(f func(value uintptr)) {
-	if o.value != nil {
-		f(*o.value)
+// If calls the function if there is a value wrapped by this Optional.
+func (o Uintptr) If(f func(value uintptr)) {
+	if o.IsPresent() {
+		f(*o[valueKeyUintptr])
 	}
 }
 
-// OrElse returns the value wrapped by this Optional, or the value passed in if
-// there is no value wrapped by this Optional.
-func (o Uintptr) OrElse(value uintptr) uintptr {
-	if o.value != nil {
-		return *o.value
+func (o Uintptr) ElseFunc(f func() uintptr) (value uintptr) {
+	if o.IsEmpty() {
+		return f()
 	} else {
-		return value
+		o.If(func(v uintptr) { value = v })
+		return
 	}
+}
+
+// Else returns the value wrapped by this Optional, or the value passed in if
+// there is no value wrapped by this Optional.
+func (o Uintptr) Else(elseValue uintptr) (value uintptr) {
+	return o.ElseFunc(func() uintptr { return elseValue })
+}
+
+func (o Uintptr) MarshalText() (text []byte, err error) {
+	if o == nil {
+		return nil, nil
+	}
+	o.If(func(v uintptr) {
+		rv := reflect.ValueOf(v)
+		switch rv.Kind() {
+		case reflect.Int:
+			text = []byte(strconv.FormatInt(rv.Int(), 10))
+		}
+	})
+	return
+}
+
+func (o Uintptr) UnmarshalText(text []byte) error {
+	return nil
 }

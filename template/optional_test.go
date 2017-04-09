@@ -2,15 +2,6 @@ package template
 
 import "testing"
 
-func TestEmpty(t *testing.T) {
-	empty := Empty()
-	expected := Optional{}
-
-	if empty != expected {
-		t.Errorf("Empty got %#v, want %#v", empty, expected)
-	}
-}
-
 func TestIsPresent(t *testing.T) {
 	s := "ptr to string"
 	tests := []struct {
@@ -38,20 +29,21 @@ func TestIfPresent(t *testing.T) {
 	tests := []struct {
 		Optional       Optional
 		ExpectedCalled bool
+		IfCalledValue  T
 	}{
-		{Empty(), false},
-		{Of(""), true},
-		{Of("string"), true},
-		{OfOptionalPtr((*T)(nil)), false},
-		{OfOptionalPtr((*T)(&s)), true},
+		{Empty(), false, ""},
+		{Of(""), true, ""},
+		{Of("string"), true, "string"},
+		{OfOptionalPtr((*T)(nil)), false, ""},
+		{OfOptionalPtr((*T)(&s)), true, "ptr to string"},
 	}
 
 	for _, test := range tests {
 		called := false
-		test.Optional.IfPresent(func(v T) {
+		test.Optional.If(func(v T) {
 			called = true
-			if v != *test.Optional.value {
-				t.Errorf("%#v IfPresent got %#v, want #%v", test.Optional, v, test.Optional.value)
+			if v != test.IfCalledValue {
+				t.Errorf("%#v IfPresent got %#v, want #%v", test.Optional, v, test.IfCalledValue)
 			}
 		})
 
@@ -76,7 +68,30 @@ func TestOrElse(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		result := test.Optional.OrElse(orElse)
+		result := test.Optional.Else(orElse)
+
+		if result != test.ExpectedResult {
+			t.Errorf("%#v OrElse(%#v) got %#v, want %#v", test.Optional, orElse, result, test.ExpectedResult)
+		}
+	}
+}
+
+func TestOrElseFunc(t *testing.T) {
+	s := "ptr to string"
+	const orElse = "orelse"
+	tests := []struct {
+		Optional       Optional
+		ExpectedResult T
+	}{
+		{Empty(), orElse},
+		{Of(""), ""},
+		{Of("string"), "string"},
+		{OfOptionalPtr((*T)(nil)), orElse},
+		{OfOptionalPtr((*T)(&s)), "ptr to string"},
+	}
+
+	for _, test := range tests {
+		result := test.Optional.ElseFunc(func() T { return orElse })
 
 		if result != test.ExpectedResult {
 			t.Errorf("%#v OrElse(%#v) got %#v, want %#v", test.Optional, orElse, result, test.ExpectedResult)

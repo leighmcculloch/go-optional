@@ -1,12 +1,13 @@
 package optional_test
 
 import (
+	"encoding/xml"
 	"fmt"
 
 	"github.com/leighmcculloch/optional"
 )
 
-func ExampleInt_IfPresent_present() {
+func ExampleInt_If_present() {
 	i := 1001
 	values := []optional.Int{
 		optional.EmptyInt(),
@@ -16,7 +17,7 @@ func ExampleInt_IfPresent_present() {
 	}
 
 	for _, v := range values {
-		v.IfPresent(func(i int) {
+		v.If(func(i int) {
 			fmt.Println(i)
 		})
 	}
@@ -26,7 +27,7 @@ func ExampleInt_IfPresent_present() {
 	// 1001
 }
 
-func ExampleInt_OrElse() {
+func ExampleInt_Else() {
 	i := 1001
 	values := []optional.Int{
 		optional.EmptyInt(),
@@ -36,7 +37,7 @@ func ExampleInt_OrElse() {
 	}
 
 	for _, v := range values {
-		fmt.Println(v.OrElse(1))
+		fmt.Println(v.Else(1))
 	}
 
 	// Output:
@@ -44,4 +45,29 @@ func ExampleInt_OrElse() {
 	// 1000
 	// 1
 	// 1001
+}
+
+func ExampleInt_xml_marshal() {
+	i := 1001
+	v := struct {
+		XMLName xml.Name     `xml:"v"`
+		O1      optional.Int `xml:"o1,omitempty"`
+		O2      optional.Int `xml:"o2,omitempty"`
+		O3      optional.Int `xml:"o3,omitempty"`
+		O4      optional.Int `xml:"o4,omitempty"`
+	}{
+		O1: optional.EmptyInt(),
+		O2: optional.OfInt(1000),
+		O3: optional.OfIntPtr(nil),
+		O4: optional.OfIntPtr(&i),
+	}
+
+	output, _ := xml.MarshalIndent(v, "", "  ")
+	fmt.Println(string(output))
+
+	// Output:
+	// <v>
+	//   <o2>1000</o2>
+	//   <o4>1001</o4>
+	// </v>
 }

@@ -1,45 +1,86 @@
 package optional
 
+import (
+	"reflect"
+	"strconv"
+)
+
 // template type Optional(T)
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Int8 struct {
-	value *int8
-}
+type Int8 map[keyInt8]*int8
+
+type keyInt8 int
+
+const (
+	valueKeyInt8 keyInt8 = iota
+)
 
 // Of wraps the value in an Optional.
 func OfInt8(value int8) Int8 {
-	return Int8{&value}
+	return Int8{valueKeyInt8: &value}
 }
 
 func OfInt8Ptr(ptr *int8) Int8 {
-	return Int8{ptr}
+	if ptr == nil {
+		return EmptyInt8()
+	} else {
+		return OfInt8(*ptr)
+	}
 }
 
 // Empty returns an empty Optional.
 func EmptyInt8() Int8 {
-	return Int8{}
+	return nil
 }
 
-// IsPresent returns whether there is a value wrapped by this Optional.
+// IsEmpty returns true if there there is no value wrapped by this Optional.
+func (o Int8) IsEmpty() bool {
+	return o == nil
+}
+
+// IsPresent returns true if there is a value wrapped by this Optional.
 func (o Int8) IsPresent() bool {
-	return o.value != nil
+	return !o.IsEmpty()
 }
 
-// IfPresent calls the function if there is a value wrapped by this Optional.
-func (o Int8) IfPresent(f func(value int8)) {
-	if o.value != nil {
-		f(*o.value)
+// If calls the function if there is a value wrapped by this Optional.
+func (o Int8) If(f func(value int8)) {
+	if o.IsPresent() {
+		f(*o[valueKeyInt8])
 	}
 }
 
-// OrElse returns the value wrapped by this Optional, or the value passed in if
-// there is no value wrapped by this Optional.
-func (o Int8) OrElse(value int8) int8 {
-	if o.value != nil {
-		return *o.value
+func (o Int8) ElseFunc(f func() int8) (value int8) {
+	if o.IsEmpty() {
+		return f()
 	} else {
-		return value
+		o.If(func(v int8) { value = v })
+		return
 	}
+}
+
+// Else returns the value wrapped by this Optional, or the value passed in if
+// there is no value wrapped by this Optional.
+func (o Int8) Else(elseValue int8) (value int8) {
+	return o.ElseFunc(func() int8 { return elseValue })
+}
+
+func (o Int8) MarshalText() (text []byte, err error) {
+	if o == nil {
+		return nil, nil
+	}
+	o.If(func(v int8) {
+		rv := reflect.ValueOf(v)
+		switch rv.Kind() {
+		case reflect.Int:
+			text = []byte(strconv.FormatInt(rv.Int(), 10))
+		}
+	})
+	return
+}
+
+func (o Int8) UnmarshalText(text []byte) error {
+	return nil
 }

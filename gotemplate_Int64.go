@@ -1,45 +1,86 @@
 package optional
 
+import (
+	"reflect"
+	"strconv"
+)
+
 // template type Optional(T)
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Int64 struct {
-	value *int64
-}
+type Int64 map[keyInt64]*int64
+
+type keyInt64 int
+
+const (
+	valueKeyInt64 keyInt64 = iota
+)
 
 // Of wraps the value in an Optional.
 func OfInt64(value int64) Int64 {
-	return Int64{&value}
+	return Int64{valueKeyInt64: &value}
 }
 
 func OfInt64Ptr(ptr *int64) Int64 {
-	return Int64{ptr}
+	if ptr == nil {
+		return EmptyInt64()
+	} else {
+		return OfInt64(*ptr)
+	}
 }
 
 // Empty returns an empty Optional.
 func EmptyInt64() Int64 {
-	return Int64{}
+	return nil
 }
 
-// IsPresent returns whether there is a value wrapped by this Optional.
+// IsEmpty returns true if there there is no value wrapped by this Optional.
+func (o Int64) IsEmpty() bool {
+	return o == nil
+}
+
+// IsPresent returns true if there is a value wrapped by this Optional.
 func (o Int64) IsPresent() bool {
-	return o.value != nil
+	return !o.IsEmpty()
 }
 
-// IfPresent calls the function if there is a value wrapped by this Optional.
-func (o Int64) IfPresent(f func(value int64)) {
-	if o.value != nil {
-		f(*o.value)
+// If calls the function if there is a value wrapped by this Optional.
+func (o Int64) If(f func(value int64)) {
+	if o.IsPresent() {
+		f(*o[valueKeyInt64])
 	}
 }
 
-// OrElse returns the value wrapped by this Optional, or the value passed in if
-// there is no value wrapped by this Optional.
-func (o Int64) OrElse(value int64) int64 {
-	if o.value != nil {
-		return *o.value
+func (o Int64) ElseFunc(f func() int64) (value int64) {
+	if o.IsEmpty() {
+		return f()
 	} else {
-		return value
+		o.If(func(v int64) { value = v })
+		return
 	}
+}
+
+// Else returns the value wrapped by this Optional, or the value passed in if
+// there is no value wrapped by this Optional.
+func (o Int64) Else(elseValue int64) (value int64) {
+	return o.ElseFunc(func() int64 { return elseValue })
+}
+
+func (o Int64) MarshalText() (text []byte, err error) {
+	if o == nil {
+		return nil, nil
+	}
+	o.If(func(v int64) {
+		rv := reflect.ValueOf(v)
+		switch rv.Kind() {
+		case reflect.Int:
+			text = []byte(strconv.FormatInt(rv.Int(), 10))
+		}
+	})
+	return
+}
+
+func (o Int64) UnmarshalText(text []byte) error {
+	return nil
 }

@@ -1,5 +1,5 @@
 /*
-Package optional provides types that wrap builtin types as a alternative to using pointers or zero values to represent the lack of value. The Optional types require the developer to unwrap them to get to the inner value, which ensures a nil value doesn't get operated on by way of the compiler.
+Package optional provides types that wrap builtin types as a alternative to using pointers or zero values to represent the lack of value. The Optional types require the developer to unwrap them to get to the inner value, which ensures a nil value doesn't get operated on by way of the compiler. Optionals marshal to text, XML and JSON like their underlying type, and omitempty when the omitempty tag option is specified.
 
 The package also contains a template that you can use with go generate to create optional types for your own types. See below for instructions on how to use the template.
 
@@ -11,7 +11,7 @@ Take a pointer to something and make it an optional to force users to only use i
 
 	o := optional.OfIntPtr(v)
 
-	o.IfPresent(func(i int) {
+	o.If(func(i int) {
 		// only called if i was not originally nil
 		// use i here
 	})
@@ -24,7 +24,7 @@ Perform operations only if the optional is not empty:
 	}
 
 	for _, v := range values {
-		v.IfPresent(func(i int) {
+		v.If(func(i int) {
 			fmt.Println(i)
 		})
 	}
@@ -40,7 +40,7 @@ Perform operations using an optional with a default:
 	}
 
 	for _, v := range values {
-		fmt.Println(v.OrElse(1))
+		fmt.Println(v.Else(1))
 	}
 
 	// Output:
