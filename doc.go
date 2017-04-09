@@ -1,5 +1,7 @@
 /*
-Package optional provides Optional types that wrap builtin types as an alternative to using pointers or zero values to represent the lack of something. The Optional types require conditional unwrapping to get to the inner value, which ensures by way of the compiler that you do not end up with a nil value.
+Package optional provides types that wrap builtin types as a alternative to using pointers or zero values to represent the lack of value. The Optional types require the developer to unwrap them to get to the inner value, which ensures a nil value doesn't get operated on by way of the compiler.
+
+The package also contains a template that you can use with go generate to create optional types for your own types. See below for instructions on how to use the template.
 
 Examples
 
