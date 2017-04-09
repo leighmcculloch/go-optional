@@ -53,11 +53,11 @@ func (o Rune) If(f func(value rune)) {
 }
 
 func (o Rune) ElseFunc(f func() rune) (value rune) {
-	if o.IsEmpty() {
-		return f()
-	} else {
+	if o.IsPresent() {
 		o.If(func(v rune) { value = v })
 		return
+	} else {
+		return f()
 	}
 }
 
@@ -67,10 +67,8 @@ func (o Rune) Else(elseValue rune) (value rune) {
 	return o.ElseFunc(func() rune { return elseValue })
 }
 
+// MarshalText returns text for marshaling this Optional.
 func (o Rune) MarshalText() (text []byte, err error) {
-	if o == nil {
-		return nil, nil
-	}
 	o.If(func(v rune) {
 		rv := reflect.ValueOf(v)
 		switch rv.Kind() {
@@ -81,6 +79,8 @@ func (o Rune) MarshalText() (text []byte, err error) {
 	return
 }
 
-func (o Rune) UnmarshalText(text []byte) error {
+// UnmarshalText returns text for marshaling this Optional.
+func (o *Rune) UnmarshalText(text []byte) error {
+	*o = EmptyRune()
 	return nil
 }

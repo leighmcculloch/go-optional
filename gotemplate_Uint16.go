@@ -53,11 +53,11 @@ func (o Uint16) If(f func(value uint16)) {
 }
 
 func (o Uint16) ElseFunc(f func() uint16) (value uint16) {
-	if o.IsEmpty() {
-		return f()
-	} else {
+	if o.IsPresent() {
 		o.If(func(v uint16) { value = v })
 		return
+	} else {
+		return f()
 	}
 }
 
@@ -67,10 +67,8 @@ func (o Uint16) Else(elseValue uint16) (value uint16) {
 	return o.ElseFunc(func() uint16 { return elseValue })
 }
 
+// MarshalText returns text for marshaling this Optional.
 func (o Uint16) MarshalText() (text []byte, err error) {
-	if o == nil {
-		return nil, nil
-	}
 	o.If(func(v uint16) {
 		rv := reflect.ValueOf(v)
 		switch rv.Kind() {
@@ -81,6 +79,8 @@ func (o Uint16) MarshalText() (text []byte, err error) {
 	return
 }
 
-func (o Uint16) UnmarshalText(text []byte) error {
+// UnmarshalText returns text for marshaling this Optional.
+func (o *Uint16) UnmarshalText(text []byte) error {
+	*o = EmptyUint16()
 	return nil
 }

@@ -5,20 +5,32 @@ The package also contains a template that you can use with go generate to create
 
 Examples
 
-Take a pointer to something and make it an optional to force users to only use it if it's not nil:
+Take a pointer to something and make it an optional to force code you share it with to only use it if it's not nil:
 
 	var i *int = ...
 
-	o := optional.OfIntPtr(v)
+	o := optional.OfIntPtr(i)
 
 	o.If(func(i int) {
 		// only called if i was not originally nil
 		// use i here
 	})
 
-Support XML, JSON and other encoding packages out of the box:
+Support XML, JSON and other encoding packages out of the box, including omitempty:
 
+	s := struct {
+		F1      optional.Int `xml:"f1,omitempty"`
+		F2      optional.Int `xml:"f2,omitempty"`
+		F3      optional.Int `xml:"f3,omitempty"`
+	}{
+		F1: optional.EmptyInt(),
+		F2: optional.OfInt(1000),
+		F3: optional.OfIntPtr(nil),
+	}
 
+	output, _ := xml.Marshal(s)
+
+	// output = <v><o2>1000</o2></v>
 
 Perform operations only if the optional is not empty:
 

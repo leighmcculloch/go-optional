@@ -14,19 +14,34 @@ Package optional provides types that wrap builtin types as a alternative to usin
 The package also contains a template that you can use with go generate to create optional types for your own types. See below for instructions on how to use the template.
 
 ### Examples
-Take a pointer to something and make it an optional to force users to only use it if it's not nil:
+Take a pointer to something and make it an optional to force code you share it with to only use it if it's not nil:
 
 
 	var i *int = ...
 	
-	o := optional.OfIntPtr(v)
+	o := optional.OfIntPtr(i)
 	
 	o.If(func(i int) {
 		// only called if i was not originally nil
 		// use i here
 	})
 
-Support XML, JSON and other encoding packages out of the box:
+Support XML, JSON and other encoding packages out of the box, including omitempty:
+
+
+	s := struct {
+		F1      optional.Int `xml:"f1,omitempty"`
+		F2      optional.Int `xml:"f2,omitempty"`
+		F3      optional.Int `xml:"f3,omitempty"`
+	}{
+		F1: optional.EmptyInt(),
+		F2: optional.OfInt(1000),
+		F3: optional.OfIntPtr(nil),
+	}
+	
+	output, _ := xml.Marshal(s)
+	
+	// output = <v><o2>1000</o2></v>
 
 Perform operations only if the optional is not empty:
 
@@ -86,7 +101,7 @@ Then adding a go generate comment for your type.
   * [func (o Bool) IsEmpty() bool](#Bool.IsEmpty)
   * [func (o Bool) IsPresent() bool](#Bool.IsPresent)
   * [func (o Bool) MarshalText() (text []byte, err error)](#Bool.MarshalText)
-  * [func (o Bool) UnmarshalText(text []byte) error](#Bool.UnmarshalText)
+  * [func (o *Bool) UnmarshalText(text []byte) error](#Bool.UnmarshalText)
 * [type Byte](#Byte)
   * [func EmptyByte() Byte](#EmptyByte)
   * [func OfByte(value byte) Byte](#OfByte)
@@ -97,7 +112,7 @@ Then adding a go generate comment for your type.
   * [func (o Byte) IsEmpty() bool](#Byte.IsEmpty)
   * [func (o Byte) IsPresent() bool](#Byte.IsPresent)
   * [func (o Byte) MarshalText() (text []byte, err error)](#Byte.MarshalText)
-  * [func (o Byte) UnmarshalText(text []byte) error](#Byte.UnmarshalText)
+  * [func (o *Byte) UnmarshalText(text []byte) error](#Byte.UnmarshalText)
 * [type Complex128](#Complex128)
   * [func EmptyComplex128() Complex128](#EmptyComplex128)
   * [func OfComplex128(value complex128) Complex128](#OfComplex128)
@@ -108,7 +123,7 @@ Then adding a go generate comment for your type.
   * [func (o Complex128) IsEmpty() bool](#Complex128.IsEmpty)
   * [func (o Complex128) IsPresent() bool](#Complex128.IsPresent)
   * [func (o Complex128) MarshalText() (text []byte, err error)](#Complex128.MarshalText)
-  * [func (o Complex128) UnmarshalText(text []byte) error](#Complex128.UnmarshalText)
+  * [func (o *Complex128) UnmarshalText(text []byte) error](#Complex128.UnmarshalText)
 * [type Complex64](#Complex64)
   * [func EmptyComplex64() Complex64](#EmptyComplex64)
   * [func OfComplex64(value complex64) Complex64](#OfComplex64)
@@ -119,7 +134,7 @@ Then adding a go generate comment for your type.
   * [func (o Complex64) IsEmpty() bool](#Complex64.IsEmpty)
   * [func (o Complex64) IsPresent() bool](#Complex64.IsPresent)
   * [func (o Complex64) MarshalText() (text []byte, err error)](#Complex64.MarshalText)
-  * [func (o Complex64) UnmarshalText(text []byte) error](#Complex64.UnmarshalText)
+  * [func (o *Complex64) UnmarshalText(text []byte) error](#Complex64.UnmarshalText)
 * [type Error](#Error)
   * [func EmptyError() Error](#EmptyError)
   * [func OfError(value error) Error](#OfError)
@@ -130,7 +145,7 @@ Then adding a go generate comment for your type.
   * [func (o Error) IsEmpty() bool](#Error.IsEmpty)
   * [func (o Error) IsPresent() bool](#Error.IsPresent)
   * [func (o Error) MarshalText() (text []byte, err error)](#Error.MarshalText)
-  * [func (o Error) UnmarshalText(text []byte) error](#Error.UnmarshalText)
+  * [func (o *Error) UnmarshalText(text []byte) error](#Error.UnmarshalText)
 * [type Float32](#Float32)
   * [func EmptyFloat32() Float32](#EmptyFloat32)
   * [func OfFloat32(value float32) Float32](#OfFloat32)
@@ -141,7 +156,7 @@ Then adding a go generate comment for your type.
   * [func (o Float32) IsEmpty() bool](#Float32.IsEmpty)
   * [func (o Float32) IsPresent() bool](#Float32.IsPresent)
   * [func (o Float32) MarshalText() (text []byte, err error)](#Float32.MarshalText)
-  * [func (o Float32) UnmarshalText(text []byte) error](#Float32.UnmarshalText)
+  * [func (o *Float32) UnmarshalText(text []byte) error](#Float32.UnmarshalText)
 * [type Float64](#Float64)
   * [func EmptyFloat64() Float64](#EmptyFloat64)
   * [func OfFloat64(value float64) Float64](#OfFloat64)
@@ -152,7 +167,7 @@ Then adding a go generate comment for your type.
   * [func (o Float64) IsEmpty() bool](#Float64.IsEmpty)
   * [func (o Float64) IsPresent() bool](#Float64.IsPresent)
   * [func (o Float64) MarshalText() (text []byte, err error)](#Float64.MarshalText)
-  * [func (o Float64) UnmarshalText(text []byte) error](#Float64.UnmarshalText)
+  * [func (o *Float64) UnmarshalText(text []byte) error](#Float64.UnmarshalText)
 * [type Int](#Int)
   * [func EmptyInt() Int](#EmptyInt)
   * [func OfInt(value int) Int](#OfInt)
@@ -163,7 +178,7 @@ Then adding a go generate comment for your type.
   * [func (o Int) IsEmpty() bool](#Int.IsEmpty)
   * [func (o Int) IsPresent() bool](#Int.IsPresent)
   * [func (o Int) MarshalText() (text []byte, err error)](#Int.MarshalText)
-  * [func (o Int) UnmarshalText(text []byte) error](#Int.UnmarshalText)
+  * [func (o *Int) UnmarshalText(text []byte) error](#Int.UnmarshalText)
 * [type Int16](#Int16)
   * [func EmptyInt16() Int16](#EmptyInt16)
   * [func OfInt16(value int16) Int16](#OfInt16)
@@ -174,7 +189,7 @@ Then adding a go generate comment for your type.
   * [func (o Int16) IsEmpty() bool](#Int16.IsEmpty)
   * [func (o Int16) IsPresent() bool](#Int16.IsPresent)
   * [func (o Int16) MarshalText() (text []byte, err error)](#Int16.MarshalText)
-  * [func (o Int16) UnmarshalText(text []byte) error](#Int16.UnmarshalText)
+  * [func (o *Int16) UnmarshalText(text []byte) error](#Int16.UnmarshalText)
 * [type Int32](#Int32)
   * [func EmptyInt32() Int32](#EmptyInt32)
   * [func OfInt32(value int32) Int32](#OfInt32)
@@ -185,7 +200,7 @@ Then adding a go generate comment for your type.
   * [func (o Int32) IsEmpty() bool](#Int32.IsEmpty)
   * [func (o Int32) IsPresent() bool](#Int32.IsPresent)
   * [func (o Int32) MarshalText() (text []byte, err error)](#Int32.MarshalText)
-  * [func (o Int32) UnmarshalText(text []byte) error](#Int32.UnmarshalText)
+  * [func (o *Int32) UnmarshalText(text []byte) error](#Int32.UnmarshalText)
 * [type Int64](#Int64)
   * [func EmptyInt64() Int64](#EmptyInt64)
   * [func OfInt64(value int64) Int64](#OfInt64)
@@ -196,7 +211,7 @@ Then adding a go generate comment for your type.
   * [func (o Int64) IsEmpty() bool](#Int64.IsEmpty)
   * [func (o Int64) IsPresent() bool](#Int64.IsPresent)
   * [func (o Int64) MarshalText() (text []byte, err error)](#Int64.MarshalText)
-  * [func (o Int64) UnmarshalText(text []byte) error](#Int64.UnmarshalText)
+  * [func (o *Int64) UnmarshalText(text []byte) error](#Int64.UnmarshalText)
 * [type Int8](#Int8)
   * [func EmptyInt8() Int8](#EmptyInt8)
   * [func OfInt8(value int8) Int8](#OfInt8)
@@ -207,7 +222,7 @@ Then adding a go generate comment for your type.
   * [func (o Int8) IsEmpty() bool](#Int8.IsEmpty)
   * [func (o Int8) IsPresent() bool](#Int8.IsPresent)
   * [func (o Int8) MarshalText() (text []byte, err error)](#Int8.MarshalText)
-  * [func (o Int8) UnmarshalText(text []byte) error](#Int8.UnmarshalText)
+  * [func (o *Int8) UnmarshalText(text []byte) error](#Int8.UnmarshalText)
 * [type Rune](#Rune)
   * [func EmptyRune() Rune](#EmptyRune)
   * [func OfRune(value rune) Rune](#OfRune)
@@ -218,7 +233,7 @@ Then adding a go generate comment for your type.
   * [func (o Rune) IsEmpty() bool](#Rune.IsEmpty)
   * [func (o Rune) IsPresent() bool](#Rune.IsPresent)
   * [func (o Rune) MarshalText() (text []byte, err error)](#Rune.MarshalText)
-  * [func (o Rune) UnmarshalText(text []byte) error](#Rune.UnmarshalText)
+  * [func (o *Rune) UnmarshalText(text []byte) error](#Rune.UnmarshalText)
 * [type String](#String)
   * [func EmptyString() String](#EmptyString)
   * [func OfString(value string) String](#OfString)
@@ -229,7 +244,7 @@ Then adding a go generate comment for your type.
   * [func (o String) IsEmpty() bool](#String.IsEmpty)
   * [func (o String) IsPresent() bool](#String.IsPresent)
   * [func (o String) MarshalText() (text []byte, err error)](#String.MarshalText)
-  * [func (o String) UnmarshalText(text []byte) error](#String.UnmarshalText)
+  * [func (o *String) UnmarshalText(text []byte) error](#String.UnmarshalText)
 * [type Uint](#Uint)
   * [func EmptyUint() Uint](#EmptyUint)
   * [func OfUint(value uint) Uint](#OfUint)
@@ -240,7 +255,7 @@ Then adding a go generate comment for your type.
   * [func (o Uint) IsEmpty() bool](#Uint.IsEmpty)
   * [func (o Uint) IsPresent() bool](#Uint.IsPresent)
   * [func (o Uint) MarshalText() (text []byte, err error)](#Uint.MarshalText)
-  * [func (o Uint) UnmarshalText(text []byte) error](#Uint.UnmarshalText)
+  * [func (o *Uint) UnmarshalText(text []byte) error](#Uint.UnmarshalText)
 * [type Uint16](#Uint16)
   * [func EmptyUint16() Uint16](#EmptyUint16)
   * [func OfUint16(value uint16) Uint16](#OfUint16)
@@ -251,7 +266,7 @@ Then adding a go generate comment for your type.
   * [func (o Uint16) IsEmpty() bool](#Uint16.IsEmpty)
   * [func (o Uint16) IsPresent() bool](#Uint16.IsPresent)
   * [func (o Uint16) MarshalText() (text []byte, err error)](#Uint16.MarshalText)
-  * [func (o Uint16) UnmarshalText(text []byte) error](#Uint16.UnmarshalText)
+  * [func (o *Uint16) UnmarshalText(text []byte) error](#Uint16.UnmarshalText)
 * [type Uint32](#Uint32)
   * [func EmptyUint32() Uint32](#EmptyUint32)
   * [func OfUint32(value uint32) Uint32](#OfUint32)
@@ -262,7 +277,7 @@ Then adding a go generate comment for your type.
   * [func (o Uint32) IsEmpty() bool](#Uint32.IsEmpty)
   * [func (o Uint32) IsPresent() bool](#Uint32.IsPresent)
   * [func (o Uint32) MarshalText() (text []byte, err error)](#Uint32.MarshalText)
-  * [func (o Uint32) UnmarshalText(text []byte) error](#Uint32.UnmarshalText)
+  * [func (o *Uint32) UnmarshalText(text []byte) error](#Uint32.UnmarshalText)
 * [type Uint64](#Uint64)
   * [func EmptyUint64() Uint64](#EmptyUint64)
   * [func OfUint64(value uint64) Uint64](#OfUint64)
@@ -273,7 +288,7 @@ Then adding a go generate comment for your type.
   * [func (o Uint64) IsEmpty() bool](#Uint64.IsEmpty)
   * [func (o Uint64) IsPresent() bool](#Uint64.IsPresent)
   * [func (o Uint64) MarshalText() (text []byte, err error)](#Uint64.MarshalText)
-  * [func (o Uint64) UnmarshalText(text []byte) error](#Uint64.UnmarshalText)
+  * [func (o *Uint64) UnmarshalText(text []byte) error](#Uint64.UnmarshalText)
 * [type Uint8](#Uint8)
   * [func EmptyUint8() Uint8](#EmptyUint8)
   * [func OfUint8(value uint8) Uint8](#OfUint8)
@@ -284,7 +299,7 @@ Then adding a go generate comment for your type.
   * [func (o Uint8) IsEmpty() bool](#Uint8.IsEmpty)
   * [func (o Uint8) IsPresent() bool](#Uint8.IsPresent)
   * [func (o Uint8) MarshalText() (text []byte, err error)](#Uint8.MarshalText)
-  * [func (o Uint8) UnmarshalText(text []byte) error](#Uint8.UnmarshalText)
+  * [func (o *Uint8) UnmarshalText(text []byte) error](#Uint8.UnmarshalText)
 * [type Uintptr](#Uintptr)
   * [func EmptyUintptr() Uintptr](#EmptyUintptr)
   * [func OfUintptr(value uintptr) Uintptr](#OfUintptr)
@@ -295,7 +310,7 @@ Then adding a go generate comment for your type.
   * [func (o Uintptr) IsEmpty() bool](#Uintptr.IsEmpty)
   * [func (o Uintptr) IsPresent() bool](#Uintptr.IsPresent)
   * [func (o Uintptr) MarshalText() (text []byte, err error)](#Uintptr.MarshalText)
-  * [func (o Uintptr) UnmarshalText(text []byte) error](#Uintptr.UnmarshalText)
+  * [func (o *Uintptr) UnmarshalText(text []byte) error](#Uintptr.UnmarshalText)
 
 #### <a name="pkg-examples">Examples</a>
 * [Int.Else](#example_Int_Else)
@@ -344,7 +359,7 @@ func OfBoolPtr(ptr *bool) Bool
 
 
 
-### <a name="Bool.Else">func</a> (Bool) [Else](/src/target/gotemplate_Bool.go?s=1273:1320#L56)
+### <a name="Bool.Else">func</a> (Bool) [Else](/src/target/gotemplate_Bool.go?s=1275:1322#L56)
 ``` go
 func (o Bool) Else(elseValue bool) (value bool)
 ```
@@ -388,17 +403,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Bool.MarshalText">func</a> (Bool) [MarshalText](/src/target/gotemplate_Bool.go?s=1379:1431#L60)
+### <a name="Bool.MarshalText">func</a> (Bool) [MarshalText](/src/target/gotemplate_Bool.go?s=1439:1491#L61)
 ``` go
 func (o Bool) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Bool.UnmarshalText">func</a> (Bool) [UnmarshalText](/src/target/gotemplate_Bool.go?s=1628:1674#L74)
+
+### <a name="Bool.UnmarshalText">func</a> (\*Bool) [UnmarshalText](/src/target/gotemplate_Bool.go?s=1712:1759#L73)
 ``` go
-func (o Bool) UnmarshalText(text []byte) error
+func (o *Bool) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -437,7 +456,7 @@ func OfBytePtr(ptr *byte) Byte
 
 
 
-### <a name="Byte.Else">func</a> (Byte) [Else](/src/target/gotemplate_Byte.go?s=1273:1320#L56)
+### <a name="Byte.Else">func</a> (Byte) [Else](/src/target/gotemplate_Byte.go?s=1275:1322#L56)
 ``` go
 func (o Byte) Else(elseValue byte) (value byte)
 ```
@@ -481,17 +500,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Byte.MarshalText">func</a> (Byte) [MarshalText](/src/target/gotemplate_Byte.go?s=1379:1431#L60)
+### <a name="Byte.MarshalText">func</a> (Byte) [MarshalText](/src/target/gotemplate_Byte.go?s=1439:1491#L61)
 ``` go
 func (o Byte) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Byte.UnmarshalText">func</a> (Byte) [UnmarshalText](/src/target/gotemplate_Byte.go?s=1628:1674#L74)
+
+### <a name="Byte.UnmarshalText">func</a> (\*Byte) [UnmarshalText](/src/target/gotemplate_Byte.go?s=1712:1759#L73)
 ``` go
-func (o Byte) UnmarshalText(text []byte) error
+func (o *Byte) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -530,7 +553,7 @@ func OfComplex128Ptr(ptr *complex128) Complex128
 
 
 
-### <a name="Complex128.Else">func</a> (Complex128) [Else](/src/target/gotemplate_Complex128.go?s=1435:1500#L56)
+### <a name="Complex128.Else">func</a> (Complex128) [Else](/src/target/gotemplate_Complex128.go?s=1437:1502#L56)
 ``` go
 func (o Complex128) Else(elseValue complex128) (value complex128)
 ```
@@ -574,17 +597,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Complex128.MarshalText">func</a> (Complex128) [MarshalText](/src/target/gotemplate_Complex128.go?s=1565:1623#L60)
+### <a name="Complex128.MarshalText">func</a> (Complex128) [MarshalText](/src/target/gotemplate_Complex128.go?s=1625:1683#L61)
 ``` go
 func (o Complex128) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Complex128.UnmarshalText">func</a> (Complex128) [UnmarshalText](/src/target/gotemplate_Complex128.go?s=1826:1878#L74)
+
+### <a name="Complex128.UnmarshalText">func</a> (\*Complex128) [UnmarshalText](/src/target/gotemplate_Complex128.go?s=1910:1963#L73)
 ``` go
-func (o Complex128) UnmarshalText(text []byte) error
+func (o *Complex128) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -623,7 +650,7 @@ func OfComplex64Ptr(ptr *complex64) Complex64
 
 
 
-### <a name="Complex64.Else">func</a> (Complex64) [Else](/src/target/gotemplate_Complex64.go?s=1408:1470#L56)
+### <a name="Complex64.Else">func</a> (Complex64) [Else](/src/target/gotemplate_Complex64.go?s=1410:1472#L56)
 ``` go
 func (o Complex64) Else(elseValue complex64) (value complex64)
 ```
@@ -667,17 +694,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Complex64.MarshalText">func</a> (Complex64) [MarshalText](/src/target/gotemplate_Complex64.go?s=1534:1591#L60)
+### <a name="Complex64.MarshalText">func</a> (Complex64) [MarshalText](/src/target/gotemplate_Complex64.go?s=1594:1651#L61)
 ``` go
 func (o Complex64) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Complex64.UnmarshalText">func</a> (Complex64) [UnmarshalText](/src/target/gotemplate_Complex64.go?s=1793:1844#L74)
+
+### <a name="Complex64.UnmarshalText">func</a> (\*Complex64) [UnmarshalText](/src/target/gotemplate_Complex64.go?s=1877:1929#L73)
 ``` go
-func (o Complex64) UnmarshalText(text []byte) error
+func (o *Complex64) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -716,7 +747,7 @@ func OfErrorPtr(ptr *error) Error
 
 
 
-### <a name="Error.Else">func</a> (Error) [Else](/src/target/gotemplate_Error.go?s=1300:1350#L56)
+### <a name="Error.Else">func</a> (Error) [Else](/src/target/gotemplate_Error.go?s=1302:1352#L56)
 ``` go
 func (o Error) Else(elseValue error) (value error)
 ```
@@ -760,17 +791,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Error.MarshalText">func</a> (Error) [MarshalText](/src/target/gotemplate_Error.go?s=1410:1463#L60)
+### <a name="Error.MarshalText">func</a> (Error) [MarshalText](/src/target/gotemplate_Error.go?s=1470:1523#L61)
 ``` go
 func (o Error) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Error.UnmarshalText">func</a> (Error) [UnmarshalText](/src/target/gotemplate_Error.go?s=1661:1708#L74)
+
+### <a name="Error.UnmarshalText">func</a> (\*Error) [UnmarshalText](/src/target/gotemplate_Error.go?s=1745:1793#L73)
 ``` go
-func (o Error) UnmarshalText(text []byte) error
+func (o *Error) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -809,7 +844,7 @@ func OfFloat32Ptr(ptr *float32) Float32
 
 
 
-### <a name="Float32.Else">func</a> (Float32) [Else](/src/target/gotemplate_Float32.go?s=1354:1410#L56)
+### <a name="Float32.Else">func</a> (Float32) [Else](/src/target/gotemplate_Float32.go?s=1356:1412#L56)
 ``` go
 func (o Float32) Else(elseValue float32) (value float32)
 ```
@@ -853,17 +888,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Float32.MarshalText">func</a> (Float32) [MarshalText](/src/target/gotemplate_Float32.go?s=1472:1527#L60)
+### <a name="Float32.MarshalText">func</a> (Float32) [MarshalText](/src/target/gotemplate_Float32.go?s=1532:1587#L61)
 ``` go
 func (o Float32) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Float32.UnmarshalText">func</a> (Float32) [UnmarshalText](/src/target/gotemplate_Float32.go?s=1727:1776#L74)
+
+### <a name="Float32.UnmarshalText">func</a> (\*Float32) [UnmarshalText](/src/target/gotemplate_Float32.go?s=1811:1861#L73)
 ``` go
-func (o Float32) UnmarshalText(text []byte) error
+func (o *Float32) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -902,7 +941,7 @@ func OfFloat64Ptr(ptr *float64) Float64
 
 
 
-### <a name="Float64.Else">func</a> (Float64) [Else](/src/target/gotemplate_Float64.go?s=1354:1410#L56)
+### <a name="Float64.Else">func</a> (Float64) [Else](/src/target/gotemplate_Float64.go?s=1356:1412#L56)
 ``` go
 func (o Float64) Else(elseValue float64) (value float64)
 ```
@@ -946,17 +985,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Float64.MarshalText">func</a> (Float64) [MarshalText](/src/target/gotemplate_Float64.go?s=1472:1527#L60)
+### <a name="Float64.MarshalText">func</a> (Float64) [MarshalText](/src/target/gotemplate_Float64.go?s=1532:1587#L61)
 ``` go
 func (o Float64) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Float64.UnmarshalText">func</a> (Float64) [UnmarshalText](/src/target/gotemplate_Float64.go?s=1727:1776#L74)
+
+### <a name="Float64.UnmarshalText">func</a> (\*Float64) [UnmarshalText](/src/target/gotemplate_Float64.go?s=1811:1861#L73)
 ``` go
-func (o Float64) UnmarshalText(text []byte) error
+func (o *Float64) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -995,7 +1038,7 @@ func OfIntPtr(ptr *int) Int
 
 
 
-### <a name="Int.Else">func</a> (Int) [Else](/src/target/gotemplate_Int.go?s=1246:1290#L56)
+### <a name="Int.Else">func</a> (Int) [Else](/src/target/gotemplate_Int.go?s=1248:1292#L56)
 ``` go
 func (o Int) Else(elseValue int) (value int)
 ```
@@ -1039,17 +1082,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int.MarshalText">func</a> (Int) [MarshalText](/src/target/gotemplate_Int.go?s=1348:1399#L60)
+### <a name="Int.MarshalText">func</a> (Int) [MarshalText](/src/target/gotemplate_Int.go?s=1408:1459#L61)
 ``` go
 func (o Int) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Int.UnmarshalText">func</a> (Int) [UnmarshalText](/src/target/gotemplate_Int.go?s=1595:1640#L74)
+
+### <a name="Int.UnmarshalText">func</a> (\*Int) [UnmarshalText](/src/target/gotemplate_Int.go?s=1679:1725#L73)
 ``` go
-func (o Int) UnmarshalText(text []byte) error
+func (o *Int) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1088,7 +1135,7 @@ func OfInt16Ptr(ptr *int16) Int16
 
 
 
-### <a name="Int16.Else">func</a> (Int16) [Else](/src/target/gotemplate_Int16.go?s=1300:1350#L56)
+### <a name="Int16.Else">func</a> (Int16) [Else](/src/target/gotemplate_Int16.go?s=1302:1352#L56)
 ``` go
 func (o Int16) Else(elseValue int16) (value int16)
 ```
@@ -1132,17 +1179,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int16.MarshalText">func</a> (Int16) [MarshalText](/src/target/gotemplate_Int16.go?s=1410:1463#L60)
+### <a name="Int16.MarshalText">func</a> (Int16) [MarshalText](/src/target/gotemplate_Int16.go?s=1470:1523#L61)
 ``` go
 func (o Int16) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Int16.UnmarshalText">func</a> (Int16) [UnmarshalText](/src/target/gotemplate_Int16.go?s=1661:1708#L74)
+
+### <a name="Int16.UnmarshalText">func</a> (\*Int16) [UnmarshalText](/src/target/gotemplate_Int16.go?s=1745:1793#L73)
 ``` go
-func (o Int16) UnmarshalText(text []byte) error
+func (o *Int16) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1181,7 +1232,7 @@ func OfInt32Ptr(ptr *int32) Int32
 
 
 
-### <a name="Int32.Else">func</a> (Int32) [Else](/src/target/gotemplate_Int32.go?s=1300:1350#L56)
+### <a name="Int32.Else">func</a> (Int32) [Else](/src/target/gotemplate_Int32.go?s=1302:1352#L56)
 ``` go
 func (o Int32) Else(elseValue int32) (value int32)
 ```
@@ -1225,17 +1276,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int32.MarshalText">func</a> (Int32) [MarshalText](/src/target/gotemplate_Int32.go?s=1410:1463#L60)
+### <a name="Int32.MarshalText">func</a> (Int32) [MarshalText](/src/target/gotemplate_Int32.go?s=1470:1523#L61)
 ``` go
 func (o Int32) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Int32.UnmarshalText">func</a> (Int32) [UnmarshalText](/src/target/gotemplate_Int32.go?s=1661:1708#L74)
+
+### <a name="Int32.UnmarshalText">func</a> (\*Int32) [UnmarshalText](/src/target/gotemplate_Int32.go?s=1745:1793#L73)
 ``` go
-func (o Int32) UnmarshalText(text []byte) error
+func (o *Int32) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1274,7 +1329,7 @@ func OfInt64Ptr(ptr *int64) Int64
 
 
 
-### <a name="Int64.Else">func</a> (Int64) [Else](/src/target/gotemplate_Int64.go?s=1300:1350#L56)
+### <a name="Int64.Else">func</a> (Int64) [Else](/src/target/gotemplate_Int64.go?s=1302:1352#L56)
 ``` go
 func (o Int64) Else(elseValue int64) (value int64)
 ```
@@ -1318,17 +1373,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int64.MarshalText">func</a> (Int64) [MarshalText](/src/target/gotemplate_Int64.go?s=1410:1463#L60)
+### <a name="Int64.MarshalText">func</a> (Int64) [MarshalText](/src/target/gotemplate_Int64.go?s=1470:1523#L61)
 ``` go
 func (o Int64) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Int64.UnmarshalText">func</a> (Int64) [UnmarshalText](/src/target/gotemplate_Int64.go?s=1661:1708#L74)
+
+### <a name="Int64.UnmarshalText">func</a> (\*Int64) [UnmarshalText](/src/target/gotemplate_Int64.go?s=1745:1793#L73)
 ``` go
-func (o Int64) UnmarshalText(text []byte) error
+func (o *Int64) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1367,7 +1426,7 @@ func OfInt8Ptr(ptr *int8) Int8
 
 
 
-### <a name="Int8.Else">func</a> (Int8) [Else](/src/target/gotemplate_Int8.go?s=1273:1320#L56)
+### <a name="Int8.Else">func</a> (Int8) [Else](/src/target/gotemplate_Int8.go?s=1275:1322#L56)
 ``` go
 func (o Int8) Else(elseValue int8) (value int8)
 ```
@@ -1411,17 +1470,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int8.MarshalText">func</a> (Int8) [MarshalText](/src/target/gotemplate_Int8.go?s=1379:1431#L60)
+### <a name="Int8.MarshalText">func</a> (Int8) [MarshalText](/src/target/gotemplate_Int8.go?s=1439:1491#L61)
 ``` go
 func (o Int8) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Int8.UnmarshalText">func</a> (Int8) [UnmarshalText](/src/target/gotemplate_Int8.go?s=1628:1674#L74)
+
+### <a name="Int8.UnmarshalText">func</a> (\*Int8) [UnmarshalText](/src/target/gotemplate_Int8.go?s=1712:1759#L73)
 ``` go
-func (o Int8) UnmarshalText(text []byte) error
+func (o *Int8) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1460,7 +1523,7 @@ func OfRunePtr(ptr *rune) Rune
 
 
 
-### <a name="Rune.Else">func</a> (Rune) [Else](/src/target/gotemplate_Rune.go?s=1273:1320#L56)
+### <a name="Rune.Else">func</a> (Rune) [Else](/src/target/gotemplate_Rune.go?s=1275:1322#L56)
 ``` go
 func (o Rune) Else(elseValue rune) (value rune)
 ```
@@ -1504,17 +1567,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Rune.MarshalText">func</a> (Rune) [MarshalText](/src/target/gotemplate_Rune.go?s=1379:1431#L60)
+### <a name="Rune.MarshalText">func</a> (Rune) [MarshalText](/src/target/gotemplate_Rune.go?s=1439:1491#L61)
 ``` go
 func (o Rune) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Rune.UnmarshalText">func</a> (Rune) [UnmarshalText](/src/target/gotemplate_Rune.go?s=1628:1674#L74)
+
+### <a name="Rune.UnmarshalText">func</a> (\*Rune) [UnmarshalText](/src/target/gotemplate_Rune.go?s=1712:1759#L73)
 ``` go
-func (o Rune) UnmarshalText(text []byte) error
+func (o *Rune) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1553,7 +1620,7 @@ func OfStringPtr(ptr *string) String
 
 
 
-### <a name="String.Else">func</a> (String) [Else](/src/target/gotemplate_String.go?s=1327:1380#L56)
+### <a name="String.Else">func</a> (String) [Else](/src/target/gotemplate_String.go?s=1329:1382#L56)
 ``` go
 func (o String) Else(elseValue string) (value string)
 ```
@@ -1597,17 +1664,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="String.MarshalText">func</a> (String) [MarshalText](/src/target/gotemplate_String.go?s=1441:1495#L60)
+### <a name="String.MarshalText">func</a> (String) [MarshalText](/src/target/gotemplate_String.go?s=1501:1555#L61)
 ``` go
 func (o String) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="String.UnmarshalText">func</a> (String) [UnmarshalText](/src/target/gotemplate_String.go?s=1694:1742#L74)
+
+### <a name="String.UnmarshalText">func</a> (\*String) [UnmarshalText](/src/target/gotemplate_String.go?s=1778:1827#L73)
 ``` go
-func (o String) UnmarshalText(text []byte) error
+func (o *String) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1646,7 +1717,7 @@ func OfUintPtr(ptr *uint) Uint
 
 
 
-### <a name="Uint.Else">func</a> (Uint) [Else](/src/target/gotemplate_Uint.go?s=1273:1320#L56)
+### <a name="Uint.Else">func</a> (Uint) [Else](/src/target/gotemplate_Uint.go?s=1275:1322#L56)
 ``` go
 func (o Uint) Else(elseValue uint) (value uint)
 ```
@@ -1690,17 +1761,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint.MarshalText">func</a> (Uint) [MarshalText](/src/target/gotemplate_Uint.go?s=1379:1431#L60)
+### <a name="Uint.MarshalText">func</a> (Uint) [MarshalText](/src/target/gotemplate_Uint.go?s=1439:1491#L61)
 ``` go
 func (o Uint) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Uint.UnmarshalText">func</a> (Uint) [UnmarshalText](/src/target/gotemplate_Uint.go?s=1628:1674#L74)
+
+### <a name="Uint.UnmarshalText">func</a> (\*Uint) [UnmarshalText](/src/target/gotemplate_Uint.go?s=1712:1759#L73)
 ``` go
-func (o Uint) UnmarshalText(text []byte) error
+func (o *Uint) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1739,7 +1814,7 @@ func OfUint16Ptr(ptr *uint16) Uint16
 
 
 
-### <a name="Uint16.Else">func</a> (Uint16) [Else](/src/target/gotemplate_Uint16.go?s=1327:1380#L56)
+### <a name="Uint16.Else">func</a> (Uint16) [Else](/src/target/gotemplate_Uint16.go?s=1329:1382#L56)
 ``` go
 func (o Uint16) Else(elseValue uint16) (value uint16)
 ```
@@ -1783,17 +1858,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint16.MarshalText">func</a> (Uint16) [MarshalText](/src/target/gotemplate_Uint16.go?s=1441:1495#L60)
+### <a name="Uint16.MarshalText">func</a> (Uint16) [MarshalText](/src/target/gotemplate_Uint16.go?s=1501:1555#L61)
 ``` go
 func (o Uint16) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Uint16.UnmarshalText">func</a> (Uint16) [UnmarshalText](/src/target/gotemplate_Uint16.go?s=1694:1742#L74)
+
+### <a name="Uint16.UnmarshalText">func</a> (\*Uint16) [UnmarshalText](/src/target/gotemplate_Uint16.go?s=1778:1827#L73)
 ``` go
-func (o Uint16) UnmarshalText(text []byte) error
+func (o *Uint16) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1832,7 +1911,7 @@ func OfUint32Ptr(ptr *uint32) Uint32
 
 
 
-### <a name="Uint32.Else">func</a> (Uint32) [Else](/src/target/gotemplate_Uint32.go?s=1327:1380#L56)
+### <a name="Uint32.Else">func</a> (Uint32) [Else](/src/target/gotemplate_Uint32.go?s=1329:1382#L56)
 ``` go
 func (o Uint32) Else(elseValue uint32) (value uint32)
 ```
@@ -1876,17 +1955,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint32.MarshalText">func</a> (Uint32) [MarshalText](/src/target/gotemplate_Uint32.go?s=1441:1495#L60)
+### <a name="Uint32.MarshalText">func</a> (Uint32) [MarshalText](/src/target/gotemplate_Uint32.go?s=1501:1555#L61)
 ``` go
 func (o Uint32) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Uint32.UnmarshalText">func</a> (Uint32) [UnmarshalText](/src/target/gotemplate_Uint32.go?s=1694:1742#L74)
+
+### <a name="Uint32.UnmarshalText">func</a> (\*Uint32) [UnmarshalText](/src/target/gotemplate_Uint32.go?s=1778:1827#L73)
 ``` go
-func (o Uint32) UnmarshalText(text []byte) error
+func (o *Uint32) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -1925,7 +2008,7 @@ func OfUint64Ptr(ptr *uint64) Uint64
 
 
 
-### <a name="Uint64.Else">func</a> (Uint64) [Else](/src/target/gotemplate_Uint64.go?s=1327:1380#L56)
+### <a name="Uint64.Else">func</a> (Uint64) [Else](/src/target/gotemplate_Uint64.go?s=1329:1382#L56)
 ``` go
 func (o Uint64) Else(elseValue uint64) (value uint64)
 ```
@@ -1969,17 +2052,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint64.MarshalText">func</a> (Uint64) [MarshalText](/src/target/gotemplate_Uint64.go?s=1441:1495#L60)
+### <a name="Uint64.MarshalText">func</a> (Uint64) [MarshalText](/src/target/gotemplate_Uint64.go?s=1501:1555#L61)
 ``` go
 func (o Uint64) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Uint64.UnmarshalText">func</a> (Uint64) [UnmarshalText](/src/target/gotemplate_Uint64.go?s=1694:1742#L74)
+
+### <a name="Uint64.UnmarshalText">func</a> (\*Uint64) [UnmarshalText](/src/target/gotemplate_Uint64.go?s=1778:1827#L73)
 ``` go
-func (o Uint64) UnmarshalText(text []byte) error
+func (o *Uint64) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -2018,7 +2105,7 @@ func OfUint8Ptr(ptr *uint8) Uint8
 
 
 
-### <a name="Uint8.Else">func</a> (Uint8) [Else](/src/target/gotemplate_Uint8.go?s=1300:1350#L56)
+### <a name="Uint8.Else">func</a> (Uint8) [Else](/src/target/gotemplate_Uint8.go?s=1302:1352#L56)
 ``` go
 func (o Uint8) Else(elseValue uint8) (value uint8)
 ```
@@ -2062,17 +2149,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uint8.MarshalText">func</a> (Uint8) [MarshalText](/src/target/gotemplate_Uint8.go?s=1410:1463#L60)
+### <a name="Uint8.MarshalText">func</a> (Uint8) [MarshalText](/src/target/gotemplate_Uint8.go?s=1470:1523#L61)
 ``` go
 func (o Uint8) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Uint8.UnmarshalText">func</a> (Uint8) [UnmarshalText](/src/target/gotemplate_Uint8.go?s=1661:1708#L74)
+
+### <a name="Uint8.UnmarshalText">func</a> (\*Uint8) [UnmarshalText](/src/target/gotemplate_Uint8.go?s=1745:1793#L73)
 ``` go
-func (o Uint8) UnmarshalText(text []byte) error
+func (o *Uint8) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 
@@ -2111,7 +2202,7 @@ func OfUintptrPtr(ptr *uintptr) Uintptr
 
 
 
-### <a name="Uintptr.Else">func</a> (Uintptr) [Else](/src/target/gotemplate_Uintptr.go?s=1354:1410#L56)
+### <a name="Uintptr.Else">func</a> (Uintptr) [Else](/src/target/gotemplate_Uintptr.go?s=1356:1412#L56)
 ``` go
 func (o Uintptr) Else(elseValue uintptr) (value uintptr)
 ```
@@ -2155,17 +2246,21 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Uintptr.MarshalText">func</a> (Uintptr) [MarshalText](/src/target/gotemplate_Uintptr.go?s=1472:1527#L60)
+### <a name="Uintptr.MarshalText">func</a> (Uintptr) [MarshalText](/src/target/gotemplate_Uintptr.go?s=1532:1587#L61)
 ``` go
 func (o Uintptr) MarshalText() (text []byte, err error)
 ```
+MarshalText returns text for marshaling this Optional.
 
 
 
-### <a name="Uintptr.UnmarshalText">func</a> (Uintptr) [UnmarshalText](/src/target/gotemplate_Uintptr.go?s=1727:1776#L74)
+
+### <a name="Uintptr.UnmarshalText">func</a> (\*Uintptr) [UnmarshalText](/src/target/gotemplate_Uintptr.go?s=1811:1861#L73)
 ``` go
-func (o Uintptr) UnmarshalText(text []byte) error
+func (o *Uintptr) UnmarshalText(text []byte) error
 ```
+UnmarshalText returns text for marshaling this Optional.
+
 
 
 

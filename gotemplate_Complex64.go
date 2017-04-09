@@ -53,11 +53,11 @@ func (o Complex64) If(f func(value complex64)) {
 }
 
 func (o Complex64) ElseFunc(f func() complex64) (value complex64) {
-	if o.IsEmpty() {
-		return f()
-	} else {
+	if o.IsPresent() {
 		o.If(func(v complex64) { value = v })
 		return
+	} else {
+		return f()
 	}
 }
 
@@ -67,10 +67,8 @@ func (o Complex64) Else(elseValue complex64) (value complex64) {
 	return o.ElseFunc(func() complex64 { return elseValue })
 }
 
+// MarshalText returns text for marshaling this Optional.
 func (o Complex64) MarshalText() (text []byte, err error) {
-	if o == nil {
-		return nil, nil
-	}
 	o.If(func(v complex64) {
 		rv := reflect.ValueOf(v)
 		switch rv.Kind() {
@@ -81,6 +79,8 @@ func (o Complex64) MarshalText() (text []byte, err error) {
 	return
 }
 
-func (o Complex64) UnmarshalText(text []byte) error {
+// UnmarshalText returns text for marshaling this Optional.
+func (o *Complex64) UnmarshalText(text []byte) error {
+	*o = EmptyComplex64()
 	return nil
 }

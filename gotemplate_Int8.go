@@ -53,11 +53,11 @@ func (o Int8) If(f func(value int8)) {
 }
 
 func (o Int8) ElseFunc(f func() int8) (value int8) {
-	if o.IsEmpty() {
-		return f()
-	} else {
+	if o.IsPresent() {
 		o.If(func(v int8) { value = v })
 		return
+	} else {
+		return f()
 	}
 }
 
@@ -67,10 +67,8 @@ func (o Int8) Else(elseValue int8) (value int8) {
 	return o.ElseFunc(func() int8 { return elseValue })
 }
 
+// MarshalText returns text for marshaling this Optional.
 func (o Int8) MarshalText() (text []byte, err error) {
-	if o == nil {
-		return nil, nil
-	}
 	o.If(func(v int8) {
 		rv := reflect.ValueOf(v)
 		switch rv.Kind() {
@@ -81,6 +79,8 @@ func (o Int8) MarshalText() (text []byte, err error) {
 	return
 }
 
-func (o Int8) UnmarshalText(text []byte) error {
+// UnmarshalText returns text for marshaling this Optional.
+func (o *Int8) UnmarshalText(text []byte) error {
+	*o = EmptyInt8()
 	return nil
 }
