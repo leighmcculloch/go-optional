@@ -100,7 +100,9 @@ Then adding a go generate comment for your type.
   * [func (o Bool) If(f func(value bool))](#Bool.If)
   * [func (o Bool) IsEmpty() bool](#Bool.IsEmpty)
   * [func (o Bool) IsPresent() bool](#Bool.IsPresent)
+  * [func (o Bool) MarshalText() (text []byte, err error)](#Bool.MarshalText)
   * [func (o Bool) String() string](#Bool.String)
+  * [func (o *Bool) UnmarshalText(text []byte) error](#Bool.UnmarshalText)
 * [type Byte](#Byte)
   * [func EmptyByte() Byte](#EmptyByte)
   * [func OfByte(value byte) Byte](#OfByte)
@@ -301,7 +303,7 @@ Then adding a go generate comment for your type.
 * [Int (XmlUnmarshal)](#example_Int_xmlUnmarshal)
 
 #### <a name="pkg-files">Package files</a>
-[doc.go](/src/github.com/leighmcculloch/optional/doc.go) [gotemplate_Bool.go](/src/github.com/leighmcculloch/optional/gotemplate_Bool.go) [gotemplate_Byte.go](/src/github.com/leighmcculloch/optional/gotemplate_Byte.go) [gotemplate_Complex128.go](/src/github.com/leighmcculloch/optional/gotemplate_Complex128.go) [gotemplate_Complex64.go](/src/github.com/leighmcculloch/optional/gotemplate_Complex64.go) [gotemplate_Error.go](/src/github.com/leighmcculloch/optional/gotemplate_Error.go) [gotemplate_Float32.go](/src/github.com/leighmcculloch/optional/gotemplate_Float32.go) [gotemplate_Float64.go](/src/github.com/leighmcculloch/optional/gotemplate_Float64.go) [gotemplate_Int.go](/src/github.com/leighmcculloch/optional/gotemplate_Int.go) [gotemplate_Int16.go](/src/github.com/leighmcculloch/optional/gotemplate_Int16.go) [gotemplate_Int32.go](/src/github.com/leighmcculloch/optional/gotemplate_Int32.go) [gotemplate_Int64.go](/src/github.com/leighmcculloch/optional/gotemplate_Int64.go) [gotemplate_Int8.go](/src/github.com/leighmcculloch/optional/gotemplate_Int8.go) [gotemplate_Rune.go](/src/github.com/leighmcculloch/optional/gotemplate_Rune.go) [gotemplate_String.go](/src/github.com/leighmcculloch/optional/gotemplate_String.go) [gotemplate_Uint.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint.go) [gotemplate_Uint16.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint16.go) [gotemplate_Uint32.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint32.go) [gotemplate_Uint64.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint64.go) [gotemplate_Uint8.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint8.go) [gotemplate_Uintptr.go](/src/github.com/leighmcculloch/optional/gotemplate_Uintptr.go) [marshal_Bool.go](/src/github.com/leighmcculloch/optional/marshal_Bool.go) [types.go](/src/github.com/leighmcculloch/optional/types.go) 
+[bool_marshal.go](/src/github.com/leighmcculloch/optional/bool_marshal.go) [doc.go](/src/github.com/leighmcculloch/optional/doc.go) [gotemplate_Bool.go](/src/github.com/leighmcculloch/optional/gotemplate_Bool.go) [gotemplate_Byte.go](/src/github.com/leighmcculloch/optional/gotemplate_Byte.go) [gotemplate_Complex128.go](/src/github.com/leighmcculloch/optional/gotemplate_Complex128.go) [gotemplate_Complex64.go](/src/github.com/leighmcculloch/optional/gotemplate_Complex64.go) [gotemplate_Error.go](/src/github.com/leighmcculloch/optional/gotemplate_Error.go) [gotemplate_Float32.go](/src/github.com/leighmcculloch/optional/gotemplate_Float32.go) [gotemplate_Float64.go](/src/github.com/leighmcculloch/optional/gotemplate_Float64.go) [gotemplate_Int.go](/src/github.com/leighmcculloch/optional/gotemplate_Int.go) [gotemplate_Int16.go](/src/github.com/leighmcculloch/optional/gotemplate_Int16.go) [gotemplate_Int32.go](/src/github.com/leighmcculloch/optional/gotemplate_Int32.go) [gotemplate_Int64.go](/src/github.com/leighmcculloch/optional/gotemplate_Int64.go) [gotemplate_Int8.go](/src/github.com/leighmcculloch/optional/gotemplate_Int8.go) [gotemplate_Rune.go](/src/github.com/leighmcculloch/optional/gotemplate_Rune.go) [gotemplate_String.go](/src/github.com/leighmcculloch/optional/gotemplate_String.go) [gotemplate_Uint.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint.go) [gotemplate_Uint16.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint16.go) [gotemplate_Uint32.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint32.go) [gotemplate_Uint64.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint64.go) [gotemplate_Uint8.go](/src/github.com/leighmcculloch/optional/gotemplate_Uint8.go) [gotemplate_Uintptr.go](/src/github.com/leighmcculloch/optional/gotemplate_Uintptr.go) [int_marshal.go](/src/github.com/leighmcculloch/optional/int_marshal.go) [types.go](/src/github.com/leighmcculloch/optional/types.go) 
 
 
 
@@ -387,11 +389,29 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
+### <a name="Bool.MarshalText">func</a> (Bool) [MarshalText](/src/target/bool_marshal.go?s=94:146#L1)
+``` go
+func (o Bool) MarshalText() (text []byte, err error)
+```
+MarshalText returns text for marshaling this Int.
+
+
+
+
 ### <a name="Bool.String">func</a> (Bool) [String](/src/target/gotemplate_Bool.go?s=1475:1504#L60)
 ``` go
 func (o Bool) String() string
 ```
 String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+
+
+
+
+### <a name="Bool.UnmarshalText">func</a> (\*Bool) [UnmarshalText](/src/target/bool_marshal.go?s=270:317#L6)
+``` go
+func (o *Bool) UnmarshalText(text []byte) error
+```
+UnmarshalText parse the text into this Int
 
 
 
@@ -1003,7 +1023,7 @@ IsPresent returns true if there is a value wrapped by this Optional.
 
 
 
-### <a name="Int.MarshalText">func</a> (Int) [MarshalText](/src/target/marshal_Bool.go?s=94:145#L1)
+### <a name="Int.MarshalText">func</a> (Int) [MarshalText](/src/target/int_marshal.go?s=94:145#L1)
 ``` go
 func (o Int) MarshalText() (text []byte, err error)
 ```
@@ -1021,7 +1041,7 @@ String returns a string representation of the wrapped value if one is present, o
 
 
 
-### <a name="Int.UnmarshalText">func</a> (\*Int) [UnmarshalText](/src/target/marshal_Bool.go?s=278:324#L6)
+### <a name="Int.UnmarshalText">func</a> (\*Int) [UnmarshalText](/src/target/int_marshal.go?s=278:324#L6)
 ``` go
 func (o *Int) UnmarshalText(text []byte) error
 ```
