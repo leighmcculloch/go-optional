@@ -1,8 +1,7 @@
 package template
 
 import (
-	"reflect"
-	"strconv"
+	"fmt"
 )
 
 // template type Optional(T)
@@ -69,20 +68,13 @@ func (o Optional) Else(elseValue T) (value T) {
 	return o.ElseFunc(func() T { return elseValue })
 }
 
-// MarshalText returns text for marshaling this Optional.
-func (o Optional) MarshalText() (text []byte, err error) {
-	o.If(func(v T) {
-		rv := reflect.ValueOf(v)
-		switch rv.Kind() {
-		case reflect.Int:
-			text = []byte(strconv.FormatInt(rv.Int(), 10))
-		}
-	})
-	return
-}
-
-// UnmarshalText returns text for marshaling this Optional.
-func (o *Optional) UnmarshalText(text []byte) error {
-	*o = Empty()
-	return nil
+// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+func (o Optional) String() string {
+	if o.IsPresent() {
+		var value T
+		o.If(func(v T) { value = v })
+		return fmt.Sprintf("%v", value)
+	} else {
+		return ""
+	}
 }
