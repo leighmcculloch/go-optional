@@ -3,6 +3,17 @@ Package optional provides Optional types that wrap builtin types as an alternati
 
 Examples
 
+Take a pointer to something and make it an optional to force users to only use it if it's not nil:
+
+	var i *int = ...
+
+	o := optional.OfIntPtr(v)
+
+	o.IfPresent(func(i int) {
+		// only called if i was not originally nil
+		// use i here
+	})
+
 Perform operations only if the optional is not empty:
 
 	values := []optional.Int{
