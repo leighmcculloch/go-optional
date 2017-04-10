@@ -8,12 +8,12 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Complex64 map[keyComplex64]complex64
+type Complex64 optionalComplex64
 
-type keyComplex64 int
+type optionalComplex64 []complex64
 
 const (
-	valueKeyComplex64 keyComplex64 = iota
+	valueKeyComplex64 = iota
 )
 
 // Of wraps the value in an Optional.

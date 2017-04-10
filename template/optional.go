@@ -10,12 +10,12 @@ type T string
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Optional map[key]T
+type Optional optional
 
-type key int
+type optional []T
 
 const (
-	valueKey key = iota
+	valueKey = iota
 )
 
 // Of wraps the value in an Optional.

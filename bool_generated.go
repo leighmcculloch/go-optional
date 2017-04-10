@@ -8,12 +8,12 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Bool map[keyBool]bool
+type Bool optionalBool
 
-type keyBool int
+type optionalBool []bool
 
 const (
-	valueKeyBool keyBool = iota
+	valueKeyBool = iota
 )
 
 // Of wraps the value in an Optional.

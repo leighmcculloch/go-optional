@@ -8,12 +8,12 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Int16 map[keyInt16]int16
+type Int16 optionalInt16
 
-type keyInt16 int
+type optionalInt16 []int16
 
 const (
-	valueKeyInt16 keyInt16 = iota
+	valueKeyInt16 = iota
 )
 
 // Of wraps the value in an Optional.

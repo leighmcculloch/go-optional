@@ -8,12 +8,12 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Uint map[keyUint]uint
+type Uint optionalUint
 
-type keyUint int
+type optionalUint []uint
 
 const (
-	valueKeyUint keyUint = iota
+	valueKeyUint = iota
 )
 
 // Of wraps the value in an Optional.

@@ -8,12 +8,12 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Rune map[keyRune]rune
+type Rune optionalRune
 
-type keyRune int
+type optionalRune []rune
 
 const (
-	valueKeyRune keyRune = iota
+	valueKeyRune = iota
 )
 
 // Of wraps the value in an Optional.

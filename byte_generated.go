@@ -8,12 +8,12 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Byte map[keyByte]byte
+type Byte optionalByte
 
-type keyByte int
+type optionalByte []byte
 
 const (
-	valueKeyByte keyByte = iota
+	valueKeyByte = iota
 )
 
 // Of wraps the value in an Optional.

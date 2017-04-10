@@ -8,12 +8,12 @@ import (
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Error map[keyError]error
+type Error optionalError
 
-type keyError int
+type optionalError []error
 
 const (
-	valueKeyError keyError = iota
+	valueKeyError = iota
 )
 
 // Of wraps the value in an Optional.
