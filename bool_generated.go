@@ -2,7 +2,10 @@ package optional
 
 import (
 	"fmt"
+	"time"
 )
+
+var _Bool = time.Time{}
 
 // template type Optional(T)
 

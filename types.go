@@ -19,3 +19,5 @@ package optional
 //go:generate gotemplate "github.com/leighmcculloch/optional/template" Uint64(uint64)
 //go:generate gotemplate "github.com/leighmcculloch/optional/template" Uint8(uint8)
 //go:generate gotemplate "github.com/leighmcculloch/optional/template" Uintptr(uintptr)
+
+//go:generate gotemplate "github.com/leighmcculloch/optional/template" Time(time.Time)

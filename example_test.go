@@ -47,16 +47,18 @@ func ExampleInt_Else() {
 	// 1001
 }
 
-func ExampleInt_xmlMarshal() {
+func Example_xmlMarshal() {
 	s := struct {
-		XMLName xml.Name     `xml:"s"`
-		F1      optional.Int `xml:"f1,omitempty"`
-		F2      optional.Int `xml:"f2,omitempty"`
-		F3      optional.Int `xml:"f3,omitempty"`
+		XMLName     xml.Name      `xml:"s"`
+		IntEmpty    optional.Int  `xml:"int_empty,omitempty"`
+		IntPresent  optional.Int  `xml:"int_present,omitempty"`
+		BoolEmpty   optional.Bool `xml:"bool_empty,omitempty"`
+		BoolPresent optional.Bool `xml:"bool_present,omitempty"`
 	}{
-		F1: optional.EmptyInt(),
-		F2: optional.OfInt(1000),
-		F3: optional.OfIntPtr(nil),
+		IntEmpty:    optional.EmptyInt(),
+		IntPresent:  optional.OfInt(0),
+		BoolEmpty:   optional.EmptyBool(),
+		BoolPresent: optional.OfBool(false),
 	}
 
 	output, _ := xml.MarshalIndent(s, "", "  ")
@@ -64,21 +66,34 @@ func ExampleInt_xmlMarshal() {
 
 	// Output:
 	// <s>
-	//   <f2>1000</f2>
+	//   <int_present>0</int_present>
+	//   <bool_present>false</bool_present>
 	// </s>
 }
 
-func ExampleInt_xmlUnmarshal() {
+func Example_xmlUnmarshal() {
 	s := struct {
-		XMLName xml.Name     `xml:"s"`
-		F1      optional.Int `xml:"f1,omitempty"`
-		F2      optional.Int `xml:"f2,omitempty"`
-		F3      optional.Int `xml:"f3,omitempty"`
+		XMLName     xml.Name      `xml:"s"`
+		IntEmpty    optional.Int  `xml:"int_empty,omitempty"`
+		IntPresent  optional.Int  `xml:"int_present,omitempty"`
+		BoolEmpty   optional.Bool `xml:"bool_empty,omitempty"`
+		BoolPresent optional.Bool `xml:"bool_present,omitempty"`
 	}{}
 
-	xml.Unmarshal([]byte(`<s><f2>1000</f2></s>`), &s)
-	fmt.Printf("F1: %s, F2: %s, F3: %s", s.F1, s.F2, s.F3)
+	x := `<s>
+  <int_present>0</int_present>
+  <bool_present>false</bool_present>
+</s>`
+	xml.Unmarshal([]byte(x), &s)
+
+	fmt.Println("IntEmpty:", s.IntEmpty.IsPresent())
+	fmt.Println("IntPresent:", s.IntPresent.IsPresent(), s.IntPresent)
+	fmt.Println("BoolEmpty:", s.BoolEmpty.IsPresent())
+	fmt.Println("BoolPresent:", s.BoolPresent.IsPresent(), s.BoolPresent)
 
 	// Output:
-	// F1: , F2: 1000, F3:
+	// IntEmpty: false
+	// IntPresent: true 0
+	// BoolEmpty: false
+	// BoolPresent: true false
 }

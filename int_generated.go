@@ -2,7 +2,10 @@ package optional
 
 import (
 	"fmt"
+	"time"
 )
+
+var _Int = time.Time{}
 
 // template type Optional(T)
 

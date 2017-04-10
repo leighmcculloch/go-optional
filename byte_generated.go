@@ -2,7 +2,10 @@ package optional
 
 import (
 	"fmt"
+	"time"
 )
+
+var _Byte = time.Time{}
 
 // template type Optional(T)
 

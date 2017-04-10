@@ -2,7 +2,10 @@ package optional
 
 import (
 	"fmt"
+	"time"
 )
+
+var _Rune = time.Time{}
 
 // template type Optional(T)
 

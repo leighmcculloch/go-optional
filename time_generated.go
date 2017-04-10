@@ -5,58 +5,58 @@ import (
 	"time"
 )
 
-var _Int8 = time.Time{}
+var _Time = time.Time{}
 
 // template type Optional(T)
 
 // Optional wraps a value that may or may not be nil.
 // If a value is present, it may be unwrapped to expose the underlying value.
-type Int8 optionalInt8
+type Time optionalTime
 
-type optionalInt8 []int8
+type optionalTime []time.Time
 
 const (
-	valueKeyInt8 = iota
+	valueKeyTime = iota
 )
 
 // Of wraps the value in an Optional.
-func OfInt8(value int8) Int8 {
-	return Int8{valueKeyInt8: value}
+func OfTime(value time.Time) Time {
+	return Time{valueKeyTime: value}
 }
 
-func OfInt8Ptr(ptr *int8) Int8 {
+func OfTimePtr(ptr *time.Time) Time {
 	if ptr == nil {
-		return EmptyInt8()
+		return EmptyTime()
 	} else {
-		return OfInt8(*ptr)
+		return OfTime(*ptr)
 	}
 }
 
 // Empty returns an empty Optional.
-func EmptyInt8() Int8 {
+func EmptyTime() Time {
 	return nil
 }
 
 // IsEmpty returns true if there there is no value wrapped by this Optional.
-func (o Int8) IsEmpty() bool {
+func (o Time) IsEmpty() bool {
 	return o == nil
 }
 
 // IsPresent returns true if there is a value wrapped by this Optional.
-func (o Int8) IsPresent() bool {
+func (o Time) IsPresent() bool {
 	return !o.IsEmpty()
 }
 
 // If calls the function if there is a value wrapped by this Optional.
-func (o Int8) If(f func(value int8)) {
+func (o Time) If(f func(value time.Time)) {
 	if o.IsPresent() {
-		f(o[valueKeyInt8])
+		f(o[valueKeyTime])
 	}
 }
 
-func (o Int8) ElseFunc(f func() int8) (value int8) {
+func (o Time) ElseFunc(f func() time.Time) (value time.Time) {
 	if o.IsPresent() {
-		o.If(func(v int8) { value = v })
+		o.If(func(v time.Time) { value = v })
 		return
 	} else {
 		return f()
@@ -65,15 +65,15 @@ func (o Int8) ElseFunc(f func() int8) (value int8) {
 
 // Else returns the value wrapped by this Optional, or the value passed in if
 // there is no value wrapped by this Optional.
-func (o Int8) Else(elseValue int8) (value int8) {
-	return o.ElseFunc(func() int8 { return elseValue })
+func (o Time) Else(elseValue time.Time) (value time.Time) {
+	return o.ElseFunc(func() time.Time { return elseValue })
 }
 
 // String returns a string representation of the wrapped value if one is present, otherwise an empty string.
-func (o Int8) String() string {
+func (o Time) String() string {
 	if o.IsPresent() {
-		var value int8
-		o.If(func(v int8) { value = v })
+		var value time.Time
+		o.If(func(v time.Time) { value = v })
 		return fmt.Sprintf("%v", value)
 	} else {
 		return ""
