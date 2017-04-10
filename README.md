@@ -25,6 +25,10 @@ Take a pointer to something and make it an optional to force code you share it w
 		// only called if i was not originally nil
 		// use i here
 	})
+	
+	// returns 100 if o is empty
+	_ := o.Else(100)
+	_ := o.ElseFunc(func() { return 100; })
 
 Support XML, JSON and other encoding packages out of the box, including omitempty without needing to use pointers:
 
@@ -42,39 +46,6 @@ Support XML, JSON and other encoding packages out of the box, including omitempt
 	output, _ := xml.Marshal(s)
 	
 	// output = <v><o2>1000</o2></v>
-
-Perform operations only if the optional is not empty:
-
-
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(2017),
-	}
-	
-	for _, v := range values {
-		v.If(func(i int) {
-			fmt.Println(i)
-		})
-	}
-	
-	// Output:
-	// 2017
-
-Perform operations using an optional with a default:
-
-
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(2016),
-	}
-	
-	for _, v := range values {
-		fmt.Println(v.Else(1))
-	}
-	
-	// Output:
-	// 1
-	// 2017
 
 ### Templates
 Use the Optional template for your own types by installing gotemplate.
@@ -133,16 +104,6 @@ Then adding a go generate comment for your type.
   * [func (o Complex64) IsEmpty() bool](#Complex64.IsEmpty)
   * [func (o Complex64) IsPresent() bool](#Complex64.IsPresent)
   * [func (o Complex64) String() string](#Complex64.String)
-* [type Error](#Error)
-  * [func EmptyError() Error](#EmptyError)
-  * [func OfError(value error) Error](#OfError)
-  * [func OfErrorPtr(ptr *error) Error](#OfErrorPtr)
-  * [func (o Error) Else(elseValue error) (value error)](#Error.Else)
-  * [func (o Error) ElseFunc(f func() error) (value error)](#Error.ElseFunc)
-  * [func (o Error) If(f func(value error))](#Error.If)
-  * [func (o Error) IsEmpty() bool](#Error.IsEmpty)
-  * [func (o Error) IsPresent() bool](#Error.IsPresent)
-  * [func (o Error) String() string](#Error.String)
 * [type Float32](#Float32)
   * [func EmptyFloat32() Float32](#EmptyFloat32)
   * [func OfFloat32(value float32) Float32](#OfFloat32)
@@ -303,7 +264,7 @@ Then adding a go generate comment for your type.
 * [Int (XmlUnmarshal)](#example_Int_xmlUnmarshal)
 
 #### <a name="pkg-files">Package files</a>
-[bool_generated.go](/src/github.com/leighmcculloch/optional/bool_generated.go) [bool_marshal.go](/src/github.com/leighmcculloch/optional/bool_marshal.go) [byte_generated.go](/src/github.com/leighmcculloch/optional/byte_generated.go) [complex128_generated.go](/src/github.com/leighmcculloch/optional/complex128_generated.go) [complex64_generated.go](/src/github.com/leighmcculloch/optional/complex64_generated.go) [doc.go](/src/github.com/leighmcculloch/optional/doc.go) [error_generated.go](/src/github.com/leighmcculloch/optional/error_generated.go) [float32_generated.go](/src/github.com/leighmcculloch/optional/float32_generated.go) [float64_generated.go](/src/github.com/leighmcculloch/optional/float64_generated.go) [int16_generated.go](/src/github.com/leighmcculloch/optional/int16_generated.go) [int32_generated.go](/src/github.com/leighmcculloch/optional/int32_generated.go) [int64_generated.go](/src/github.com/leighmcculloch/optional/int64_generated.go) [int8_generated.go](/src/github.com/leighmcculloch/optional/int8_generated.go) [int_generated.go](/src/github.com/leighmcculloch/optional/int_generated.go) [int_marshal.go](/src/github.com/leighmcculloch/optional/int_marshal.go) [rune_generated.go](/src/github.com/leighmcculloch/optional/rune_generated.go) [string_generated.go](/src/github.com/leighmcculloch/optional/string_generated.go) [types.go](/src/github.com/leighmcculloch/optional/types.go) [uint16_generated.go](/src/github.com/leighmcculloch/optional/uint16_generated.go) [uint32_generated.go](/src/github.com/leighmcculloch/optional/uint32_generated.go) [uint64_generated.go](/src/github.com/leighmcculloch/optional/uint64_generated.go) [uint8_generated.go](/src/github.com/leighmcculloch/optional/uint8_generated.go) [uint_generated.go](/src/github.com/leighmcculloch/optional/uint_generated.go) [uintptr_generated.go](/src/github.com/leighmcculloch/optional/uintptr_generated.go) 
+[bool_generated.go](/src/github.com/leighmcculloch/optional/bool_generated.go) [bool_marshal.go](/src/github.com/leighmcculloch/optional/bool_marshal.go) [byte_generated.go](/src/github.com/leighmcculloch/optional/byte_generated.go) [complex128_generated.go](/src/github.com/leighmcculloch/optional/complex128_generated.go) [complex64_generated.go](/src/github.com/leighmcculloch/optional/complex64_generated.go) [doc.go](/src/github.com/leighmcculloch/optional/doc.go) [float32_generated.go](/src/github.com/leighmcculloch/optional/float32_generated.go) [float64_generated.go](/src/github.com/leighmcculloch/optional/float64_generated.go) [int16_generated.go](/src/github.com/leighmcculloch/optional/int16_generated.go) [int32_generated.go](/src/github.com/leighmcculloch/optional/int32_generated.go) [int64_generated.go](/src/github.com/leighmcculloch/optional/int64_generated.go) [int8_generated.go](/src/github.com/leighmcculloch/optional/int8_generated.go) [int_generated.go](/src/github.com/leighmcculloch/optional/int_generated.go) [int_marshal.go](/src/github.com/leighmcculloch/optional/int_marshal.go) [rune_generated.go](/src/github.com/leighmcculloch/optional/rune_generated.go) [string_generated.go](/src/github.com/leighmcculloch/optional/string_generated.go) [types.go](/src/github.com/leighmcculloch/optional/types.go) [uint16_generated.go](/src/github.com/leighmcculloch/optional/uint16_generated.go) [uint32_generated.go](/src/github.com/leighmcculloch/optional/uint32_generated.go) [uint64_generated.go](/src/github.com/leighmcculloch/optional/uint64_generated.go) [uint8_generated.go](/src/github.com/leighmcculloch/optional/uint8_generated.go) [uint_generated.go](/src/github.com/leighmcculloch/optional/uint_generated.go) [uintptr_generated.go](/src/github.com/leighmcculloch/optional/uintptr_generated.go) 
 
 
 
@@ -674,94 +635,6 @@ IsPresent returns true if there is a value wrapped by this Optional.
 ### <a name="Complex64.String">func</a> (Complex64) [String](/src/target/complex64_generated.go?s=1621:1655#L60)
 ``` go
 func (o Complex64) String() string
-```
-String returns a string representation of the wrapped value if one is present, otherwise an empty string.
-
-
-
-
-## <a name="Error">type</a> [Error](/src/target/error_generated.go?s=199:223#L1)
-``` go
-type Error optionalError
-```
-Optional wraps a value that may or may not be nil.
-If a value is present, it may be unwrapped to expose the underlying value.
-
-
-
-
-
-
-
-### <a name="EmptyError">func</a> [EmptyError](/src/target/error_generated.go?s=547:570#L23)
-``` go
-func EmptyError() Error
-```
-Empty returns an empty Optional.
-
-
-### <a name="OfError">func</a> [OfError](/src/target/error_generated.go?s=324:355#L10)
-``` go
-func OfError(value error) Error
-```
-Of wraps the value in an Optional.
-
-
-### <a name="OfErrorPtr">func</a> [OfErrorPtr](/src/target/error_generated.go?s=397:430#L14)
-``` go
-func OfErrorPtr(ptr *error) Error
-```
-
-
-
-
-### <a name="Error.Else">func</a> (Error) [Else](/src/target/error_generated.go?s=1282:1332#L55)
-``` go
-func (o Error) Else(elseValue error) (value error)
-```
-Else returns the value wrapped by this Optional, or the value passed in if
-there is no value wrapped by this Optional.
-
-
-
-
-### <a name="Error.ElseFunc">func</a> (Error) [ElseFunc](/src/target/error_generated.go?s=1007:1060#L44)
-``` go
-func (o Error) ElseFunc(f func() error) (value error)
-```
-
-
-
-### <a name="Error.If">func</a> (Error) [If](/src/target/error_generated.go?s=918:956#L38)
-``` go
-func (o Error) If(f func(value error))
-```
-If calls the function if there is a value wrapped by this Optional.
-
-
-
-
-### <a name="Error.IsEmpty">func</a> (Error) [IsEmpty](/src/target/error_generated.go?s=665:694#L28)
-``` go
-func (o Error) IsEmpty() bool
-```
-IsEmpty returns true if there there is no value wrapped by this Optional.
-
-
-
-
-### <a name="Error.IsPresent">func</a> (Error) [IsPresent](/src/target/error_generated.go?s=789:820#L33)
-``` go
-func (o Error) IsPresent() bool
-```
-IsPresent returns true if there is a value wrapped by this Optional.
-
-
-
-
-### <a name="Error.String">func</a> (Error) [String](/src/target/error_generated.go?s=1501:1531#L60)
-``` go
-func (o Error) String() string
 ```
 String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 

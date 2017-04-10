@@ -16,6 +16,10 @@ Take a pointer to something and make it an optional to force code you share it w
 		// use i here
 	})
 
+	// returns 100 if o is empty
+	_ := o.Else(100)
+	_ := o.ElseFunc(func() { return 100; })
+
 Support XML, JSON and other encoding packages out of the box, including omitempty without needing to use pointers:
 
 	s := struct {
@@ -31,37 +35,6 @@ Support XML, JSON and other encoding packages out of the box, including omitempt
 	output, _ := xml.Marshal(s)
 
 	// output = <v><o2>1000</o2></v>
-
-Perform operations only if the optional is not empty:
-
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(2017),
-	}
-
-	for _, v := range values {
-		v.If(func(i int) {
-			fmt.Println(i)
-		})
-	}
-
-	// Output:
-	// 2017
-
-Perform operations using an optional with a default:
-
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(2016),
-	}
-
-	for _, v := range values {
-		fmt.Println(v.Else(1))
-	}
-
-	// Output:
-	// 1
-	// 2017
 
 Templates
 
