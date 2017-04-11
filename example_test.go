@@ -47,18 +47,31 @@ func ExampleInt_Else() {
 	// 1001
 }
 
-func Example_xmlMarshal() {
+func Example_xmlMarshalOmitEmpty() {
 	s := struct {
-		XMLName     xml.Name      `xml:"s"`
-		IntEmpty    optional.Int  `xml:"int_empty,omitempty"`
-		IntPresent  optional.Int  `xml:"int_present,omitempty"`
-		BoolEmpty   optional.Bool `xml:"bool_empty,omitempty"`
-		BoolPresent optional.Bool `xml:"bool_present,omitempty"`
+		XMLName xml.Name      `xml:"s"`
+		Bool    optional.Bool `xml:"bool,omitempty"`
+		Int     optional.Int  `xml:"int,omitempty"`
 	}{
-		IntEmpty:    optional.EmptyInt(),
-		IntPresent:  optional.OfInt(0),
-		BoolEmpty:   optional.EmptyBool(),
-		BoolPresent: optional.OfBool(false),
+		Bool: optional.EmptyBool(),
+		Int:  optional.EmptyInt(),
+	}
+
+	output, _ := xml.MarshalIndent(s, "", "  ")
+	fmt.Println(string(output))
+
+	// Output:
+	// <s></s>
+}
+
+func Example_xmlMarshalEmpty() {
+	s := struct {
+		XMLName xml.Name      `xml:"s"`
+		Bool    optional.Bool `xml:"bool"`
+		Int     optional.Int  `xml:"int"`
+	}{
+		Bool: optional.EmptyBool(),
+		Int:  optional.EmptyInt(),
 	}
 
 	output, _ := xml.MarshalIndent(s, "", "  ")
@@ -66,34 +79,65 @@ func Example_xmlMarshal() {
 
 	// Output:
 	// <s>
-	//   <int_present>0</int_present>
-	//   <bool_present>false</bool_present>
+	//   <bool></bool>
+	//   <int></int>
 	// </s>
 }
 
-func Example_xmlUnmarshal() {
+func Example_xmlMarshalPresent() {
 	s := struct {
-		XMLName     xml.Name      `xml:"s"`
-		IntEmpty    optional.Int  `xml:"int_empty,omitempty"`
-		IntPresent  optional.Int  `xml:"int_present,omitempty"`
-		BoolEmpty   optional.Bool `xml:"bool_empty,omitempty"`
-		BoolPresent optional.Bool `xml:"bool_present,omitempty"`
+		XMLName xml.Name      `xml:"s"`
+		Bool    optional.Bool `xml:"bool,omitempty"`
+		Int     optional.Int  `xml:"int,omitempty"`
+	}{
+		Int:  optional.OfInt(0),
+		Bool: optional.OfBool(false),
+	}
+
+	output, _ := xml.MarshalIndent(s, "", "  ")
+	fmt.Println(string(output))
+
+	// Output:
+	// <s>
+	//   <bool>false</bool>
+	//   <int>0</int>
+	// </s>
+}
+
+func Example_xmlUnmarshalPresent() {
+	s := struct {
+		XMLName xml.Name      `xml:"s"`
+		Bool    optional.Bool `xml:"bool,omitempty"`
+		Int     optional.Int  `xml:"int,omitempty"`
 	}{}
 
 	x := `<s>
-  <int_present>0</int_present>
-  <bool_present>false</bool_present>
+  <bool>false</bool>
+  <int>0</int>
 </s>`
 	xml.Unmarshal([]byte(x), &s)
 
-	fmt.Println("IntEmpty:", s.IntEmpty.IsPresent())
-	fmt.Println("IntPresent:", s.IntPresent.IsPresent(), s.IntPresent)
-	fmt.Println("BoolEmpty:", s.BoolEmpty.IsPresent())
-	fmt.Println("BoolPresent:", s.BoolPresent.IsPresent(), s.BoolPresent)
+	fmt.Println("Bool:", s.Bool.IsPresent(), s.Bool)
+	fmt.Println("Int:", s.Int.IsPresent(), s.Int)
 
 	// Output:
-	// IntEmpty: false
-	// IntPresent: true 0
-	// BoolEmpty: false
-	// BoolPresent: true false
+	// Bool: true false
+	// Int: true 0
+}
+
+func Example_xmlUnmarshalEmpty() {
+	s := struct {
+		XMLName xml.Name      `xml:"s"`
+		Bool    optional.Bool `xml:"bool,omitempty"`
+		Int     optional.Int  `xml:"int,omitempty"`
+	}{}
+
+	x := `<s></s>`
+	xml.Unmarshal([]byte(x), &s)
+	fmt.Println("Bool:", s.Bool.IsPresent())
+	fmt.Println("Int:", s.Int.IsPresent())
+
+	// Output:
+	// Bool: false
+	// Int: false
 }
