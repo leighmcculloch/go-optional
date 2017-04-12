@@ -15,6 +15,8 @@ Take a pointer to something and make it an optional to force code you share it w
 
 	o.If(func(i int) { ... }) // called if o is not empty
 
+	_, ok := o.Get() { ... }) // ok is true if o is not empty
+
 	_ := o.Else(100) // returns 100 if o is empty
 
 Support XML and JSON out of the box, including omitempty without needing to use pointers:

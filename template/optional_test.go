@@ -24,6 +24,29 @@ func TestIsPresent(t *testing.T) {
 	}
 }
 
+func TestGet(t *testing.T) {
+	s := "ptr to string"
+	tests := []struct {
+		Optional      Optional
+		ExpectedValue T
+		ExpectedOk    bool
+	}{
+		{Empty(), "", false},
+		{Of(""), "", true},
+		{Of("string"), "string", true},
+		{OfOptionalPtr((*T)(nil)), "", false},
+		{OfOptionalPtr((*T)(&s)), "ptr to string", true},
+	}
+
+	for _, test := range tests {
+		value, ok := test.Optional.Get()
+
+		if value != test.ExpectedValue || ok != test.ExpectedOk {
+			t.Errorf("%#v Get got %#v, %#v, want %#v, %#v", test.Optional, ok, test.ExpectedOk, value, test.ExpectedValue)
+		}
+	}
+}
+
 func TestIfPresent(t *testing.T) {
 	s := "ptr to string"
 	tests := []struct {

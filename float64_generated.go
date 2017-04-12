@@ -21,7 +21,7 @@ const (
 	valueKeyFloat64 = iota
 )
 
-// Of wraps the value in an Optional.
+// Of wraps the value in an optional.
 func OfFloat64(value float64) Float64 {
 	return Float64{valueKeyFloat64: value}
 }
@@ -34,17 +34,26 @@ func OfFloat64Ptr(ptr *float64) Float64 {
 	}
 }
 
-// Empty returns an empty Optional.
+// Empty returns an empty optional.
 func EmptyFloat64() Float64 {
 	return nil
 }
 
-// IsPresent returns true if there is a value wrapped by this Optional.
+// Get returns the value wrapped by this optional, and an ok signal for whether a value was wrapped.
+func (o Float64) Get() (value float64, ok bool) {
+	o.If(func(v float64) {
+		value = v
+		ok = true
+	})
+	return
+}
+
+// IsPresent returns true if there is a value wrapped by this optional.
 func (o Float64) IsPresent() bool {
 	return o != nil
 }
 
-// If calls the function if there is a value wrapped by this Optional.
+// If calls the function if there is a value wrapped by this optional.
 func (o Float64) If(f func(value float64)) {
 	if o.IsPresent() {
 		f(o[valueKeyFloat64])
@@ -60,34 +69,33 @@ func (o Float64) ElseFunc(f func() float64) (value float64) {
 	}
 }
 
-// Else returns the value wrapped by this Optional, or the value passed in if
-// there is no value wrapped by this Optional.
+// Else returns the value wrapped by this optional, or the value passed in if
+// there is no value wrapped by this optional.
 func (o Float64) Else(elseValue float64) (value float64) {
 	return o.ElseFunc(func() float64 { return elseValue })
 }
 
-// ElseZero returns the value wrapped by this Optional, or the zero value of
-// the type wrapped if there is no value wrapped by this Optional.
+// ElseZero returns the value wrapped by this optional, or the zero value of
+// the type wrapped if there is no value wrapped by this optional.
 func (o Float64) ElseZero() (value float64) {
 	var zero float64
 	return o.Else(zero)
 }
 
-// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+// String returns the string representation of the wrapped value, or the string
+// representation of the zero value of the type wrapped if there is no value
+// wrapped by this optional.
 func (o Float64) String() string {
-	if o.IsPresent() {
-		var value float64
-		o.If(func(v float64) { value = v })
-		return fmt.Sprintf("%v", value)
-	} else {
-		return ""
-	}
+	return fmt.Sprintf("%v", o.ElseZero())
 }
 
+// MarshalJSON marshals the value being wrapped to JSON. If there is no vale
+// being wrapped, the zero value of its type is marshaled.
 func (o Float64) MarshalJSON() (data []byte, err error) {
 	return json.Marshal(o.ElseZero())
 }
 
+// UnmarshalJSON unmarshals the JSON into a value wrapped by this optional.
 func (o *Float64) UnmarshalJSON(data []byte) error {
 	var v float64
 	err := json.Unmarshal(data, &v)
@@ -98,10 +106,13 @@ func (o *Float64) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// MarshalXML marshals the value being wrapped to XML. If there is no vale
+// being wrapped, the zero value of its type is marshaled.
 func (o Float64) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.EncodeElement(o.ElseZero(), start)
 }
 
+// UnmarshalXML unmarshals the XML into a value wrapped by this optional.
 func (o *Float64) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var v float64
 	err := d.DecodeElement(&v, &start)

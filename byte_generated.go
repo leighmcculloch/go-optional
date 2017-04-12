@@ -21,7 +21,7 @@ const (
 	valueKeyByte = iota
 )
 
-// Of wraps the value in an Optional.
+// Of wraps the value in an optional.
 func OfByte(value byte) Byte {
 	return Byte{valueKeyByte: value}
 }
@@ -34,17 +34,26 @@ func OfBytePtr(ptr *byte) Byte {
 	}
 }
 
-// Empty returns an empty Optional.
+// Empty returns an empty optional.
 func EmptyByte() Byte {
 	return nil
 }
 
-// IsPresent returns true if there is a value wrapped by this Optional.
+// Get returns the value wrapped by this optional, and an ok signal for whether a value was wrapped.
+func (o Byte) Get() (value byte, ok bool) {
+	o.If(func(v byte) {
+		value = v
+		ok = true
+	})
+	return
+}
+
+// IsPresent returns true if there is a value wrapped by this optional.
 func (o Byte) IsPresent() bool {
 	return o != nil
 }
 
-// If calls the function if there is a value wrapped by this Optional.
+// If calls the function if there is a value wrapped by this optional.
 func (o Byte) If(f func(value byte)) {
 	if o.IsPresent() {
 		f(o[valueKeyByte])
@@ -60,34 +69,33 @@ func (o Byte) ElseFunc(f func() byte) (value byte) {
 	}
 }
 
-// Else returns the value wrapped by this Optional, or the value passed in if
-// there is no value wrapped by this Optional.
+// Else returns the value wrapped by this optional, or the value passed in if
+// there is no value wrapped by this optional.
 func (o Byte) Else(elseValue byte) (value byte) {
 	return o.ElseFunc(func() byte { return elseValue })
 }
 
-// ElseZero returns the value wrapped by this Optional, or the zero value of
-// the type wrapped if there is no value wrapped by this Optional.
+// ElseZero returns the value wrapped by this optional, or the zero value of
+// the type wrapped if there is no value wrapped by this optional.
 func (o Byte) ElseZero() (value byte) {
 	var zero byte
 	return o.Else(zero)
 }
 
-// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+// String returns the string representation of the wrapped value, or the string
+// representation of the zero value of the type wrapped if there is no value
+// wrapped by this optional.
 func (o Byte) String() string {
-	if o.IsPresent() {
-		var value byte
-		o.If(func(v byte) { value = v })
-		return fmt.Sprintf("%v", value)
-	} else {
-		return ""
-	}
+	return fmt.Sprintf("%v", o.ElseZero())
 }
 
+// MarshalJSON marshals the value being wrapped to JSON. If there is no vale
+// being wrapped, the zero value of its type is marshaled.
 func (o Byte) MarshalJSON() (data []byte, err error) {
 	return json.Marshal(o.ElseZero())
 }
 
+// UnmarshalJSON unmarshals the JSON into a value wrapped by this optional.
 func (o *Byte) UnmarshalJSON(data []byte) error {
 	var v byte
 	err := json.Unmarshal(data, &v)
@@ -98,10 +106,13 @@ func (o *Byte) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// MarshalXML marshals the value being wrapped to XML. If there is no vale
+// being wrapped, the zero value of its type is marshaled.
 func (o Byte) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.EncodeElement(o.ElseZero(), start)
 }
 
+// UnmarshalXML unmarshals the XML into a value wrapped by this optional.
 func (o *Byte) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var v byte
 	err := d.DecodeElement(&v, &start)

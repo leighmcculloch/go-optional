@@ -9,7 +9,27 @@ import (
 	"github.com/leighmcculloch/optional"
 )
 
-func Example_ifPresent() {
+func Example_get() {
+	i := 1001
+	values := []optional.Int{
+		optional.EmptyInt(),
+		optional.OfInt(1000),
+		optional.OfIntPtr(nil),
+		optional.OfIntPtr(&i),
+	}
+
+	for _, v := range values {
+		if i, ok := v.Get(); ok {
+			fmt.Println(i)
+		}
+	}
+
+	// Output:
+	// 1000
+	// 1001
+}
+
+func Example_if() {
 	i := 1001
 	values := []optional.Int{
 		optional.EmptyInt(),

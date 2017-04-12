@@ -21,7 +21,7 @@ const (
 	valueKeyUintptr = iota
 )
 
-// Of wraps the value in an Optional.
+// Of wraps the value in an optional.
 func OfUintptr(value uintptr) Uintptr {
 	return Uintptr{valueKeyUintptr: value}
 }
@@ -34,17 +34,26 @@ func OfUintptrPtr(ptr *uintptr) Uintptr {
 	}
 }
 
-// Empty returns an empty Optional.
+// Empty returns an empty optional.
 func EmptyUintptr() Uintptr {
 	return nil
 }
 
-// IsPresent returns true if there is a value wrapped by this Optional.
+// Get returns the value wrapped by this optional, and an ok signal for whether a value was wrapped.
+func (o Uintptr) Get() (value uintptr, ok bool) {
+	o.If(func(v uintptr) {
+		value = v
+		ok = true
+	})
+	return
+}
+
+// IsPresent returns true if there is a value wrapped by this optional.
 func (o Uintptr) IsPresent() bool {
 	return o != nil
 }
 
-// If calls the function if there is a value wrapped by this Optional.
+// If calls the function if there is a value wrapped by this optional.
 func (o Uintptr) If(f func(value uintptr)) {
 	if o.IsPresent() {
 		f(o[valueKeyUintptr])
@@ -60,34 +69,33 @@ func (o Uintptr) ElseFunc(f func() uintptr) (value uintptr) {
 	}
 }
 
-// Else returns the value wrapped by this Optional, or the value passed in if
-// there is no value wrapped by this Optional.
+// Else returns the value wrapped by this optional, or the value passed in if
+// there is no value wrapped by this optional.
 func (o Uintptr) Else(elseValue uintptr) (value uintptr) {
 	return o.ElseFunc(func() uintptr { return elseValue })
 }
 
-// ElseZero returns the value wrapped by this Optional, or the zero value of
-// the type wrapped if there is no value wrapped by this Optional.
+// ElseZero returns the value wrapped by this optional, or the zero value of
+// the type wrapped if there is no value wrapped by this optional.
 func (o Uintptr) ElseZero() (value uintptr) {
 	var zero uintptr
 	return o.Else(zero)
 }
 
-// String returns a string representation of the wrapped value if one is present, otherwise an empty string.
+// String returns the string representation of the wrapped value, or the string
+// representation of the zero value of the type wrapped if there is no value
+// wrapped by this optional.
 func (o Uintptr) String() string {
-	if o.IsPresent() {
-		var value uintptr
-		o.If(func(v uintptr) { value = v })
-		return fmt.Sprintf("%v", value)
-	} else {
-		return ""
-	}
+	return fmt.Sprintf("%v", o.ElseZero())
 }
 
+// MarshalJSON marshals the value being wrapped to JSON. If there is no vale
+// being wrapped, the zero value of its type is marshaled.
 func (o Uintptr) MarshalJSON() (data []byte, err error) {
 	return json.Marshal(o.ElseZero())
 }
 
+// UnmarshalJSON unmarshals the JSON into a value wrapped by this optional.
 func (o *Uintptr) UnmarshalJSON(data []byte) error {
 	var v uintptr
 	err := json.Unmarshal(data, &v)
@@ -98,10 +106,13 @@ func (o *Uintptr) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// MarshalXML marshals the value being wrapped to XML. If there is no vale
+// being wrapped, the zero value of its type is marshaled.
 func (o Uintptr) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.EncodeElement(o.ElseZero(), start)
 }
 
+// UnmarshalXML unmarshals the XML into a value wrapped by this optional.
 func (o *Uintptr) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var v uintptr
 	err := d.DecodeElement(&v, &start)
