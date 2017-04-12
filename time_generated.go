@@ -1,6 +1,8 @@
 package optional
 
 import (
+	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"time"
 )
@@ -85,4 +87,32 @@ func (o Time) String() string {
 	} else {
 		return ""
 	}
+}
+
+func (o Time) MarshalJSON() (data []byte, err error) {
+	return json.Marshal(o.ElseZero())
+}
+
+func (o *Time) UnmarshalJSON(data []byte) error {
+	var v time.Time
+	err := json.Unmarshal(data, &v)
+	if err != nil {
+		return err
+	}
+	*o = OfTime(v)
+	return nil
+}
+
+func (o Time) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return e.EncodeElement(o.ElseZero(), start)
+}
+
+func (o *Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	var v time.Time
+	err := d.DecodeElement(&v, &start)
+	if err != nil {
+		return err
+	}
+	*o = OfTime(v)
+	return nil
 }

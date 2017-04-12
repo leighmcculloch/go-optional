@@ -1,6 +1,8 @@
 package optional
 
 import (
+	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"time"
 )
@@ -85,4 +87,32 @@ func (o Complex128) String() string {
 	} else {
 		return ""
 	}
+}
+
+func (o Complex128) MarshalJSON() (data []byte, err error) {
+	return json.Marshal(o.ElseZero())
+}
+
+func (o *Complex128) UnmarshalJSON(data []byte) error {
+	var v complex128
+	err := json.Unmarshal(data, &v)
+	if err != nil {
+		return err
+	}
+	*o = OfComplex128(v)
+	return nil
+}
+
+func (o Complex128) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return e.EncodeElement(o.ElseZero(), start)
+}
+
+func (o *Complex128) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	var v complex128
+	err := d.DecodeElement(&v, &start)
+	if err != nil {
+		return err
+	}
+	*o = OfComplex128(v)
+	return nil
 }
