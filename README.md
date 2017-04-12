@@ -1,5 +1,10 @@
 # optional
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/leighmcculloch/optional)](https://goreportcard.com/report/github.com/leighmcculloch/optional)
+[![Codecov](https://img.shields.io/codecov/c/github/leighmcculloch/optional.svg)](https://codecov.io/gh/leighmcculloch/optional)
+[![Build Status](https://img.shields.io/travis/leighmcculloch/optional.svg)](https://travis-ci.org/leighmcculloch/optional)
+[![Go docs](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/leighmcculloch/optional)
+
 ```
 go get github.com/leighmcculloch/optional
 ```
