@@ -39,14 +39,9 @@ func EmptyComplex64() Complex64 {
 	return nil
 }
 
-// IsEmpty returns true if there there is no value wrapped by this Optional.
-func (o Complex64) IsEmpty() bool {
-	return o == nil
-}
-
 // IsPresent returns true if there is a value wrapped by this Optional.
 func (o Complex64) IsPresent() bool {
-	return !o.IsEmpty()
+	return o != nil
 }
 
 // If calls the function if there is a value wrapped by this Optional.

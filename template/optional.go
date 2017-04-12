@@ -41,14 +41,9 @@ func Empty() Optional {
 	return nil
 }
 
-// IsEmpty returns true if there there is no value wrapped by this Optional.
-func (o Optional) IsEmpty() bool {
-	return o == nil
-}
-
 // IsPresent returns true if there is a value wrapped by this Optional.
 func (o Optional) IsPresent() bool {
-	return !o.IsEmpty()
+	return o != nil
 }
 
 // If calls the function if there is a value wrapped by this Optional.
