@@ -69,6 +69,13 @@ func (o Float64) Else(elseValue float64) (value float64) {
 	return o.ElseFunc(func() float64 { return elseValue })
 }
 
+// ElseZero returns the value wrapped by this Optional, or the zero value of
+// the type wrapped if there is no value wrapped by this Optional.
+func (o Float64) ElseZero() (value float64) {
+	var zero float64
+	return o.Else(zero)
+}
+
 // String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Float64) String() string {
 	if o.IsPresent() {

@@ -10,7 +10,7 @@ func TestIntMarshalText(t *testing.T) {
 		Optional     Int
 		ExpectedText string
 	}{
-		{EmptyInt(), ""},
+		{EmptyInt(), "0"},
 		{OfInt(2), "2"},
 		{OfInt(-2), "-2"},
 	}

@@ -69,6 +69,13 @@ func (o Int32) Else(elseValue int32) (value int32) {
 	return o.ElseFunc(func() int32 { return elseValue })
 }
 
+// ElseZero returns the value wrapped by this Optional, or the zero value of
+// the type wrapped if there is no value wrapped by this Optional.
+func (o Int32) ElseZero() (value int32) {
+	var zero int32
+	return o.Else(zero)
+}
+
 // String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Int32) String() string {
 	if o.IsPresent() {

@@ -10,7 +10,7 @@ func TestBoolMarshalText(t *testing.T) {
 		Optional     Bool
 		ExpectedText string
 	}{
-		{EmptyBool(), ""},
+		{EmptyBool(), "false"},
 		{OfBool(true), "true"},
 		{OfBool(false), "false"},
 	}

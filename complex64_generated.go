@@ -69,6 +69,13 @@ func (o Complex64) Else(elseValue complex64) (value complex64) {
 	return o.ElseFunc(func() complex64 { return elseValue })
 }
 
+// ElseZero returns the value wrapped by this Optional, or the zero value of
+// the type wrapped if there is no value wrapped by this Optional.
+func (o Complex64) ElseZero() (value complex64) {
+	var zero complex64
+	return o.Else(zero)
+}
+
 // String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Complex64) String() string {
 	if o.IsPresent() {

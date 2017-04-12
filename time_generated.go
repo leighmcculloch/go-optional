@@ -69,6 +69,13 @@ func (o Time) Else(elseValue time.Time) (value time.Time) {
 	return o.ElseFunc(func() time.Time { return elseValue })
 }
 
+// ElseZero returns the value wrapped by this Optional, or the zero value of
+// the type wrapped if there is no value wrapped by this Optional.
+func (o Time) ElseZero() (value time.Time) {
+	var zero time.Time
+	return o.Else(zero)
+}
+
 // String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Time) String() string {
 	if o.IsPresent() {

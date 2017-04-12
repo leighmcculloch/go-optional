@@ -69,6 +69,13 @@ func (o Rune) Else(elseValue rune) (value rune) {
 	return o.ElseFunc(func() rune { return elseValue })
 }
 
+// ElseZero returns the value wrapped by this Optional, or the zero value of
+// the type wrapped if there is no value wrapped by this Optional.
+func (o Rune) ElseZero() (value rune) {
+	var zero rune
+	return o.Else(zero)
+}
+
 // String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Rune) String() string {
 	if o.IsPresent() {

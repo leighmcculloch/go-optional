@@ -69,6 +69,13 @@ func (o Uint8) Else(elseValue uint8) (value uint8) {
 	return o.ElseFunc(func() uint8 { return elseValue })
 }
 
+// ElseZero returns the value wrapped by this Optional, or the zero value of
+// the type wrapped if there is no value wrapped by this Optional.
+func (o Uint8) ElseZero() (value uint8) {
+	var zero uint8
+	return o.Else(zero)
+}
+
 // String returns a string representation of the wrapped value if one is present, otherwise an empty string.
 func (o Uint8) String() string {
 	if o.IsPresent() {

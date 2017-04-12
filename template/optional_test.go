@@ -53,7 +53,7 @@ func TestIfPresent(t *testing.T) {
 	}
 }
 
-func TestOrElse(t *testing.T) {
+func TestElse(t *testing.T) {
 	s := "ptr to string"
 	const orElse = "orelse"
 	tests := []struct {
@@ -76,7 +76,7 @@ func TestOrElse(t *testing.T) {
 	}
 }
 
-func TestOrElseFunc(t *testing.T) {
+func TestElseFunc(t *testing.T) {
 	s := "ptr to string"
 	const orElse = "orelse"
 	tests := []struct {
@@ -95,6 +95,28 @@ func TestOrElseFunc(t *testing.T) {
 
 		if result != test.ExpectedResult {
 			t.Errorf("%#v OrElse(%#v) got %#v, want %#v", test.Optional, orElse, result, test.ExpectedResult)
+		}
+	}
+}
+
+func TestElseZero(t *testing.T) {
+	s := "ptr to string"
+	tests := []struct {
+		Optional       Optional
+		ExpectedResult T
+	}{
+		{Empty(), ""},
+		{Of(""), ""},
+		{Of("string"), "string"},
+		{OfOptionalPtr((*T)(nil)), ""},
+		{OfOptionalPtr((*T)(&s)), "ptr to string"},
+	}
+
+	for _, test := range tests {
+		result := test.Optional.ElseZero()
+
+		if result != test.ExpectedResult {
+			t.Errorf("%#v ElseZero() got %#v, want %#v", test.Optional, result, test.ExpectedResult)
 		}
 	}
 }
