@@ -1,15 +1,17 @@
 package optional
 
 import (
-	"strconv"
+	"encoding/json"
+	"encoding/xml"
 )
 
 func (o Bool) MarshalJSON() (data []byte, err error) {
-	return []byte(strconv.FormatBool(o.ElseZero())), nil
+	return json.Marshal(o.ElseZero())
 }
 
 func (o *Bool) UnmarshalJSON(data []byte) error {
-	v, err := strconv.ParseBool(string(data))
+	var v bool
+	err := json.Unmarshal(data, &v)
 	if err != nil {
 		return err
 	}
@@ -17,14 +19,13 @@ func (o *Bool) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// MarshalText returns text for marshaling this Int.
-func (o Bool) MarshalText() (text []byte, err error) {
-	return []byte(strconv.FormatBool(o.ElseZero())), nil
+func (o Bool) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return e.EncodeElement(o.ElseZero(), start)
 }
 
-// UnmarshalText parse the text into this Int
-func (o *Bool) UnmarshalText(text []byte) error {
-	v, err := strconv.ParseBool(string(text))
+func (o *Bool) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	var v bool
+	err := d.DecodeElement(&v, &start)
 	if err != nil {
 		return err
 	}
