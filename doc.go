@@ -15,7 +15,9 @@ Take a pointer to something and make it an optional to force code you share it w
 
 	o.If(func(i int) { ... }) // called if o is not empty
 
-	_, ok := o.Get() { ... }) // ok is true if o is not empty
+	if _, ok := o.Get(); ok {
+		// ok is true if o is not empty
+	}
 
 	_ := o.Else(100) // returns 100 if o is empty
 

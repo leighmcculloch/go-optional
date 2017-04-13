@@ -1,10 +1,5 @@
 # optional
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/leighmcculloch/optional)](https://goreportcard.com/report/github.com/leighmcculloch/optional)
-[![Codecov](https://img.shields.io/codecov/c/github/leighmcculloch/optional.svg)](https://codecov.io/gh/leighmcculloch/optional)
-[![Build Status](https://img.shields.io/travis/leighmcculloch/optional.svg)](https://travis-ci.org/leighmcculloch/optional)
-[![Go docs](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/leighmcculloch/optional)
-
 ```
 go get github.com/leighmcculloch/optional
 ```
@@ -40,7 +35,9 @@ with to only use it if it's not nil:
 
     o.If(func(i int) { ... }) // called if o is not empty
 
-    _, ok := o.Get() { ... }) // ok is true if o is not empty
+    if _, ok := o.Get(); ok {
+    	// ok is true if o is not empty
+    }
 
     _ := o.Else(100) // returns 100 if o is empty
 

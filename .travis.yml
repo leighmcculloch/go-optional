@@ -5,11 +5,12 @@ go:
 
 os:
   - linux
-  - osx
 
 script:
   - go vet
-  - go test ./... -coverprofile=coverage.txt
+  - go test . -coverprofile=coverage-1.txt
+  - go test ./template -coverprofile=coverage-2.txt
 
 after_success:
+  - cat coverage-1.txt coverage-2.txt > coverage.txt
   - bash <(curl -s https://codecov.io/bash)
