@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/leighmcculloch/go-optional"
+	"4d63.com/optional"
 )
 
 func Example_get() {

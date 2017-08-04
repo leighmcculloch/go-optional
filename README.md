@@ -1,16 +1,16 @@
 # optional
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/leighmcculloch/go-optional)](https://goreportcard.com/report/github.com/leighmcculloch/go-optional)
+[![Go Report Card](https://goreportcard.com/badge/4d63.com/optional)](https://goreportcard.com/report/4d63.com/optional)
 [![Codecov](https://img.shields.io/codecov/c/github/leighmcculloch/go-optional.svg)](https://codecov.io/gh/leighmcculloch/go-optional)
 [![Build Status](https://img.shields.io/travis/leighmcculloch/go-optional.svg)](https://travis-ci.org/leighmcculloch/go-optional)
-[![Go docs](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/leighmcculloch/go-optional)
+[![Go docs](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/4d63.com/optional)
 
 ```
-go get github.com/leighmcculloch/go-optional
+go get 4d63.com/optional
 ```
 
 ```
-import github.com/leighmcculloch/go-optional
+import 4d63.com/optional
 ```
 
 Package optional exports types that wrap the builtin types (int, bool, etc) to
@@ -85,7 +85,7 @@ Use the Optional template for your own types by installing gotemplate.
 Then add a `go generate` comment for your type to any `.go` file in your
 package.
 
-    //go:generate gotemplate "github.com/leighmcculloch/optional/template" OptionalMyType(MyType)
+    //go:generate gotemplate "4d63.com/optional/template" OptionalMyType(MyType)
 
 
 ### Examples
@@ -94,4 +94,4 @@ See the examples for more approaches to use.
 
 ### Documentation
 
-See the [godoc](https://godoc.org/github.com/leighmcculloch/optional).
+See the [godoc](https://godoc.org/4d63.com/optional).

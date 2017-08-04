@@ -57,11 +57,11 @@ Use the Optional template for your own types by installing gotemplate.
 
 Then add a `go generate` comment for your type to any `.go` file in your package.
 
-	//go:generate gotemplate "github.com/leighmcculloch/optional/template" OptionalMyType(MyType)
+	//go:generate gotemplate "4d63.com/optional/template" OptionalMyType(MyType)
 
 Examples
 
 See the examples for more approaches to use.
 
 */
-package optional
+package optional // import "4d63.com/optional"

@@ -9,8 +9,8 @@ generate:
 	rename 's/gotemplate_([A-Za-z0-9]+)\.go/\L$$1_generated.go/' gotemplate_*.go
 
 readme:
-	godocdown github.com/leighmcculloch/go-optional > README.md
+	godocdown 4d63.com/optional > README.md
 
 setup:
 	go get github.com/ncw/gotemplate
-	go get github.com/davecheney/godoc2md
+	go get github.com/robertkrimen/godocdown/godocdown
