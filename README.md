@@ -1,7 +1,6 @@
 # optional
 
 [![Go Report Card](https://goreportcard.com/badge/4d63.com/optional)](https://goreportcard.com/report/4d63.com/optional)
-[![Codecov](https://img.shields.io/codecov/c/github/leighmcculloch/go-optional.svg)](https://codecov.io/gh/leighmcculloch/go-optional)
 [![Build Status](https://img.shields.io/travis/leighmcculloch/go-optional.svg)](https://travis-ci.org/leighmcculloch/go-optional)
 [![Go docs](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/4d63.com/optional)
 
