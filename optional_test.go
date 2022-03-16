@@ -1,18 +1,18 @@
-package template
+package optional
 
 import "testing"
 
 func TestIsPresent(t *testing.T) {
 	s := "ptr to string"
 	tests := []struct {
-		Optional          Optional
+		Optional          Optional[string]
 		ExpectedIsPresent bool
 	}{
-		{Empty(), false},
+		{Empty[string](), false},
 		{Of(""), true},
 		{Of("string"), true},
-		{OfOptionalPtr((*T)(nil)), false},
-		{OfOptionalPtr((*T)(&s)), true},
+		{OfPtr((*string)(nil)), false},
+		{OfPtr((*string)(&s)), true},
 	}
 
 	for _, test := range tests {
@@ -27,15 +27,15 @@ func TestIsPresent(t *testing.T) {
 func TestGet(t *testing.T) {
 	s := "ptr to string"
 	tests := []struct {
-		Optional      Optional
-		ExpectedValue T
+		Optional      Optional[string]
+		ExpectedValue string
 		ExpectedOk    bool
 	}{
-		{Empty(), "", false},
+		{Empty[string](), "", false},
 		{Of(""), "", true},
 		{Of("string"), "string", true},
-		{OfOptionalPtr((*T)(nil)), "", false},
-		{OfOptionalPtr((*T)(&s)), "ptr to string", true},
+		{OfPtr((*string)(nil)), "", false},
+		{OfPtr((*string)(&s)), "ptr to string", true},
 	}
 
 	for _, test := range tests {
@@ -50,20 +50,20 @@ func TestGet(t *testing.T) {
 func TestIfPresent(t *testing.T) {
 	s := "ptr to string"
 	tests := []struct {
-		Optional       Optional
+		Optional       Optional[string]
 		ExpectedCalled bool
-		IfCalledValue  T
+		IfCalledValue  string
 	}{
-		{Empty(), false, ""},
+		{Empty[string](), false, ""},
 		{Of(""), true, ""},
 		{Of("string"), true, "string"},
-		{OfOptionalPtr((*T)(nil)), false, ""},
-		{OfOptionalPtr((*T)(&s)), true, "ptr to string"},
+		{OfPtr((*string)(nil)), false, ""},
+		{OfPtr((*string)(&s)), true, "ptr to string"},
 	}
 
 	for _, test := range tests {
 		called := false
-		test.Optional.If(func(v T) {
+		test.Optional.If(func(v string) {
 			called = true
 			if v != test.IfCalledValue {
 				t.Errorf("%#v IfPresent got %#v, want #%v", test.Optional, v, test.IfCalledValue)
@@ -80,14 +80,14 @@ func TestElse(t *testing.T) {
 	s := "ptr to string"
 	const orElse = "orelse"
 	tests := []struct {
-		Optional       Optional
-		ExpectedResult T
+		Optional       Optional[string]
+		ExpectedResult string
 	}{
-		{Empty(), orElse},
+		{Empty[string](), orElse},
 		{Of(""), ""},
 		{Of("string"), "string"},
-		{OfOptionalPtr((*T)(nil)), orElse},
-		{OfOptionalPtr((*T)(&s)), "ptr to string"},
+		{OfPtr((*string)(nil)), orElse},
+		{OfPtr((*string)(&s)), "ptr to string"},
 	}
 
 	for _, test := range tests {
@@ -103,18 +103,18 @@ func TestElseFunc(t *testing.T) {
 	s := "ptr to string"
 	const orElse = "orelse"
 	tests := []struct {
-		Optional       Optional
-		ExpectedResult T
+		Optional       Optional[string]
+		ExpectedResult string
 	}{
-		{Empty(), orElse},
+		{Empty[string](), orElse},
 		{Of(""), ""},
 		{Of("string"), "string"},
-		{OfOptionalPtr((*T)(nil)), orElse},
-		{OfOptionalPtr((*T)(&s)), "ptr to string"},
+		{OfPtr((*string)(nil)), orElse},
+		{OfPtr((*string)(&s)), "ptr to string"},
 	}
 
 	for _, test := range tests {
-		result := test.Optional.ElseFunc(func() T { return orElse })
+		result := test.Optional.ElseFunc(func() string { return orElse })
 
 		if result != test.ExpectedResult {
 			t.Errorf("%#v OrElse(%#v) got %#v, want %#v", test.Optional, orElse, result, test.ExpectedResult)
@@ -125,14 +125,14 @@ func TestElseFunc(t *testing.T) {
 func TestElseZero(t *testing.T) {
 	s := "ptr to string"
 	tests := []struct {
-		Optional       Optional
-		ExpectedResult T
+		Optional       Optional[string]
+		ExpectedResult string
 	}{
-		{Empty(), ""},
+		{Empty[string](), ""},
 		{Of(""), ""},
 		{Of("string"), "string"},
-		{OfOptionalPtr((*T)(nil)), ""},
-		{OfOptionalPtr((*T)(&s)), "ptr to string"},
+		{OfPtr((*string)(nil)), ""},
+		{OfPtr((*string)(&s)), "ptr to string"},
 	}
 
 	for _, test := range tests {

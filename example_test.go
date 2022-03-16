@@ -11,11 +11,11 @@ import (
 
 func Example_get() {
 	i := 1001
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(1000),
-		optional.OfIntPtr(nil),
-		optional.OfIntPtr(&i),
+	values := []optional.Optional[int]{
+		optional.Empty[int](),
+		optional.Of(1000),
+		optional.OfPtr[int](nil),
+		optional.OfPtr(&i),
 	}
 
 	for _, v := range values {
@@ -31,11 +31,11 @@ func Example_get() {
 
 func Example_if() {
 	i := 1001
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(1000),
-		optional.OfIntPtr(nil),
-		optional.OfIntPtr(&i),
+	values := []optional.Optional[int]{
+		optional.Empty[int](),
+		optional.Of(1000),
+		optional.OfPtr[int](nil),
+		optional.OfPtr(&i),
 	}
 
 	for _, v := range values {
@@ -51,11 +51,11 @@ func Example_if() {
 
 func Example_else() {
 	i := 1001
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(1000),
-		optional.OfIntPtr(nil),
-		optional.OfIntPtr(&i),
+	values := []optional.Optional[int]{
+		optional.Empty[int](),
+		optional.Of(1000),
+		optional.OfPtr[int](nil),
+		optional.OfPtr(&i),
 	}
 
 	for _, v := range values {
@@ -71,11 +71,11 @@ func Example_else() {
 
 func Example_elseZero() {
 	i := 1001
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(1000),
-		optional.OfIntPtr(nil),
-		optional.OfIntPtr(&i),
+	values := []optional.Optional[int]{
+		optional.Empty[int](),
+		optional.Of(1000),
+		optional.OfPtr[int](nil),
+		optional.OfPtr(&i),
 	}
 
 	for _, v := range values {
@@ -91,11 +91,11 @@ func Example_elseZero() {
 
 func Example_elseFunc() {
 	i := 1001
-	values := []optional.Int{
-		optional.EmptyInt(),
-		optional.OfInt(1000),
-		optional.OfIntPtr(nil),
-		optional.OfIntPtr(&i),
+	values := []optional.Optional[int]{
+		optional.Empty[int](),
+		optional.Of(1000),
+		optional.OfPtr[int](nil),
+		optional.OfPtr(&i),
 	}
 
 	for _, v := range values {
@@ -113,39 +113,39 @@ func Example_elseFunc() {
 
 func Example_jsonMarshalOmitEmpty() {
 	s := struct {
-		Bool    optional.Bool    `json:"bool,omitempty"`
-		Byte    optional.Byte    `json:"byte,omitempty"`
-		Float32 optional.Float32 `json:"float32,omitempty"`
-		Float64 optional.Float64 `json:"float64,omitempty"`
-		Int16   optional.Int16   `json:"int16,omitempty"`
-		Int32   optional.Int32   `json:"int32,omitempty"`
-		Int64   optional.Int64   `json:"int64,omitempty"`
-		Int     optional.Int     `json:"int,omitempty"`
-		Rune    optional.Rune    `json:"rune,omitempty"`
-		String  optional.String  `json:"string,omitempty"`
-		Time    optional.Time    `json:"time,omitempty"`
-		Uint16  optional.Uint16  `json:"uint16,omitempty"`
-		Uint32  optional.Uint32  `json:"uint32,omitempty"`
-		Uint64  optional.Uint64  `json:"uint64,omitempty"`
-		Uint    optional.Uint    `json:"uint,omitempty"`
-		Uintptr optional.Uintptr `json:"uintptr,omitempty"`
+		Bool    optional.Optional[bool]      `json:"bool,omitempty"`
+		Byte    optional.Optional[byte]      `json:"byte,omitempty"`
+		Float32 optional.Optional[float32]   `json:"float32,omitempty"`
+		Float64 optional.Optional[float64]   `json:"float64,omitempty"`
+		Int16   optional.Optional[int16]     `json:"int16,omitempty"`
+		Int32   optional.Optional[int32]     `json:"int32,omitempty"`
+		Int64   optional.Optional[int64]     `json:"int64,omitempty"`
+		Int     optional.Optional[int]       `json:"int,omitempty"`
+		Rune    optional.Optional[rune]      `json:"rune,omitempty"`
+		String  optional.Optional[string]    `json:"string,omitempty"`
+		Time    optional.Optional[time.Time] `json:"time,omitempty"`
+		Uint16  optional.Optional[uint16]    `json:"uint16,omitempty"`
+		Uint32  optional.Optional[uint32]    `json:"uint32,omitempty"`
+		Uint64  optional.Optional[uint64]    `json:"uint64,omitempty"`
+		Uint    optional.Optional[uint]      `json:"uint,omitempty"`
+		Uintptr optional.Optional[uintptr]   `json:"uintptr,omitempty"`
 	}{
-		Bool:    optional.EmptyBool(),
-		Byte:    optional.EmptyByte(),
-		Float32: optional.EmptyFloat32(),
-		Float64: optional.EmptyFloat64(),
-		Int16:   optional.EmptyInt16(),
-		Int32:   optional.EmptyInt32(),
-		Int64:   optional.EmptyInt64(),
-		Int:     optional.EmptyInt(),
-		Rune:    optional.EmptyRune(),
-		String:  optional.EmptyString(),
-		Time:    optional.EmptyTime(),
-		Uint16:  optional.EmptyUint16(),
-		Uint32:  optional.EmptyUint32(),
-		Uint64:  optional.EmptyUint64(),
-		Uint:    optional.EmptyUint(),
-		Uintptr: optional.EmptyUintptr(),
+		Bool:    optional.Empty[bool](),
+		Byte:    optional.Empty[byte](),
+		Float32: optional.Empty[float32](),
+		Float64: optional.Empty[float64](),
+		Int16:   optional.Empty[int16](),
+		Int32:   optional.Empty[int32](),
+		Int64:   optional.Empty[int64](),
+		Int:     optional.Empty[int](),
+		Rune:    optional.Empty[rune](),
+		String:  optional.Empty[string](),
+		Time:    optional.Empty[time.Time](),
+		Uint16:  optional.Empty[uint16](),
+		Uint32:  optional.Empty[uint32](),
+		Uint64:  optional.Empty[uint64](),
+		Uint:    optional.Empty[uint](),
+		Uintptr: optional.Empty[uintptr](),
 	}
 
 	output, _ := json.MarshalIndent(s, "", "  ")
@@ -157,39 +157,39 @@ func Example_jsonMarshalOmitEmpty() {
 
 func Example_jsonMarshalEmpty() {
 	s := struct {
-		Bool    optional.Bool    `json:"bool"`
-		Byte    optional.Byte    `json:"byte"`
-		Float32 optional.Float32 `json:"float32"`
-		Float64 optional.Float64 `json:"float64"`
-		Int16   optional.Int16   `json:"int16"`
-		Int32   optional.Int32   `json:"int32"`
-		Int64   optional.Int64   `json:"int64"`
-		Int     optional.Int     `json:"int"`
-		Rune    optional.Rune    `json:"rune"`
-		String  optional.String  `json:"string"`
-		Time    optional.Time    `json:"time"`
-		Uint16  optional.Uint16  `json:"uint16"`
-		Uint32  optional.Uint32  `json:"uint32"`
-		Uint64  optional.Uint64  `json:"uint64"`
-		Uint    optional.Uint    `json:"uint"`
-		Uintptr optional.Uintptr `json:"uintptr"`
+		Bool    optional.Optional[bool]      `json:"bool"`
+		Byte    optional.Optional[byte]      `json:"byte"`
+		Float32 optional.Optional[float32]   `json:"float32"`
+		Float64 optional.Optional[float64]   `json:"float64"`
+		Int16   optional.Optional[int16]     `json:"int16"`
+		Int32   optional.Optional[int32]     `json:"int32"`
+		Int64   optional.Optional[int64]     `json:"int64"`
+		Int     optional.Optional[int]       `json:"int"`
+		Rune    optional.Optional[rune]      `json:"rune"`
+		String  optional.Optional[string]    `json:"string"`
+		Time    optional.Optional[time.Time] `json:"time"`
+		Uint16  optional.Optional[uint16]    `json:"uint16"`
+		Uint32  optional.Optional[uint32]    `json:"uint32"`
+		Uint64  optional.Optional[uint64]    `json:"uint64"`
+		Uint    optional.Optional[uint]      `json:"uint"`
+		Uintptr optional.Optional[uintptr]   `json:"uintptr"`
 	}{
-		Bool:    optional.EmptyBool(),
-		Byte:    optional.EmptyByte(),
-		Float32: optional.EmptyFloat32(),
-		Float64: optional.EmptyFloat64(),
-		Int16:   optional.EmptyInt16(),
-		Int32:   optional.EmptyInt32(),
-		Int64:   optional.EmptyInt64(),
-		Int:     optional.EmptyInt(),
-		Rune:    optional.EmptyRune(),
-		String:  optional.EmptyString(),
-		Time:    optional.EmptyTime(),
-		Uint16:  optional.EmptyUint16(),
-		Uint32:  optional.EmptyUint32(),
-		Uint64:  optional.EmptyUint64(),
-		Uint:    optional.EmptyUint(),
-		Uintptr: optional.EmptyUintptr(),
+		Bool:    optional.Empty[bool](),
+		Byte:    optional.Empty[byte](),
+		Float32: optional.Empty[float32](),
+		Float64: optional.Empty[float64](),
+		Int16:   optional.Empty[int16](),
+		Int32:   optional.Empty[int32](),
+		Int64:   optional.Empty[int64](),
+		Int:     optional.Empty[int](),
+		Rune:    optional.Empty[rune](),
+		String:  optional.Empty[string](),
+		Time:    optional.Empty[time.Time](),
+		Uint16:  optional.Empty[uint16](),
+		Uint32:  optional.Empty[uint32](),
+		Uint64:  optional.Empty[uint64](),
+		Uint:    optional.Empty[uint](),
+		Uintptr: optional.Empty[uintptr](),
 	}
 
 	output, _ := json.MarshalIndent(s, "", "  ")
@@ -218,39 +218,39 @@ func Example_jsonMarshalEmpty() {
 
 func Example_jsonMarshalPresent() {
 	s := struct {
-		Bool    optional.Bool    `json:"bool"`
-		Byte    optional.Byte    `json:"byte"`
-		Float32 optional.Float32 `json:"float32"`
-		Float64 optional.Float64 `json:"float64"`
-		Int16   optional.Int16   `json:"int16"`
-		Int32   optional.Int32   `json:"int32"`
-		Int64   optional.Int64   `json:"int64"`
-		Int     optional.Int     `json:"int"`
-		Rune    optional.Rune    `json:"rune"`
-		String  optional.String  `json:"string"`
-		Time    optional.Time    `json:"time"`
-		Uint16  optional.Uint16  `json:"uint16"`
-		Uint32  optional.Uint32  `json:"uint32"`
-		Uint64  optional.Uint64  `json:"uint64"`
-		Uint    optional.Uint    `json:"uint"`
-		Uintptr optional.Uintptr `json:"uintptr"`
+		Bool    optional.Optional[bool]      `json:"bool"`
+		Byte    optional.Optional[byte]      `json:"byte"`
+		Float32 optional.Optional[float32]   `json:"float32"`
+		Float64 optional.Optional[float64]   `json:"float64"`
+		Int16   optional.Optional[int16]     `json:"int16"`
+		Int32   optional.Optional[int32]     `json:"int32"`
+		Int64   optional.Optional[int64]     `json:"int64"`
+		Int     optional.Optional[int]       `json:"int"`
+		Rune    optional.Optional[rune]      `json:"rune"`
+		String  optional.Optional[string]    `json:"string"`
+		Time    optional.Optional[time.Time] `json:"time"`
+		Uint16  optional.Optional[uint16]    `json:"uint16"`
+		Uint32  optional.Optional[uint32]    `json:"uint32"`
+		Uint64  optional.Optional[uint64]    `json:"uint64"`
+		Uint    optional.Optional[uint]      `json:"uint"`
+		Uintptr optional.Optional[uintptr]   `json:"uintptr"`
 	}{
-		Bool:    optional.OfBool(true),
-		Byte:    optional.OfByte(1),
-		Float32: optional.OfFloat32(2.1),
-		Float64: optional.OfFloat64(2.2),
-		Int16:   optional.OfInt16(3),
-		Int32:   optional.OfInt32(4),
-		Int64:   optional.OfInt64(5),
-		Int:     optional.OfInt(6),
-		Rune:    optional.OfRune(7),
-		String:  optional.OfString("string"),
-		Time:    optional.OfTime(time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC)),
-		Uint16:  optional.OfUint16(8),
-		Uint32:  optional.OfUint32(9),
-		Uint64:  optional.OfUint64(10),
-		Uint:    optional.OfUint(11),
-		Uintptr: optional.OfUintptr(12),
+		Bool:    optional.Of(true),
+		Byte:    optional.Of[byte](1),
+		Float32: optional.Of[float32](2.1),
+		Float64: optional.Of(2.2),
+		Int16:   optional.Of[int16](3),
+		Int32:   optional.Of[int32](4),
+		Int64:   optional.Of[int64](5),
+		Int:     optional.Of(6),
+		Rune:    optional.Of[rune](7),
+		String:  optional.Of("string"),
+		Time:    optional.Of(time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC)),
+		Uint16:  optional.Of[uint16](8),
+		Uint32:  optional.Of[uint32](9),
+		Uint64:  optional.Of[uint64](10),
+		Uint:    optional.Of[uint](11),
+		Uintptr: optional.Of[uintptr](12),
 	}
 
 	output, _ := json.MarshalIndent(s, "", "  ")
@@ -279,22 +279,22 @@ func Example_jsonMarshalPresent() {
 
 func Example_jsonUnmarshalEmpty() {
 	s := struct {
-		Bool    optional.Bool    `json:"bool"`
-		Byte    optional.Byte    `json:"byte"`
-		Float32 optional.Float32 `json:"float32"`
-		Float64 optional.Float64 `json:"float64"`
-		Int16   optional.Int16   `json:"int16"`
-		Int32   optional.Int32   `json:"int32"`
-		Int64   optional.Int64   `json:"int64"`
-		Int     optional.Int     `json:"int"`
-		Rune    optional.Rune    `json:"rune"`
-		String  optional.String  `json:"string"`
-		Time    optional.Time    `json:"time"`
-		Uint16  optional.Uint16  `json:"uint16"`
-		Uint32  optional.Uint32  `json:"uint32"`
-		Uint64  optional.Uint64  `json:"uint64"`
-		Uint    optional.Uint    `json:"uint"`
-		Uintptr optional.Uintptr `json:"uintptr"`
+		Bool    optional.Optional[bool]      `json:"bool"`
+		Byte    optional.Optional[byte]      `json:"byte"`
+		Float32 optional.Optional[float32]   `json:"float32"`
+		Float64 optional.Optional[float64]   `json:"float64"`
+		Int16   optional.Optional[int16]     `json:"int16"`
+		Int32   optional.Optional[int32]     `json:"int32"`
+		Int64   optional.Optional[int64]     `json:"int64"`
+		Int     optional.Optional[int]       `json:"int"`
+		Rune    optional.Optional[rune]      `json:"rune"`
+		String  optional.Optional[string]    `json:"string"`
+		Time    optional.Optional[time.Time] `json:"time"`
+		Uint16  optional.Optional[uint16]    `json:"uint16"`
+		Uint32  optional.Optional[uint32]    `json:"uint32"`
+		Uint64  optional.Optional[uint64]    `json:"uint64"`
+		Uint    optional.Optional[uint]      `json:"uint"`
+		Uintptr optional.Optional[uintptr]   `json:"uintptr"`
 	}{}
 
 	x := `{}`
@@ -339,42 +339,42 @@ func Example_jsonUnmarshalEmpty() {
 
 func Example_jsonUnmarshalPresent() {
 	s := struct {
-		Bool    optional.Bool    `json:"bool"`
-		Byte    optional.Byte    `json:"byte"`
-		Float32 optional.Float32 `json:"float32"`
-		Float64 optional.Float64 `json:"float64"`
-		Int16   optional.Int16   `json:"int16"`
-		Int32   optional.Int32   `json:"int32"`
-		Int64   optional.Int64   `json:"int64"`
-		Int     optional.Int     `json:"int"`
-		Rune    optional.Rune    `json:"rune"`
-		String  optional.String  `json:"string"`
-		Time    optional.Time    `json:"time"`
-		Uint16  optional.Uint16  `json:"uint16"`
-		Uint32  optional.Uint32  `json:"uint32"`
-		Uint64  optional.Uint64  `json:"uint64"`
-		Uint    optional.Uint    `json:"uint"`
-		Uintptr optional.Uintptr `json:"uintptr"`
+		Bool    optional.Optional[bool]      `json:"bool"`
+		Byte    optional.Optional[byte]      `json:"byte"`
+		Float32 optional.Optional[float32]   `json:"float32"`
+		Float64 optional.Optional[float64]   `json:"float64"`
+		Int16   optional.Optional[int16]     `json:"int16"`
+		Int32   optional.Optional[int32]     `json:"int32"`
+		Int64   optional.Optional[int64]     `json:"int64"`
+		Int     optional.Optional[int]       `json:"int"`
+		Rune    optional.Optional[rune]      `json:"rune"`
+		String  optional.Optional[string]    `json:"string"`
+		Time    optional.Optional[time.Time] `json:"time"`
+		Uint16  optional.Optional[uint16]    `json:"uint16"`
+		Uint32  optional.Optional[uint32]    `json:"uint32"`
+		Uint64  optional.Optional[uint64]    `json:"uint64"`
+		Uint    optional.Optional[uint]      `json:"uint"`
+		Uintptr optional.Optional[uintptr]   `json:"uintptr"`
 	}{}
 
 	x := `{
-  "bool": false,
-  "byte": 0,
-  "float32": 0,
-  "float64": 0,
-  "int16": 0,
-  "int32": 0,
-  "int64": 0,
-  "int": 0,
-  "rune": 0,
-  "string": "string",
-  "time": "0001-01-01T00:00:00Z",
-  "uint16": 0,
-  "uint32": 0,
-  "uint64": 0,
-  "uint": 0,
-  "uintptr": 0
-}`
+   "bool": false,
+   "byte": 0,
+   "float32": 0,
+   "float64": 0,
+   "int16": 0,
+   "int32": 0,
+   "int64": 0,
+   "int": 0,
+   "rune": 0,
+   "string": "string",
+   "time": "0001-01-01T00:00:00Z",
+   "uint16": 0,
+   "uint32": 0,
+   "uint64": 0,
+   "uint": 0,
+   "uintptr": 0
+ }`
 	json.Unmarshal([]byte(x), &s)
 	fmt.Println("Bool:", s.Bool.IsPresent(), s.Bool)
 	fmt.Println("Byte:", s.Byte.IsPresent(), s.Byte)
@@ -416,40 +416,40 @@ func Example_jsonUnmarshalPresent() {
 
 func Example_xmlMarshalOmitEmpty() {
 	s := struct {
-		XMLName xml.Name         `xml:"s"`
-		Bool    optional.Bool    `xml:"bool,omitempty"`
-		Byte    optional.Byte    `xml:"byte,omitempty"`
-		Float32 optional.Float32 `xml:"float32,omitempty"`
-		Float64 optional.Float64 `xml:"float64,omitempty"`
-		Int16   optional.Int16   `xml:"int16,omitempty"`
-		Int32   optional.Int32   `xml:"int32,omitempty"`
-		Int64   optional.Int64   `xml:"int64,omitempty"`
-		Int     optional.Int     `xml:"int,omitempty"`
-		Rune    optional.Rune    `xml:"rune,omitempty"`
-		String  optional.String  `xml:"string,omitempty"`
-		Time    optional.Time    `xml:"time,omitempty"`
-		Uint16  optional.Uint16  `xml:"uint16,omitempty"`
-		Uint32  optional.Uint32  `xml:"uint32,omitempty"`
-		Uint64  optional.Uint64  `xml:"uint64,omitempty"`
-		Uint    optional.Uint    `xml:"uint,omitempty"`
-		Uintptr optional.Uintptr `xml:"uintptr,omitempty"`
+		XMLName xml.Name                      `xml:"s"`
+		Bool    optional.Optional[bool]      `xml:"bool,omitempty"`
+		Byte    optional.Optional[byte]      `xml:"byte,omitempty"`
+		Float32 optional.Optional[float32]   `xml:"float32,omitempty"`
+		Float64 optional.Optional[float64]   `xml:"float64,omitempty"`
+		Int16   optional.Optional[int16]     `xml:"int16,omitempty"`
+		Int32   optional.Optional[int32]     `xml:"int32,omitempty"`
+		Int64   optional.Optional[int64]     `xml:"int64,omitempty"`
+		Int     optional.Optional[int]       `xml:"int,omitempty"`
+		Rune    optional.Optional[rune]      `xml:"rune,omitempty"`
+		String  optional.Optional[string]    `xml:"string,omitempty"`
+		Time    optional.Optional[time.Time] `xml:"time,omitempty"`
+		Uint16  optional.Optional[uint16]    `xml:"uint16,omitempty"`
+		Uint32  optional.Optional[uint32]    `xml:"uint32,omitempty"`
+		Uint64  optional.Optional[uint64]    `xml:"uint64,omitempty"`
+		Uint    optional.Optional[uint]      `xml:"uint,omitempty"`
+		Uintptr optional.Optional[uintptr]   `xml:"uintptr,omitempty"`
 	}{
-		Bool:    optional.EmptyBool(),
-		Byte:    optional.EmptyByte(),
-		Float32: optional.EmptyFloat32(),
-		Float64: optional.EmptyFloat64(),
-		Int16:   optional.EmptyInt16(),
-		Int32:   optional.EmptyInt32(),
-		Int64:   optional.EmptyInt64(),
-		Int:     optional.EmptyInt(),
-		Rune:    optional.EmptyRune(),
-		String:  optional.EmptyString(),
-		Time:    optional.EmptyTime(),
-		Uint16:  optional.EmptyUint16(),
-		Uint32:  optional.EmptyUint32(),
-		Uint64:  optional.EmptyUint64(),
-		Uint:    optional.EmptyUint(),
-		Uintptr: optional.EmptyUintptr(),
+		Bool:    optional.Empty[bool](),
+		Byte:    optional.Empty[byte](),
+		Float32: optional.Empty[float32](),
+		Float64: optional.Empty[float64](),
+		Int16:   optional.Empty[int16](),
+		Int32:   optional.Empty[int32](),
+		Int64:   optional.Empty[int64](),
+		Int:     optional.Empty[int](),
+		Rune:    optional.Empty[rune](),
+		String:  optional.Empty[string](),
+		Time:    optional.Empty[time.Time](),
+		Uint16:  optional.Empty[uint16](),
+		Uint32:  optional.Empty[uint32](),
+		Uint64:  optional.Empty[uint64](),
+		Uint:    optional.Empty[uint](),
+		Uintptr: optional.Empty[uintptr](),
 	}
 
 	output, _ := xml.MarshalIndent(s, "", "  ")
@@ -462,39 +462,39 @@ func Example_xmlMarshalOmitEmpty() {
 func Example_xmlMarshalEmpty() {
 	s := struct {
 		XMLName xml.Name         `xml:"s"`
-		Bool    optional.Bool    `xml:"bool"`
-		Byte    optional.Byte    `xml:"byte"`
-		Float32 optional.Float32 `xml:"float32"`
-		Float64 optional.Float64 `xml:"float64"`
-		Int16   optional.Int16   `xml:"int16"`
-		Int32   optional.Int32   `xml:"int32"`
-		Int64   optional.Int64   `xml:"int64"`
-		Int     optional.Int     `xml:"int"`
-		Rune    optional.Rune    `xml:"rune"`
-		String  optional.String  `xml:"string"`
-		Time    optional.Time    `xml:"time"`
-		Uint16  optional.Uint16  `xml:"uint16"`
-		Uint32  optional.Uint32  `xml:"uint32"`
-		Uint64  optional.Uint64  `xml:"uint64"`
-		Uint    optional.Uint    `xml:"uint"`
-		Uintptr optional.Uintptr `xml:"uintptr"`
+		Bool    optional.Optional[bool]      `xml:"bool"`
+		Byte    optional.Optional[byte]      `xml:"byte"`
+		Float32 optional.Optional[float32]   `xml:"float32"`
+		Float64 optional.Optional[float64]   `xml:"float64"`
+		Int16   optional.Optional[int16]     `xml:"int16"`
+		Int32   optional.Optional[int32]     `xml:"int32"`
+		Int64   optional.Optional[int64]     `xml:"int64"`
+		Int     optional.Optional[int]       `xml:"int"`
+		Rune    optional.Optional[rune]      `xml:"rune"`
+		String  optional.Optional[string]    `xml:"string"`
+		Time    optional.Optional[time.Time] `xml:"time"`
+		Uint16  optional.Optional[uint16]    `xml:"uint16"`
+		Uint32  optional.Optional[uint32]    `xml:"uint32"`
+		Uint64  optional.Optional[uint64]    `xml:"uint64"`
+		Uint    optional.Optional[uint]      `xml:"uint"`
+		Uintptr optional.Optional[uintptr]   `xml:"uintptr"`
 	}{
-		Bool:    optional.EmptyBool(),
-		Byte:    optional.EmptyByte(),
-		Float32: optional.EmptyFloat32(),
-		Float64: optional.EmptyFloat64(),
-		Int16:   optional.EmptyInt16(),
-		Int32:   optional.EmptyInt32(),
-		Int64:   optional.EmptyInt64(),
-		Int:     optional.EmptyInt(),
-		Rune:    optional.EmptyRune(),
-		String:  optional.EmptyString(),
-		Time:    optional.EmptyTime(),
-		Uint16:  optional.EmptyUint16(),
-		Uint32:  optional.EmptyUint32(),
-		Uint64:  optional.EmptyUint64(),
-		Uint:    optional.EmptyUint(),
-		Uintptr: optional.EmptyUintptr(),
+		Bool:    optional.Empty[bool](),
+		Byte:    optional.Empty[byte](),
+		Float32: optional.Empty[float32](),
+		Float64: optional.Empty[float64](),
+		Int16:   optional.Empty[int16](),
+		Int32:   optional.Empty[int32](),
+		Int64:   optional.Empty[int64](),
+		Int:     optional.Empty[int](),
+		Rune:    optional.Empty[rune](),
+		String:  optional.Empty[string](),
+		Time:    optional.Empty[time.Time](),
+		Uint16:  optional.Empty[uint16](),
+		Uint32:  optional.Empty[uint32](),
+		Uint64:  optional.Empty[uint64](),
+		Uint:    optional.Empty[uint](),
+		Uintptr: optional.Empty[uintptr](),
 	}
 
 	output, _ := xml.MarshalIndent(s, "", "  ")
@@ -524,39 +524,39 @@ func Example_xmlMarshalEmpty() {
 func Example_xmlMarshalPresent() {
 	s := struct {
 		XMLName xml.Name         `xml:"s"`
-		Bool    optional.Bool    `xml:"bool"`
-		Byte    optional.Byte    `xml:"byte"`
-		Float32 optional.Float32 `xml:"float32"`
-		Float64 optional.Float64 `xml:"float64"`
-		Int16   optional.Int16   `xml:"int16"`
-		Int32   optional.Int32   `xml:"int32"`
-		Int64   optional.Int64   `xml:"int64"`
-		Int     optional.Int     `xml:"int"`
-		Rune    optional.Rune    `xml:"rune"`
-		String  optional.String  `xml:"string"`
-		Time    optional.Time    `xml:"time"`
-		Uint16  optional.Uint16  `xml:"uint16"`
-		Uint32  optional.Uint32  `xml:"uint32"`
-		Uint64  optional.Uint64  `xml:"uint64"`
-		Uint    optional.Uint    `xml:"uint"`
-		Uintptr optional.Uintptr `xml:"uintptr"`
+		Bool    optional.Optional[bool]      `xml:"bool"`
+		Byte    optional.Optional[byte]      `xml:"byte"`
+		Float32 optional.Optional[float32]   `xml:"float32"`
+		Float64 optional.Optional[float64]   `xml:"float64"`
+		Int16   optional.Optional[int16]     `xml:"int16"`
+		Int32   optional.Optional[int32]     `xml:"int32"`
+		Int64   optional.Optional[int64]     `xml:"int64"`
+		Int     optional.Optional[int]       `xml:"int"`
+		Rune    optional.Optional[rune]      `xml:"rune"`
+		String  optional.Optional[string]    `xml:"string"`
+		Time    optional.Optional[time.Time] `xml:"time"`
+		Uint16  optional.Optional[uint16]    `xml:"uint16"`
+		Uint32  optional.Optional[uint32]    `xml:"uint32"`
+		Uint64  optional.Optional[uint64]    `xml:"uint64"`
+		Uint    optional.Optional[uint]      `xml:"uint"`
+		Uintptr optional.Optional[uintptr]   `xml:"uintptr"`
 	}{
-		Bool:    optional.OfBool(true),
-		Byte:    optional.OfByte(1),
-		Float32: optional.OfFloat32(2.1),
-		Float64: optional.OfFloat64(2.2),
-		Int16:   optional.OfInt16(3),
-		Int32:   optional.OfInt32(4),
-		Int64:   optional.OfInt64(5),
-		Int:     optional.OfInt(6),
-		Rune:    optional.OfRune(7),
-		String:  optional.OfString("string"),
-		Time:    optional.OfTime(time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC)),
-		Uint16:  optional.OfUint16(8),
-		Uint32:  optional.OfUint32(9),
-		Uint64:  optional.OfUint64(10),
-		Uint:    optional.OfUint(11),
-		Uintptr: optional.OfUintptr(12),
+		Bool:    optional.Of(true),
+		Byte:    optional.Of[byte](1),
+		Float32: optional.Of[float32](2.1),
+		Float64: optional.Of(2.2),
+		Int16:   optional.Of[int16](3),
+		Int32:   optional.Of[int32](4),
+		Int64:   optional.Of[int64](5),
+		Int:     optional.Of(6),
+		Rune:    optional.Of[rune](7),
+		String:  optional.Of("string"),
+		Time:    optional.Of(time.Date(2006, 1, 2, 15, 4, 5, 0, time.UTC)),
+		Uint16:  optional.Of[uint16](8),
+		Uint32:  optional.Of[uint32](9),
+		Uint64:  optional.Of[uint64](10),
+		Uint:    optional.Of[uint](11),
+		Uintptr: optional.Of[uintptr](12),
 	}
 
 	output, _ := xml.MarshalIndent(s, "", "  ")
@@ -586,22 +586,22 @@ func Example_xmlMarshalPresent() {
 func Example_xmlUnmarshalEmpty() {
 	s := struct {
 		XMLName xml.Name         `xml:"s"`
-		Bool    optional.Bool    `xml:"bool"`
-		Byte    optional.Byte    `xml:"byte"`
-		Float32 optional.Float32 `xml:"float32"`
-		Float64 optional.Float64 `xml:"float64"`
-		Int16   optional.Int16   `xml:"int16"`
-		Int32   optional.Int32   `xml:"int32"`
-		Int64   optional.Int64   `xml:"int64"`
-		Int     optional.Int     `xml:"int"`
-		Rune    optional.Rune    `xml:"rune"`
-		String  optional.String  `xml:"string"`
-		Time    optional.Time    `xml:"time"`
-		Uint16  optional.Uint16  `xml:"uint16"`
-		Uint32  optional.Uint32  `xml:"uint32"`
-		Uint64  optional.Uint64  `xml:"uint64"`
-		Uint    optional.Uint    `xml:"uint"`
-		Uintptr optional.Uintptr `xml:"uintptr"`
+		Bool    optional.Optional[bool]      `xml:"bool"`
+		Byte    optional.Optional[byte]      `xml:"byte"`
+		Float32 optional.Optional[float32]   `xml:"float32"`
+		Float64 optional.Optional[float64]   `xml:"float64"`
+		Int16   optional.Optional[int16]     `xml:"int16"`
+		Int32   optional.Optional[int32]     `xml:"int32"`
+		Int64   optional.Optional[int64]     `xml:"int64"`
+		Int     optional.Optional[int]       `xml:"int"`
+		Rune    optional.Optional[rune]      `xml:"rune"`
+		String  optional.Optional[string]    `xml:"string"`
+		Time    optional.Optional[time.Time] `xml:"time"`
+		Uint16  optional.Optional[uint16]    `xml:"uint16"`
+		Uint32  optional.Optional[uint32]    `xml:"uint32"`
+		Uint64  optional.Optional[uint64]    `xml:"uint64"`
+		Uint    optional.Optional[uint]      `xml:"uint"`
+		Uintptr optional.Optional[uintptr]   `xml:"uintptr"`
 	}{}
 
 	x := `<s></s>`
@@ -647,42 +647,42 @@ func Example_xmlUnmarshalEmpty() {
 func Example_xmlUnmarshalPresent() {
 	s := struct {
 		XMLName xml.Name         `xml:"s"`
-		Bool    optional.Bool    `xml:"bool"`
-		Byte    optional.Byte    `xml:"byte"`
-		Float32 optional.Float32 `xml:"float32"`
-		Float64 optional.Float64 `xml:"float64"`
-		Int16   optional.Int16   `xml:"int16"`
-		Int32   optional.Int32   `xml:"int32"`
-		Int64   optional.Int64   `xml:"int64"`
-		Int     optional.Int     `xml:"int"`
-		Rune    optional.Rune    `xml:"rune"`
-		String  optional.String  `xml:"string"`
-		Time    optional.Time    `xml:"time"`
-		Uint16  optional.Uint16  `xml:"uint16"`
-		Uint32  optional.Uint32  `xml:"uint32"`
-		Uint64  optional.Uint64  `xml:"uint64"`
-		Uint    optional.Uint    `xml:"uint"`
-		Uintptr optional.Uintptr `xml:"uintptr"`
+		Bool    optional.Optional[bool]      `xml:"bool"`
+		Byte    optional.Optional[byte]      `xml:"byte"`
+		Float32 optional.Optional[float32]   `xml:"float32"`
+		Float64 optional.Optional[float64]   `xml:"float64"`
+		Int16   optional.Optional[int16]     `xml:"int16"`
+		Int32   optional.Optional[int32]     `xml:"int32"`
+		Int64   optional.Optional[int64]     `xml:"int64"`
+		Int     optional.Optional[int]       `xml:"int"`
+		Rune    optional.Optional[rune]      `xml:"rune"`
+		String  optional.Optional[string]    `xml:"string"`
+		Time    optional.Optional[time.Time] `xml:"time"`
+		Uint16  optional.Optional[uint16]    `xml:"uint16"`
+		Uint32  optional.Optional[uint32]    `xml:"uint32"`
+		Uint64  optional.Optional[uint64]    `xml:"uint64"`
+		Uint    optional.Optional[uint]      `xml:"uint"`
+		Uintptr optional.Optional[uintptr]   `xml:"uintptr"`
 	}{}
 
 	x := `<s>
-  <bool>false</bool>
-  <byte>0</byte>
-  <float32>0</float32>
-  <float64>0</float64>
-  <int16>0</int16>
-  <int32>0</int32>
-  <int64>0</int64>
-  <int>0</int>
-  <rune>0</rune>
-  <string>string</string>
-  <time>0001-01-01T00:00:00Z</time>
-  <uint16>0</uint16>
-  <uint32>0</uint32>
-  <uint64>0</uint64>
-  <uint>0</uint>
-  <uintptr>0</uintptr>
-</s>`
+   <bool>false</bool>
+   <byte>0</byte>
+   <float32>0</float32>
+   <float64>0</float64>
+   <int16>0</int16>
+   <int32>0</int32>
+   <int64>0</int64>
+   <int>0</int>
+   <rune>0</rune>
+   <string>string</string>
+   <time>0001-01-01T00:00:00Z</time>
+   <uint16>0</uint16>
+   <uint32>0</uint32>
+   <uint64>0</uint64>
+   <uint>0</uint>
+   <uintptr>0</uintptr>
+ </s>`
 	xml.Unmarshal([]byte(x), &s)
 	fmt.Println("Bool:", s.Bool.IsPresent(), s.Bool)
 	fmt.Println("Byte:", s.Byte.IsPresent(), s.Byte)

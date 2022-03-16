@@ -1,16 +1,14 @@
 /*
-Package optional exports types that wrap the builtin types (int, bool, etc) to represent the lack of value. The types guarantee safety by requiring the developer to unwrap them to get to the inner value. This prevents a nil value being operated on. Optionals marshal to XML and JSON like their underlying type, and omitempty works just like their wrapped type would with a pointer, but without the use of pointers.
+Package optional exports an Optional[T] type that can wrap any type to represent the lack of value. The types guarantee safety by requiring the developer to unwrap them to get to the inner value. This prevents a nil value being operated on. Optionals marshal to XML and JSON like their underlying type, and omitempty works just like their wrapped type would with a pointer, but without the use of pointers.
 
 These types are an alternative to using pointers, zero values, or similar null wrapper packages. Unlike similar solutions these will omit correctly from XML and JSON without the use of pointers and the compiler will ensure their value is not used when empty.
-
-The package also contains a template that you can use with go generate to create optional types for your own types. See below for instructions on how to use the template.
 
 Examples
 
 Wrap a pointer in an optional:
 
 	var i *int = ...
-	o := optional.OfIntPtr(i)
+	o := optional.OfPtr(i)
 
 Unwrap it safely:
 
@@ -36,32 +34,18 @@ Or get it's value with a fallback to a default:
 XML and JSON are supported out of the box. Use `omitempty` to omit the field when the optional is empty:
 
 	s := struct {
-		Int1 optional.Int `json:"int1,omitempty"`
-		Int2 optional.Int `json:"int2,omitempty"`
-		Int3 optional.Int `json:"int3,omitempty"`
+		Int1 optional.Optional[int] `json:"int1,omitempty"`
+		Int2 optional.Optional[int] `json:"int2,omitempty"`
+		Int3 optional.Optional[int] `json:"int3,omitempty"`
 	}{
-		Int1: optional.EmptyInt(),
-		Int2: optional.OfInt(1000),
-		Int3: optional.OfIntPtr(nil),
+		Int1: optional.Empty[int](),
+		Int2: optional.Of(1000),
+		Int3: optional.OfPtr(nil),
 	}
 
 	output, _ := json.Marshal(s)
 
 	// output = {"int2":1000}
 
-Templates
-
-Use the Optional template for your own types by installing gotemplate.
-
-	go get github.com/ncw/gotemplate
-
-Then add a `go generate` comment for your type to any `.go` file in your package.
-
-	//go:generate gotemplate "4d63.com/optional/template" OptionalMyType(MyType)
-
-Examples
-
-See the examples for more approaches to use.
-
 */
-package optional // import "4d63.com/optional"
+package optional
