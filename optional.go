@@ -88,7 +88,10 @@ func (o Optional[T]) String() string {
 // MarshalJSON marshals the value being wrapped to JSON. If there is no vale
 // being wrapped, the zero value of its type is marshaled.
 func (o Optional[T]) MarshalJSON() (data []byte, err error) {
-	return json.Marshal(o.ElseZero())
+	if v, ok := o.Get(); ok {
+		return json.Marshal(v)
+	}
+	return []byte("null"), nil
 }
 
 // UnmarshalJSON unmarshals the JSON into a value wrapped by this optional.
@@ -105,7 +108,10 @@ func (o *Optional[T]) UnmarshalJSON(data []byte) error {
 // MarshalXML marshals the value being wrapped to XML. If there is no vale
 // being wrapped, the zero value of its type is marshaled.
 func (o Optional[T]) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	return e.EncodeElement(o.ElseZero(), start)
+	if v, ok := o.Get(); ok {
+		return e.EncodeElement(v, start)
+	}
+	return e.EncodeElement("", start)
 }
 
 // UnmarshalXML unmarshals the XML into a value wrapped by this optional.

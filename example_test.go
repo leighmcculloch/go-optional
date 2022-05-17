@@ -197,22 +197,22 @@ func Example_jsonMarshalEmpty() {
 
 	// Output:
 	// {
-	//   "bool": false,
-	//   "byte": 0,
-	//   "float32": 0,
-	//   "float64": 0,
-	//   "int16": 0,
-	//   "int32": 0,
-	//   "int64": 0,
-	//   "int": 0,
-	//   "rune": 0,
-	//   "string": "",
-	//   "time": "0001-01-01T00:00:00Z",
-	//   "uint16": 0,
-	//   "uint32": 0,
-	//   "uint64": 0,
-	//   "uint": 0,
-	//   "uintptr": 0
+	//   "bool": null,
+	//   "byte": null,
+	//   "float32": null,
+	//   "float64": null,
+	//   "int16": null,
+	//   "int32": null,
+	//   "int64": null,
+	//   "int": null,
+	//   "rune": null,
+	//   "string": null,
+	//   "time": null,
+	//   "uint16": null,
+	//   "uint32": null,
+	//   "uint64": null,
+	//   "uint": null,
+	//   "uintptr": null
 	// }
 }
 
@@ -416,7 +416,7 @@ func Example_jsonUnmarshalPresent() {
 
 func Example_xmlMarshalOmitEmpty() {
 	s := struct {
-		XMLName xml.Name                      `xml:"s"`
+		XMLName xml.Name                     `xml:"s"`
 		Bool    optional.Optional[bool]      `xml:"bool,omitempty"`
 		Byte    optional.Optional[byte]      `xml:"byte,omitempty"`
 		Float32 optional.Optional[float32]   `xml:"float32,omitempty"`
@@ -461,7 +461,7 @@ func Example_xmlMarshalOmitEmpty() {
 
 func Example_xmlMarshalEmpty() {
 	s := struct {
-		XMLName xml.Name         `xml:"s"`
+		XMLName xml.Name                     `xml:"s"`
 		Bool    optional.Optional[bool]      `xml:"bool"`
 		Byte    optional.Optional[byte]      `xml:"byte"`
 		Float32 optional.Optional[float32]   `xml:"float32"`
@@ -502,28 +502,28 @@ func Example_xmlMarshalEmpty() {
 
 	// Output:
 	// <s>
-	//   <bool>false</bool>
-	//   <byte>0</byte>
-	//   <float32>0</float32>
-	//   <float64>0</float64>
-	//   <int16>0</int16>
-	//   <int32>0</int32>
-	//   <int64>0</int64>
-	//   <int>0</int>
-	//   <rune>0</rune>
+	//   <bool></bool>
+	//   <byte></byte>
+	//   <float32></float32>
+	//   <float64></float64>
+	//   <int16></int16>
+	//   <int32></int32>
+	//   <int64></int64>
+	//   <int></int>
+	//   <rune></rune>
 	//   <string></string>
-	//   <time>0001-01-01T00:00:00Z</time>
-	//   <uint16>0</uint16>
-	//   <uint32>0</uint32>
-	//   <uint64>0</uint64>
-	//   <uint>0</uint>
-	//   <uintptr>0</uintptr>
+	//   <time></time>
+	//   <uint16></uint16>
+	//   <uint32></uint32>
+	//   <uint64></uint64>
+	//   <uint></uint>
+	//   <uintptr></uintptr>
 	// </s>
 }
 
 func Example_xmlMarshalPresent() {
 	s := struct {
-		XMLName xml.Name         `xml:"s"`
+		XMLName xml.Name                     `xml:"s"`
 		Bool    optional.Optional[bool]      `xml:"bool"`
 		Byte    optional.Optional[byte]      `xml:"byte"`
 		Float32 optional.Optional[float32]   `xml:"float32"`
@@ -585,7 +585,7 @@ func Example_xmlMarshalPresent() {
 
 func Example_xmlUnmarshalEmpty() {
 	s := struct {
-		XMLName xml.Name         `xml:"s"`
+		XMLName xml.Name                     `xml:"s"`
 		Bool    optional.Optional[bool]      `xml:"bool"`
 		Byte    optional.Optional[byte]      `xml:"byte"`
 		Float32 optional.Optional[float32]   `xml:"float32"`
@@ -646,7 +646,7 @@ func Example_xmlUnmarshalEmpty() {
 
 func Example_xmlUnmarshalPresent() {
 	s := struct {
-		XMLName xml.Name         `xml:"s"`
+		XMLName xml.Name                     `xml:"s"`
 		Bool    optional.Optional[bool]      `xml:"bool"`
 		Byte    optional.Optional[byte]      `xml:"byte"`
 		Float32 optional.Optional[float32]   `xml:"float32"`
