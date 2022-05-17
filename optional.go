@@ -4,10 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"time"
 )
-
-var _ = time.Time{}
 
 type Optional[T any] optional[T]
 
