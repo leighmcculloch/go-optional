@@ -82,7 +82,10 @@ func (o Optional[T]) ElseZero() (value T) {
 // representation of the zero value of the type wrapped if there is no value
 // wrapped by this optional.
 func (o Optional[T]) String() string {
-	return fmt.Sprintf("%v", o.ElseZero())
+	if v, ok := o.Get(); ok {
+		return fmt.Sprintf("%v", v)
+	}
+	return ""
 }
 
 // MarshalJSON marshals the value being wrapped to JSON. If there is no vale
