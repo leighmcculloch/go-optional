@@ -99,6 +99,11 @@ func (o Optional[T]) MarshalJSON() (data []byte, err error) {
 
 // UnmarshalJSON unmarshals the JSON into a value wrapped by this optional.
 func (o *Optional[T]) UnmarshalJSON(data []byte) error {
+	if string(data) == "null" {
+		*o = Empty[T]()
+		return nil
+	}
+
 	var v T
 	err := json.Unmarshal(data, &v)
 	if err != nil {
