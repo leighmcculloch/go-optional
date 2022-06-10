@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 
 	"4d63.com/optional"
 )
@@ -277,7 +280,7 @@ func Example_jsonMarshalPresent() {
 	// }
 }
 
-func Example_jsonUnmarshalEmpty() {
+func TestExample_jsonUnmarshalEmpty(t *testing.T) {
 	s := struct {
 		Bool    optional.Optional[bool]      `json:"bool"`
 		Byte    optional.Optional[byte]      `json:"byte"`
@@ -335,6 +338,64 @@ func Example_jsonUnmarshalEmpty() {
 	// Uint64: false
 	// Uint: false
 	// Uintptr: false
+
+	t.Run("unmarshal null values to empty", func(t *testing.T) {
+		s := struct {
+			Bool    optional.Optional[bool]      `json:"bool"`
+			Byte    optional.Optional[byte]      `json:"byte"`
+			Float32 optional.Optional[float32]   `json:"float32"`
+			Float64 optional.Optional[float64]   `json:"float64"`
+			Int16   optional.Optional[int16]     `json:"int16"`
+			Int32   optional.Optional[int32]     `json:"int32"`
+			Int64   optional.Optional[int64]     `json:"int64"`
+			Int     optional.Optional[int]       `json:"int"`
+			Rune    optional.Optional[rune]      `json:"rune"`
+			String  optional.Optional[string]    `json:"string"`
+			Time    optional.Optional[time.Time] `json:"time"`
+			Uint16  optional.Optional[uint16]    `json:"uint16"`
+			Uint32  optional.Optional[uint32]    `json:"uint32"`
+			Uint64  optional.Optional[uint64]    `json:"uint64"`
+			Uint    optional.Optional[uint]      `json:"uint"`
+			Uintptr optional.Optional[uintptr]   `json:"uintptr"`
+		}{}
+
+		x := `{
+		  "float64": null,
+		  "bool": null,
+		  "byte": null,
+		  "float32": null,
+		  "int16": null,
+		  "int32": null,
+		  "int64": null,
+		  "int": null,
+		  "rune": null,
+		  "string": null,
+		  "time": null,
+		  "uint16": null,
+		  "uint32": null,
+		  "uint64": null,
+		  "uint": null,
+		  "uintptr": null
+		}`
+		json.Unmarshal([]byte(x), &s)
+		assert.False(t, s.Bool.IsPresent())
+		assert.False(t, s.Byte.IsPresent())
+		assert.False(t, s.Float32.IsPresent())
+		assert.False(t, s.Float64.IsPresent())
+		assert.False(t, s.Int16.IsPresent())
+		assert.False(t, s.Int32.IsPresent())
+		assert.False(t, s.Int64.IsPresent())
+		assert.False(t, s.Int.IsPresent())
+		assert.False(t, s.Rune.IsPresent())
+		assert.False(t, s.String.IsPresent())
+		assert.False(t, s.Time.IsPresent())
+		assert.False(t, s.Uint16.IsPresent())
+		assert.False(t, s.Uint32.IsPresent())
+		assert.False(t, s.Uint64.IsPresent())
+		assert.False(t, s.Uint64.IsPresent())
+		assert.False(t, s.Uint.IsPresent())
+		assert.False(t, s.Uint.IsPresent())
+	})
 }
 
 func Example_jsonUnmarshalPresent() {
