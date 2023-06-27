@@ -3,7 +3,7 @@ Package optional exports an Optional[T] type that can wrap any type to represent
 
 These types are an alternative to using pointers, zero values, or similar null wrapper packages. Unlike similar solutions these will omit correctly from XML and JSON without the use of pointers and the compiler will ensure their value is not used when empty.
 
-Examples
+# Examples
 
 Wrap a pointer in an optional:
 
@@ -46,6 +46,5 @@ XML and JSON are supported out of the box. Use `omitempty` to omit the field whe
 	output, _ := json.Marshal(s)
 
 	// output = {"int2":1000}
-
 */
 package optional
