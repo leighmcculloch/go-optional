@@ -5,7 +5,16 @@ These types are an alternative to using pointers, zero values, or similar null w
 
 # Examples
 
-Wrap a pointer in an optional:
+Wrap a value in an optional:
+
+	var i int = ...
+	o := optional.Of(i)
+
+Or, create a none optional:
+
+	o := optional.None[int]()
+
+Or, wrap a pointer in an optional:
 
 	var i *int = ...
 	o := optional.OfPtr(i)
