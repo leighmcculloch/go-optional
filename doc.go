@@ -10,9 +10,9 @@ Wrap a value in an optional:
 	var i int = ...
 	o := optional.Of(i)
 
-Or, create a none optional:
+Or, create an empty optional:
 
-	o := optional.None[int]()
+	o := optional.Empty[int]()
 
 Or, wrap a pointer in an optional:
 
