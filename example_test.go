@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"strconv"
 	"time"
 
 	"4d63.com/optional"
@@ -108,6 +109,28 @@ func Example_elseFunc() {
 	// 2
 	// 1000
 	// 2
+	// 1001
+}
+
+func Example_map() {
+	i := 1001
+	values := []optional.Optional[int]{
+		optional.Empty[int](),
+		optional.Of(1000),
+		optional.OfPtr[int](nil),
+		optional.OfPtr(&i),
+	}
+
+	for _, v := range values {
+		optional.Map(v, func(i int) string {
+			return strconv.FormatInt(int64(i), 10)
+		}).If(func(s string) {
+			fmt.Println(s)
+		})
+	}
+
+	// Output:
+	// 1000
 	// 1001
 }
 

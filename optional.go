@@ -115,3 +115,12 @@ func (o *Optional[T]) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error
 	*o = Of(v)
 	return nil
 }
+
+// Map maps the value wrapped into another value. Returns an empty optional if
+// the original optional is empty.
+func Map[T, U any](o Optional[T], f func(value T) U) (u Optional[U]) {
+	o.If(func(value T) {
+		u = Of(f(value))
+	})
+	return
+}

@@ -143,3 +143,47 @@ func TestElseZero(t *testing.T) {
 		}
 	}
 }
+
+func TestMap(t *testing.T) {
+	s := "ptr to string"
+	tests := []struct {
+		Optional       Optional[string]
+		ExpectedCalled bool
+		IfCalledValue  string
+		IfMappedValue  Optional[int]
+	}{
+		{Empty[string](), false, "", Empty[int]()},
+		{Of(""), true, "", Of(1)},
+		{Of("string"), true, "string", Of(2)},
+		{OfPtr((*string)(nil)), false, "", Empty[int]()},
+		{OfPtr((*string)(&s)), true, "ptr to string", Of(4)},
+	}
+
+	for i, test := range tests {
+		called := false
+		u := Map(test.Optional, func(v string) int {
+			called = true
+			if v != test.IfCalledValue {
+				t.Errorf("%#v Map received %#v, want #%v", test.Optional, v, test.IfCalledValue)
+			}
+			return i
+		})
+
+		if u.IsPresent() != test.IfMappedValue.IsPresent() {
+			t.Errorf("%#v Map returned %#v, want #%v", test.Optional, u, test.IfMappedValue)
+		}
+		if u.IsPresent() && test.IfMappedValue.IsPresent() {
+			u.If(func(got int) {
+				test.IfMappedValue.If(func(want int) {
+					if got != want {
+						t.Errorf("%#v Map returned %#v, want #%v", test.Optional, u, test.IfMappedValue)
+					}
+				})
+			})
+		}
+
+		if called != test.ExpectedCalled {
+			t.Errorf("%#v Map called %#v, want %#v", test.Optional, called, test.ExpectedCalled)
+		}
+	}
+}
