@@ -168,6 +168,7 @@ func TestMap(t *testing.T) {
 			}
 			return i
 		})
+
 		if u.IsPresent() != test.IfMappedValue.IsPresent() {
 			t.Errorf("%#v Map returned %#v, want #%v", test.Optional, u, test.IfMappedValue)
 		}
